@@ -9,9 +9,11 @@
 cap_data_download \
   --unzip \
   --md5sum="92c47db49fa5565133693482b0feb9c8" \
+  --subdirectory "GRCm38_M38" \
   "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M38/gencode.vM38.primary_assembly.annotation.gtf.gz"
 
 cap_data_download \
   --unzip \
   --md5sum="3cb1b11c69e053250725be59b43061b9" \
+  --subdirectory "GRCm38_M38" \
   "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M38/GRCm39.primary_assembly.genome.fa.gz"
