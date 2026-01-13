@@ -5,15 +5,15 @@
 #SBATCH --mem=12G
 #SBATCH --partition=express
 
-# GRCm39 M38 release
+# GRCm39 M37 release
 cap_data_download \
   --unzip \
-  --md5sum="92c47db49fa5565133693482b0feb9c8" \
-  --subdirectory "GRCm38_M38" \
-  "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M38/gencode.vM38.primary_assembly.annotation.gtf.gz"
+  --md5sum="702e27a8727db66cd23e9f66f5aa1d38" \
+  --subdirectory "GRCm39_M37" \
+  "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M37/gencode.vM37.primary_assembly.annotation.gtf.gz"
 
 cap_data_download \
   --unzip \
-  --md5sum="3cb1b11c69e053250725be59b43061b9" \
-  --subdirectory "GRCm38_M38" \
-  "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M38/GRCm39.primary_assembly.genome.fa.gz"
+  --md5sum="551c3d4ad6da2503ae0b7ebfe02a2c3c" \
+  --subdirectory "GRCm39_M37" \
+  "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M37/GRCm39.primary_assembly.genome.fa.gz"
