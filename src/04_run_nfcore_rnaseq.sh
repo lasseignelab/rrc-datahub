@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=12G
+#SBATCH --cpus-per-task=12
+#SBATCH --time=48:00:00
+#SBATCH --partition=medium
+#SBATCH --array=0-13
+
+echo "Setting up for alignment with the nf-core/rnaseq pipeline ..."
+dataset=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
+out_dir="${CAP_DATA_PATH}/nfcore_rnaseq/$dataset"
+mkdir -p "$out_dir"
+samplesheet="${CAP_DATA_PATH}/raw-data/$dataset/samplesheet.csv"
+gtf="${CAP_DATA_PATH}/GRCm39_M37/gencode.vM37.primary_assembly.annotation.gtf"
+fasta="${CAP_DATA_PATH}/GRCm39_M37/GRCm39.primary_assembly.genome.fa"
+
+echo "Aligning ${dataset} to the reference genome ..."
+ml Anaconda3
+conda activate rrc-datahub-nfcore
+
+nextflow run nf-core/rnaseq -r 3.18.0 \
+    --input "${samplesheet}" \
+    --outdir "${out_dir}" \
+    --gtf "${gtf}" \
+    --fasta "${fasta}" \
+    --aligner star_salmon \
+    --pseudo_aligner salmon \
+    --gencode TRUE \
+    --save_reference TRUE \
+    -profile cheaha
