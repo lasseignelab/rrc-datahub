@@ -8,6 +8,9 @@
 #SBATCH --partition=medium
 #SBATCH --array=0-13
 
+# The results of the nf-core/rnaseq pipeline are not fully reproducible.
+# Processed outputs will be available on Zenodo to allow for downstream
+# reproducibility of our results.
 echo "Setting up for alignment with the nf-core/rnaseq pipeline ..."
 dataset=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
 out_dir="${CAP_DATA_PATH}/nfcore_rnaseq/$dataset"
