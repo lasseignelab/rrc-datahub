@@ -16,7 +16,7 @@ wget -nc -O "$file" "$url"
 dataset=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
 echo "Creating samplesheet for ${dataset} ..."
 fastq_dir="$CAP_DATA_PATH/raw-data/${dataset}"
-cd "$fastq_dir"
+cd "$fastq_dir" || exit
 
 if ls -- *_1.fastq.gz 1> /dev/null 2>&1; then
     python3 "$file" "$fastq_dir" "$fastq_dir/samplesheet.csv" \
