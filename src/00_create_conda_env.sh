@@ -7,4 +7,4 @@
 
 module load Anaconda3
 
-conda env create -f "${CAP_CONDA_PATH}/rrc-datahub-nfcore.yml"
+conda env create -f "${CAP_ENV_PATH}/rrc-datahub-nfcore.yml"
