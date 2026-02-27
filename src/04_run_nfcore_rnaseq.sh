@@ -23,6 +23,10 @@ echo "Aligning ${dataset} to the reference genome ..."
 ml Anaconda3
 conda activate rrc-datahub-nfcore
 
+working_directory="array_job_${SLURM_ARRAY_TASK_ID}"
+mkdir -p "$working_directory"
+cd "$working_directory" || exit
+
 nextflow run nf-core/rnaseq -r 3.18.0 \
     --input "${samplesheet}" \
     --outdir "${out_dir}" \
