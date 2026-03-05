@@ -8,7 +8,7 @@ bin/container/*.sif
 data/*
 !data/README
 
-src/array_job*
+work
 src/03_fastq_dir_to_samplesheet.py
 
 ##########################################################
