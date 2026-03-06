@@ -23,7 +23,7 @@ echo "Aligning ${dataset} to the reference genome ..."
 ml Anaconda3
 conda activate rrc-datahub-nfcore
 
-working_directory="array_job_${SLURM_ARRAY_TASK_ID}"
+working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
 mkdir -p "$working_directory"
 cd "$working_directory" || exit
 
@@ -37,3 +37,13 @@ nextflow run nf-core/rnaseq -r 3.18.0 \
     --gencode TRUE \
     --save_reference TRUE \
     -profile cheaha
+
+exit_code=$?
+
+if [[ $exit_code -eq 0 ]]; then
+    rm -rf "$working_directory"
+else
+    echo "Pipeline failed — preserving working directory"
+fi
+
+exit $exit_code
