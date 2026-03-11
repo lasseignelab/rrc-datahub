@@ -28,4 +28,6 @@ else
     -se
 fi
 
+sed -i 's|/[^,]*/data/raw-data/|../data/raw-data/|g' "$fastq_dir/samplesheet.csv"
+
 echo -e "\tSamplesheet created successfully"
