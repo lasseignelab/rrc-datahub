@@ -18,10 +18,14 @@ mkdir -p "$out_dir"
 samplesheet="${CAP_DATA_PATH}/raw-data/$dataset/samplesheet.csv"
 gtf="${CAP_DATA_PATH}/GRCm39_M37/gencode.vM37.primary_assembly.annotation.gtf"
 fasta="${CAP_DATA_PATH}/GRCm39_M37/GRCm39.primary_assembly.genome.fa"
+profile="${NEXTFLOW_PROFILE:-singularity}"
 
 echo "Aligning ${dataset} to the reference genome ..."
 ml Anaconda3
 conda activate rrc-datahub-nfcore
+
+working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
+mkdir -p "$working_directory"
 
 nextflow run nf-core/rnaseq -r 3.18.0 \
     --input "${samplesheet}" \
@@ -32,4 +36,15 @@ nextflow run nf-core/rnaseq -r 3.18.0 \
     --pseudo_aligner salmon \
     --gencode TRUE \
     --save_reference TRUE \
-    -profile cheaha
+    -profile "${profile}" \
+    -w "${working_directory}"
+
+exit_code=$?
+
+if [[ $exit_code -eq 0 ]]; then
+    rm -rf "$working_directory"
+else
+    echo "Pipeline failed — preserving working directory"
+fi
+
+exit $exit_code
