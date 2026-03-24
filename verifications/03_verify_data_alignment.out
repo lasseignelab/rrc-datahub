@@ -419,13 +419,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-09.html
-│   │   ├── execution_timeline_2026-03-11_12-09-09.html
-│   │   ├── execution_trace_2026-03-11_12-09-09.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-21.json
-│   │   └── pipeline_dag_2026-03-11_12-09-09.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -2435,13 +2428,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-07.html
-│   │   ├── execution_timeline_2026-03-11_12-09-07.html
-│   │   ├── execution_trace_2026-03-11_12-09-07.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-18.json
-│   │   └── pipeline_dag_2026-03-11_12-09-07.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -7488,13 +7474,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-07.html
-│   │   ├── execution_timeline_2026-03-11_12-09-07.html
-│   │   ├── execution_trace_2026-03-11_12-09-07.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-18.json
-│   │   └── pipeline_dag_2026-03-11_12-09-07.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -8798,13 +8777,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-10.html
-│   │   ├── execution_timeline_2026-03-11_12-09-10.html
-│   │   ├── execution_trace_2026-03-11_12-09-10.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-21.json
-│   │   └── pipeline_dag_2026-03-11_12-09-10.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -11263,18 +11235,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-08.html
-│   │   ├── execution_report_2026-03-16_09-59-09.html
-│   │   ├── execution_timeline_2026-03-11_12-09-08.html
-│   │   ├── execution_timeline_2026-03-16_09-59-09.html
-│   │   ├── execution_trace_2026-03-11_12-09-08.txt
-│   │   ├── execution_trace_2026-03-16_09-59-09.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-18.json
-│   │   ├── params_2026-03-16_09-59-23.json
-│   │   ├── pipeline_dag_2026-03-11_12-09-08.html
-│   │   └── pipeline_dag_2026-03-16_09-59-09.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -16626,13 +16586,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-08.html
-│   │   ├── execution_timeline_2026-03-11_12-09-08.html
-│   │   ├── execution_trace_2026-03-11_12-09-08.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-19.json
-│   │   └── pipeline_dag_2026-03-11_12-09-08.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -21700,13 +21653,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-14.html
-│   │   ├── execution_timeline_2026-03-11_12-09-14.html
-│   │   ├── execution_trace_2026-03-11_12-09-14.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-24.json
-│   │   └── pipeline_dag_2026-03-11_12-09-14.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -26110,13 +26056,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-10.html
-│   │   ├── execution_timeline_2026-03-11_12-09-10.html
-│   │   ├── execution_trace_2026-03-11_12-09-10.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-21.json
-│   │   └── pipeline_dag_2026-03-11_12-09-10.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -27327,13 +27266,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-08.html
-│   │   ├── execution_timeline_2026-03-11_12-09-08.html
-│   │   ├── execution_trace_2026-03-11_12-09-08.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-20.json
-│   │   └── pipeline_dag_2026-03-11_12-09-08.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -28942,13 +28874,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-14.html
-│   │   ├── execution_timeline_2026-03-11_12-09-14.html
-│   │   ├── execution_trace_2026-03-11_12-09-14.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-24.json
-│   │   └── pipeline_dag_2026-03-11_12-09-14.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -30467,13 +30392,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-15.html
-│   │   ├── execution_timeline_2026-03-11_12-09-15.html
-│   │   ├── execution_trace_2026-03-11_12-09-15.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-27.json
-│   │   └── pipeline_dag_2026-03-11_12-09-15.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -32725,13 +32643,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-10.html
-│   │   ├── execution_timeline_2026-03-11_12-09-10.html
-│   │   ├── execution_trace_2026-03-11_12-09-10.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-21.json
-│   │   └── pipeline_dag_2026-03-11_12-09-10.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -37983,13 +37894,6 @@ data/nfcore_rnaseq/
 │   │               ├── star_alignment_plot-cnt.svg
 │   │               ├── star_alignment_plot-pct.svg
 │   │               └── star_summary_table.svg
-│   ├── pipeline_info
-│   │   ├── execution_report_2026-03-11_12-09-15.html
-│   │   ├── execution_timeline_2026-03-11_12-09-15.html
-│   │   ├── execution_trace_2026-03-11_12-09-15.txt
-│   │   ├── nf_core_rnaseq_software_mqc_versions.yml
-│   │   ├── params_2026-03-11_12-09-26.json
-│   │   └── pipeline_dag_2026-03-11_12-09-15.html
 │   ├── salmon
 │   │   ├── deseq2_qc
 │   │   │   ├── deseq2.dds.RData
@@ -41597,13 +41501,6 @@ data/nfcore_rnaseq/
     │               ├── star_alignment_plot-cnt.svg
     │               ├── star_alignment_plot-pct.svg
     │               └── star_summary_table.svg
-    ├── pipeline_info
-    │   ├── execution_report_2026-03-11_12-09-11.html
-    │   ├── execution_timeline_2026-03-11_12-09-11.html
-    │   ├── execution_trace_2026-03-11_12-09-11.txt
-    │   ├── nf_core_rnaseq_software_mqc_versions.yml
-    │   ├── params_2026-03-11_12-09-22.json
-    │   └── pipeline_dag_2026-03-11_12-09-11.html
     ├── salmon
     │   ├── deseq2_qc
     │   │   ├── deseq2.dds.RData
@@ -43208,4 +43105,4 @@ data/nfcore_rnaseq/
         ├── SRR20082257_trimmed_1.fastq.gz_trimming_report.txt
         └── SRR20082257_trimmed_2.fastq.gz_trimming_report.txt
 
-4403 directories, 38804 files
+4389 directories, 38715 files
