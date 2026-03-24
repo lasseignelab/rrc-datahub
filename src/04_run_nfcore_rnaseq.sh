@@ -28,9 +28,9 @@ working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
 mkdir -p "$working_directory"
 
 if [[ "$profile" == "cheaha" ]]; then
-    profile_arg="-config ${CAP_PROJECT_PATH}/config/cheaha.config"
+    profile_args="-config ${CAP_PROJECT_PATH}/config/cheaha.config"
 else
-    profile_arg="-profile ${profile}"
+    profile_args="-profile ${profile}"
 fi
 
 nextflow run nf-core/rnaseq -r 3.18.0 \
@@ -42,7 +42,7 @@ nextflow run nf-core/rnaseq -r 3.18.0 \
     --pseudo_aligner salmon \
     --gencode TRUE \
     --save_reference TRUE \
-    "${profile_arg}" \
+    "${profile_args[@]}" \
     -w "${working_directory}"
 
 exit_code=$?
