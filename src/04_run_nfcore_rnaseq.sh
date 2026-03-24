@@ -42,7 +42,7 @@ nextflow run nf-core/rnaseq -r 3.18.0 \
     --pseudo_aligner salmon \
     --gencode TRUE \
     --save_reference TRUE \
-    ${profile_arg} \
+    "${profile_arg}" \
     -w "${working_directory}"
 
 exit_code=$?
