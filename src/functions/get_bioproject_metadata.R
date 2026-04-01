@@ -13,7 +13,7 @@
 #' @param output_dir Character. Directory to write the output TSV.
 #'   Defaults to the current working directory.
 #' @param filename Character or NULL. Custom output filename. If NULL,
-#'   defaults to "{bioproject_id}_sra_metadata.tsv".
+#'   defaults to "{bioproject_id}_metadata.tsv".
 #' @param retmax Integer. Maximum number of SRA records to retrieve.
 #'   Defaults to 500. Increase for very large projects.
 #' @param api_key Character or NULL. NCBI API key for higher rate limits.
@@ -37,6 +37,31 @@ get_bioproject_metadata <- function(bioproject_id,
                                     retmax = 500,
                                     api_key = NULL) {
 
+  .check_dependencies()
+  .validate_bioproject_id(bioproject_id)
+
+  if (!is.null(api_key)) {
+    rentrez::set_entrez_key(api_key)
+    message("Using NCBI API key for higher rate limits.")
+  }
+
+  # Fetch SRA runinfo, BioSample attributes, and ENA fastq links
+  metadata <- .fetch_sra_runinfo(bioproject_id, retmax)
+  metadata <- .merge_biosample_attributes(metadata)
+  metadata <- .merge_ena_fastq_info(metadata, bioproject_id)
+
+  # Clean column names and write output
+  metadata <- .clean_column_names(metadata)
+  .write_metadata_tsv(metadata, bioproject_id, output_dir, filename)
+
+  invisible(metadata)
+}
+
+
+#' (Internal) Check that required packages are installed
+#' @keywords internal
+
+.check_dependencies <- function() {
   if (!requireNamespace("rentrez", quietly = TRUE)) {
     stop("rentrez is required. Install with:\n",
          "  install.packages('rentrez')")
@@ -46,19 +71,31 @@ get_bioproject_metadata <- function(bioproject_id,
     stop("xml2 is required. Install with:\n",
          "  install.packages('xml2')")
   }
+}
 
-  # Validate accession format
+
+#' (Internal) Validate a BioProject accession format
+#' @param bioproject_id Character. A BioProject accession.
+#' @keywords internal
+
+.validate_bioproject_id <- function(bioproject_id) {
   if (!grepl("^PRJNA\\d+$", bioproject_id, ignore.case = TRUE)) {
     stop("bioproject_id should be a BioProject accession (e.g., PRJNA543107).")
   }
+}
 
-  # Set API key if provided
-  if (!is.null(api_key)) {
-    rentrez::set_entrez_key(api_key)
-    message("Using NCBI API key for higher rate limits.")
-  }
 
-  # --- Search SRA for all runs in this BioProject ---
+#' (Internal) Fetch SRA Runinfo for a BioProject
+#'
+#' Searches NCBI SRA and retrieves the run-level metadata CSV.
+#'
+#' @param bioproject_id Character. A BioProject accession.
+#' @param retmax Integer. Maximum number of records to retrieve.
+#' @return A data.frame of SRA runinfo.
+#' @keywords internal
+
+.fetch_sra_runinfo <- function(bioproject_id, retmax) {
+
   message("Searching SRA for ", bioproject_id, "...")
   search_res <- rentrez::entrez_search(db = "sra",
                                        term = bioproject_id,
@@ -77,77 +114,120 @@ get_bioproject_metadata <- function(bioproject_id,
             ". Increase retmax to get all records.")
   }
 
-  # --- Fetch runinfo CSV using web_history for robustness ---
   message("Fetching run metadata...")
   runinfo_text <- rentrez::entrez_fetch(db = "sra",
                                         web_history = search_res$web_history,
                                         rettype = "runinfo",
                                         retmax = retmax)
 
-  # Parse the CSV text into a data frame
   metadata <- read.csv(text = runinfo_text, stringsAsFactors = FALSE)
-
-  # Drop any empty trailing rows (runinfo sometimes has a blank last line)
   metadata <- metadata[metadata$Run != "", , drop = FALSE]
 
   if (nrow(metadata) == 0) {
     stop("Runinfo returned with no valid rows for ", bioproject_id, ".")
   }
 
-  # --- Fetch BioSample attributes ---
-  if ("BioSample" %in% colnames(metadata)) {
-    biosample_attrs <- .fetch_biosample_attributes(
-      unique(metadata$BioSample[metadata$BioSample != ""])
-    )
+  metadata
+}
 
-    if (!is.null(biosample_attrs) && nrow(biosample_attrs) > 0) {
-      metadata <- merge(metadata, biosample_attrs,
-                        by = "BioSample", all.x = TRUE)
-      message("Merged ", ncol(biosample_attrs) - 1,
-              " BioSample attribute(s) into metadata.")
-    }
-  } else {
+
+#' (Internal) Merge BioSample Attributes into Metadata
+#'
+#' If a BioSample column exists, fetches sample attributes and merges them.
+#'
+#' @param metadata data.frame with a BioSample column.
+#' @return metadata with BioSample attributes merged in.
+#' @keywords internal
+
+.merge_biosample_attributes <- function(metadata) {
+
+  if (!"BioSample" %in% colnames(metadata)) {
     message("No BioSample column found in runinfo, skipping sample attributes.")
+    return(metadata)
   }
 
-  # --- Fetch ENA fastq links and MD5s ---
+  biosample_attrs <- .fetch_biosample_attributes(
+    unique(metadata$BioSample[metadata$BioSample != ""])
+  )
+
+  if (is.null(biosample_attrs) || nrow(biosample_attrs) == 0) {
+    return(metadata)
+  }
+
+  metadata <- merge(metadata, biosample_attrs,
+                    by = "BioSample", all.x = TRUE)
+  message("Merged ", ncol(biosample_attrs) - 1,
+          " BioSample attribute(s) into metadata.")
+
+  metadata
+}
+
+
+#' (Internal) Merge ENA FASTQ Links into Metadata
+#'
+#' Fetches fastq_ftp and fastq_md5 from ENA, replaces download_path,
+#' and reorders so Run, fastq_ftp, fastq_md5 are the first 3 columns.
+#'
+#' @param metadata data.frame with a Run column.
+#' @param bioproject_id Character. A BioProject accession.
+#' @return metadata with ENA columns merged and reordered.
+#' @keywords internal
+
+.merge_ena_fastq_info <- function(metadata, bioproject_id) {
+
   ena_data <- .fetch_ena_fastq_info(bioproject_id)
 
-  if (!is.null(ena_data) && nrow(ena_data) > 0) {
-    # Drop the NCBI download_path column — ENA fastq_ftp replaces it
-    metadata$download_path <- NULL
-
-    metadata <- merge(metadata, ena_data,
-                      by.x = "Run", by.y = "run_accession",
-                      all.x = TRUE)
-    message("Added fastq_ftp and fastq_md5 from ENA.")
-
-    # Reorder so Run, fastq_ftp, fastq_md5 are the first 3 columns
-    ena_cols <- c("Run", "fastq_ftp", "fastq_md5")
-    other_cols <- setdiff(colnames(metadata), ena_cols)
-    metadata <- metadata[, c(ena_cols, other_cols), drop = FALSE]
+  if (is.null(ena_data) || nrow(ena_data) == 0) {
+    return(metadata)
   }
 
-  # --- Clean column names ---
+  metadata$download_path <- NULL
+
+  metadata <- merge(metadata, ena_data,
+                    by.x = "Run", by.y = "run_accession",
+                    all.x = TRUE)
+  message("Added fastq_ftp and fastq_md5 from ENA.")
+
+  # Reorder so Run, fastq_ftp, fastq_md5 are the first 3 columns
+  ena_cols <- c("Run", "fastq_ftp", "fastq_md5")
+  other_cols <- setdiff(colnames(metadata), ena_cols)
+  metadata[, c(ena_cols, other_cols), drop = FALSE]
+}
+
+
+#' (Internal) Clean Column Names
+#'
+#' Replaces special characters, collapses dots, and deduplicates.
+#'
+#' @param metadata data.frame to clean.
+#' @return metadata with cleaned column names.
+#' @keywords internal
+
+.clean_column_names <- function(metadata) {
   clean_names <- colnames(metadata)
-
-  # Replace special characters with dots
   clean_names <- gsub("[^A-Za-z0-9_.]", ".", clean_names)
-
-  # Collapse runs of dots
   clean_names <- gsub("\\.{2,}", ".", clean_names)
-
-  # Strip leading/trailing dots
   clean_names <- gsub("^\\.|\\.$", "", clean_names)
 
-  # Handle any resulting duplicates
   if (any(duplicated(clean_names))) {
     clean_names <- make.unique(clean_names, sep = "_")
   }
 
   colnames(metadata) <- clean_names
+  metadata
+}
 
-  # --- Write output ---
+
+#' (Internal) Write Metadata to TSV
+#'
+#' @param metadata data.frame to write.
+#' @param bioproject_id Character. Used for default filename.
+#' @param output_dir Character. Output directory.
+#' @param filename Character or NULL. Custom filename.
+#' @keywords internal
+
+.write_metadata_tsv <- function(metadata, bioproject_id,
+                                output_dir, filename) {
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = TRUE)
   }
@@ -166,8 +246,6 @@ get_bioproject_metadata <- function(bioproject_id,
 
   message("Metadata written to: ", output_path)
   message("Runs: ", nrow(metadata), " | Fields: ", ncol(metadata))
-
-  invisible(metadata)
 }
 
 
@@ -203,7 +281,6 @@ get_bioproject_metadata <- function(bioproject_id,
     }
 
     tryCatch({
-      # Build search query: SAMN12345[ACCN] OR SAMN12346[ACCN] OR ...
       query <- paste(paste0(batch, "[ACCN]"), collapse = " OR ")
       search_res <- rentrez::entrez_search(db = "biosample",
                                            term = query,
@@ -214,13 +291,11 @@ get_bioproject_metadata <- function(bioproject_id,
         next
       }
 
-      # Fetch XML
       Sys.sleep(0.35)
       xml_text <- rentrez::entrez_fetch(db = "biosample",
                                         id = search_res$ids,
                                         rettype = "xml")
 
-      # Parse XML and extract attributes
       batch_attrs <- .parse_biosample_xml(xml_text)
       all_attrs <- c(all_attrs, list(batch_attrs))
 
@@ -229,7 +304,6 @@ get_bioproject_metadata <- function(bioproject_id,
               conditionMessage(e))
     })
 
-    # Rate limit between batches
     if (i < length(batches)) Sys.sleep(0.35)
   }
 
@@ -238,7 +312,6 @@ get_bioproject_metadata <- function(bioproject_id,
     return(NULL)
   }
 
-  # Combine all batches — use union of all column names
   all_colnames <- unique(unlist(lapply(all_attrs, colnames)))
   combined <- do.call(rbind, lapply(all_attrs, function(df) {
     missing_cols <- setdiff(all_colnames, colnames(df))
@@ -262,22 +335,18 @@ get_bioproject_metadata <- function(bioproject_id,
   samples <- xml2::xml_find_all(doc, ".//BioSample")
 
   rows <- lapply(samples, function(sample_node) {
-    # Get the BioSample accession
     accession <- xml2::xml_attr(sample_node, "accession")
 
-    # Get all Attribute nodes
     attr_nodes <- xml2::xml_find_all(sample_node, ".//Attribute")
     attr_names <- xml2::xml_attr(attr_nodes, "attribute_name")
     attr_values <- xml2::xml_text(attr_nodes)
 
-    # Build a named list
     row <- as.list(setNames(attr_values, attr_names))
     row[["BioSample"]] <- accession
 
     row
   })
 
-  # Get all unique attribute names across samples
   all_names <- unique(c("BioSample", unlist(lapply(rows, names))))
 
   df <- do.call(rbind, lapply(rows, function(row) {
