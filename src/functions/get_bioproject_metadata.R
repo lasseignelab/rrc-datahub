@@ -97,6 +97,7 @@ get_bioproject_metadata <- function(bioproject_id,
 .fetch_sra_runinfo <- function(bioproject_id, retmax) {
 
   message("Searching SRA for ", bioproject_id, "...")
+  Sys.sleep(0.5)
   search_res <- rentrez::entrez_search(db = "sra",
                                        term = bioproject_id,
                                        retmax = retmax,
@@ -115,6 +116,7 @@ get_bioproject_metadata <- function(bioproject_id,
   }
 
   message("Fetching run metadata...")
+  Sys.sleep(0.5)
   runinfo_text <- rentrez::entrez_fetch(db = "sra",
                                         web_history = search_res$web_history,
                                         rettype = "runinfo",
@@ -282,6 +284,7 @@ get_bioproject_metadata <- function(bioproject_id,
 
     tryCatch({
       query <- paste(paste0(batch, "[ACCN]"), collapse = " OR ")
+      Sys.sleep(0.5)
       search_res <- rentrez::entrez_search(db = "biosample",
                                            term = query,
                                            retmax = length(batch))
@@ -291,7 +294,7 @@ get_bioproject_metadata <- function(bioproject_id,
         next
       }
 
-      Sys.sleep(0.35)
+      Sys.sleep(0.5)
       xml_text <- rentrez::entrez_fetch(db = "biosample",
                                         id = search_res$ids,
                                         rettype = "xml")
@@ -304,7 +307,7 @@ get_bioproject_metadata <- function(bioproject_id,
               conditionMessage(e))
     })
 
-    if (i < length(batches)) Sys.sleep(0.35)
+    if (i < length(batches)) Sys.sleep(0.5)
   }
 
   if (length(all_attrs) == 0) {

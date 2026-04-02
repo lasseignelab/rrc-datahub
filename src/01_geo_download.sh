@@ -18,9 +18,9 @@ if [[ -f "${OUTDIR}/${DATASET}_metadata.tsv" ]]; then
     echo "File ${OUTDIR}/${DATASET}_metadata.tsv already exists"
 else
     # Stagger the array jobs so api limits are not exceeded.
-    sleep $(( SLURM_ARRAY_TASK_ID * 60 ))
+    sleep $(( SLURM_ARRAY_TASK_ID * 120 ))
 
-    echo "Fetching metadata for ${DATASET} ..."
+    echo "Fetching metadata for ${DATASET} at $(date) ..."
     cap_container "acrumley/rrc-datahub:0.1.0"
     singularity exec --cleanenv \
                      --containall \
