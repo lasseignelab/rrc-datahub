@@ -26,7 +26,8 @@ sessionInfo()
 #
 # Matrix products: default
 # BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
-# LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+# LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;
+# LAPACK version 3.12.0
 #
 # locale:
 #  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C

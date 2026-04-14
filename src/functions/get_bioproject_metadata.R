@@ -210,6 +210,7 @@ get_bioproject_metadata <- function(bioproject_id,
   clean_names <- gsub("[^A-Za-z0-9_.]", ".", clean_names)
   clean_names <- gsub("\\.{2,}", ".", clean_names)
   clean_names <- gsub("^\\.|\\.$", "", clean_names)
+  clean_names <- tolower(clean_names)
 
   if (any(duplicated(clean_names))) {
     clean_names <- make.unique(clean_names, sep = "_")
@@ -343,6 +344,16 @@ get_bioproject_metadata <- function(bioproject_id,
     attr_nodes <- xml2::xml_find_all(sample_node, ".//Attribute")
     attr_names <- xml2::xml_attr(attr_nodes, "attribute_name")
     attr_values <- xml2::xml_text(attr_nodes)
+
+    # Collapse duplicate attribute names into a single semicolon-separated
+    # value (some BioSample records have multiple Attribute nodes with the
+    # same attribute_name).
+    if (length(attr_names) > 0 && any(duplicated(attr_names))) {
+      collapsed <- tapply(attr_values, attr_names,
+                          FUN = function(x) paste(x, collapse = ";"))
+      attr_names <- names(collapsed)
+      attr_values <- as.character(collapsed)
+    }
 
     row <- as.list(setNames(attr_values, attr_names))
     row[["BioSample"]] <- accession
