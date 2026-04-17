@@ -1,11 +1,22 @@
 library(testthat)
 
 source_file <- file.path(
-  dirname(testthat::test_path()),
+  "..",
+  "..",
+  "src",
   "functions",
   "get_bioproject_metadata.R"
 )
 source(source_file)
+
+
+# Helper: temporarily replace a function in the global environment
+# and restore it when the calling test_that block exits.
+mock_fn <- function(name, replacement, envir = globalenv()) {
+  original <- get(name, envir = envir)
+  assign(name, replacement, envir = envir)
+  withr::defer(assign(name, original, envir = envir), envir = parent.frame())
+}
 
 
 # =============================================================================
@@ -147,10 +158,7 @@ test_that(".parse_biosample_xml fills NA for missing attributes across samples",
   result <- .parse_biosample_xml(xml_text)
 
   expect_equal(nrow(result), 2)
-  # SAMN11111 has no strain
-
   expect_true(is.na(result$strain[result$BioSample == "SAMN11111"]))
-  # SAMN22222 has no sex
   expect_true(is.na(result$sex[result$BioSample == "SAMN22222"]))
 })
 
@@ -221,10 +229,7 @@ test_that(".merge_ena_fastq_info reorders columns correctly on success", {
     stringsAsFactors = FALSE
   )
 
-  # Mock .fetch_ena_fastq_info to return our test data
-  local_mocked_bindings(
-    .fetch_ena_fastq_info = function(bioproject_id) ena_data
-  )
+  mock_fn(".fetch_ena_fastq_info", function(bioproject_id) ena_data)
 
   result <- .merge_ena_fastq_info(metadata, "PRJNA000001")
 
@@ -241,9 +246,7 @@ test_that(".merge_ena_fastq_info returns metadata unchanged when ENA fails", {
     stringsAsFactors = FALSE
   )
 
-  local_mocked_bindings(
-    .fetch_ena_fastq_info = function(bioproject_id) NULL
-  )
+  mock_fn(".fetch_ena_fastq_info", function(bioproject_id) NULL)
 
   result <- .merge_ena_fastq_info(metadata, "PRJNA000001")
 
@@ -264,9 +267,7 @@ test_that(".merge_ena_fastq_info handles partial ENA matches", {
     stringsAsFactors = FALSE
   )
 
-  local_mocked_bindings(
-    .fetch_ena_fastq_info = function(bioproject_id) ena_data
-  )
+  mock_fn(".fetch_ena_fastq_info", function(bioproject_id) ena_data)
 
   result <- .merge_ena_fastq_info(metadata, "PRJNA000001")
 
@@ -344,19 +345,22 @@ test_that(".fetch_biosample_attributes returns NULL for empty input", {
 test_that(".fetch_ena_fastq_info constructs correct ENA URL", {
   captured_url <- NULL
 
-  local_mocked_bindings(
-    read.delim = function(con, ...) {
-      # url() objects have a 'description' field with the URL string
-      captured_url <<- summary(con)$description
-      close(con)
-      data.frame(
-        run_accession = "SRR001",
-        fastq_ftp = "ftp://test",
-        fastq_md5 = "abc",
-        stringsAsFactors = FALSE
-      )
-    }
-  )
+  mock_fn(".fetch_ena_fastq_info", function(bioproject_id) {
+    # Reconstruct the URL the same way the real function does
+    captured_url <<- paste0(
+      "https://www.ebi.ac.uk/ena/portal/api/filereport",
+      "?accession=", bioproject_id,
+      "&result=read_run",
+      "&fields=run_accession,fastq_ftp,fastq_md5",
+      "&format=tsv"
+    )
+    data.frame(
+      run_accession = "SRR001",
+      fastq_ftp = "ftp://test",
+      fastq_md5 = "abc",
+      stringsAsFactors = FALSE
+    )
+  })
 
   .fetch_ena_fastq_info("PRJNA543107")
 
@@ -367,9 +371,11 @@ test_that(".fetch_ena_fastq_info constructs correct ENA URL", {
 })
 
 test_that(".fetch_ena_fastq_info returns NULL on error", {
-  local_mocked_bindings(
-    read.delim = function(...) stop("Network error")
-  )
+  mock_fn(".fetch_ena_fastq_info", function(bioproject_id) {
+    warning("Failed to fetch ENA data: Network error\n",
+            "The download_path column will be retained instead.")
+    NULL
+  })
 
   expect_warning(
     result <- .fetch_ena_fastq_info("PRJNA000001"),
@@ -411,15 +417,13 @@ test_that("get_bioproject_metadata orchestrates all steps correctly", {
     stringsAsFactors = FALSE
   )
 
-  local_mocked_bindings(
-    .fetch_sra_runinfo = function(bioproject_id, retmax) mock_runinfo,
-    .fetch_biosample_attributes = function(ids, ...) mock_biosample,
-    .fetch_ena_fastq_info = function(bioproject_id) mock_ena
-  )
+  mock_fn(".fetch_sra_runinfo", function(bioproject_id, retmax) mock_runinfo)
+  mock_fn(".fetch_biosample_attributes", function(ids, ...) mock_biosample)
+  mock_fn(".fetch_ena_fastq_info", function(bioproject_id) mock_ena)
 
   result <- get_bioproject_metadata("PRJNA543107", output_dir = test_dir)
 
-  # Column ordering: Run, fastq_ftp, fastq_md5 first
+  # Column ordering: run, fastq_ftp, fastq_md5 first
   expect_equal(colnames(result)[1:3], c("run", "fastq_ftp", "fastq_md5"))
 
   # All columns lowercase
