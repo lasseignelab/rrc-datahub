@@ -2,7 +2,7 @@
 # Author: Tonie Crumley
 # Date: April 14, 2026
 
-## Goal: Download metadata for all the samples included in the RRC DataHub.
+## Goal: Download metadata for each sample included in the RRC DataHub.
 
 ## Reproducibility:
 # * GitHub: lasseignelab/rrc-datahub
