@@ -1,0 +1,2 @@
+linters: linters_with_defaults()
+exclusions: list( "tests/testthat" = list( object_usage_linter = Inf))
