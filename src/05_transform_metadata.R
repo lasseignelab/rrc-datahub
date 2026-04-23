@@ -1,5 +1,7 @@
 #' Transform Raw BioProject Sample Metadata
 #'
+#' Author: Kieran Casper with Assistance from Claude (Anthropic)
+#'
 #' Code generated with Claude AI assistance.
 #'
 #' Reads a raw metadata TSV produced by 01_geo_download.R for a single

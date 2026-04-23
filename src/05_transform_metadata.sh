@@ -14,7 +14,7 @@
 # Usage (from project root):
 #   cap run -e default -s batch src/04_transform_metadata.sh
 #
-# Author: kjcasper
+# Author: Kieran Casper, with assistance from Claude (Anthropic)
 #
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
