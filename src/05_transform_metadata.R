@@ -1,36 +1,36 @@
-#' Transform Raw BioProject Sample Metadata
-#'
-#' Author: Kieran Casper with Assistance from Claude (Anthropic)
-#'
-#' Code generated with Claude AI assistance.
-#'
-#' Reads a raw metadata TSV produced by 01_geo_download.R for a single
-#' BioProject, applies harmonization rules agreed upon during the rrc-datahub
-#' metadata curation process, and writes a normalized TSV containing only the
-#' 34 curated output columns in a fixed order with consistent lowercase names.
-#'
-#' Harmonization rules applied:
-#'   - Column names lowercased and standardized
-#'   - Genotype consolidated from genotype / genotype.variation /
-#'     control.or.cystic into genotype_raw; causal gene extracted into
-#'     genotype_gene via explicit lookup table
-#'   - Strain consolidated from strain / strain.background /
-#'     background.strain into strain_raw; spelling normalized in
-#'     strain_normalized
-#'   - Tissue normalized to controlled vocabulary; age embedded in tissue
-#'     string for PRJNA637874 is split out
-#'   - Age converted from free-text postnatal day strings to integer days
-#'     in age; original string preserved in age_raw
-#'   - Sex consolidated from Sex.x / Sex.y; Sex.x (always blank) dropped
-#'   - sample_type derived from source_name via lookup table
-#'   - treatment_group derived from treatment via lookup table
-#'   - NA used for not applicable; NP for not provided
-#'   - UNMAPPED flag written for any value absent from lookup tables so
-#'     new projects with novel strings are caught immediately
-#'
-#' @param args[1] Character. BioProject accession (e.g. "PRJNA285844").
-#' @param args[2] Character. Path to the input metadata TSV.
-#' @param args[3] Character. Path to the output directory.
+### Sample metadata transformation
+# Author: Kieran Casper, with AI assistance from Claude (Anthropic)
+# Date: April 23, 2026
+## Goal: Transform raw BioProject sample metadata TSVs into harmonized,
+##       analysis-ready TSVs with normalized column names, controlled
+##       vocabulary fields, and derived biological annotations.
+## Reproducibility:
+# * GitHub: lasseignelab/rrc-datahub
+# * Docker: acrumley/rrc-datahub:0.1.0
+#
+## Harmonization rules applied:
+# * Column names lowercased and standardized
+# * Genotype consolidated from genotype / genotype.variation /
+#   control.or.cystic into genotype_raw; causal gene extracted into
+#   genotype_gene via explicit lookup table
+# * Strain consolidated from strain / strain.background /
+#   background.strain into strain_raw; spelling normalized in
+#   strain_normalized
+# * Tissue normalized to controlled vocabulary; age embedded in tissue
+#   string for PRJNA637874 is split out
+# * Age converted from free-text postnatal day strings to integer days
+#   in age; original string preserved in age_raw
+# * Sex consolidated from sex.y / sex; sex.x (always blank) dropped
+# * sample_type derived from source_name via lookup table
+# * treatment_group derived from treatment via lookup table
+# * NA used for not applicable; NP for not provided
+# * UNMAPPED flag written for any value absent from lookup tables so
+#   new projects with novel strings are caught immediately
+#
+# Arguments:
+# * args[1]: BioProject accession (e.g. "PRJNA285844")
+# * args[2]: Path to the input metadata TSV
+# * args[3]: Path to the output directory
 
 # ---------------------------------------------------------------------------
 # Parse command-line arguments
@@ -39,7 +39,7 @@ args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) != 3L) {
   stop(
-    "Usage: Rscript 04_transform_metadata.R <bioproject_id> ",
+    "Usage: Rscript 05_transform_metadata.R <bioproject_id> ",
     "<input_tsv> <output_dir>"
   )
 }
@@ -270,10 +270,10 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
 
   # -- Filter: PRJNA342113 contains mixed miRNA-seq and RNA-seq runs ---------
   # Only mRNA-seq runs (LibraryStrategy == "RNA-Seq") are retained.
-  if ("LibraryStrategy" %in% colnames(raw)) {
+  if ("librarystrategy" %in% colnames(raw)) {
     n_before <- nrow(raw)
-    raw <- raw[raw[["LibraryStrategy"]] == "RNA-Seq" |
-                 is.na(raw[["LibraryStrategy"]]), ]
+    raw <- raw[raw[["librarystrategy"]] == "RNA-Seq" |
+                 is.na(raw[["librarystrategy"]]), ]
     n_dropped <- n_before - nrow(raw)
     if (n_dropped > 0L) {
       warning(
@@ -283,30 +283,36 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     }
   }
 
-  # -- Pass-through columns (taken as-is, renamed to lowercase) --------------
+  # -- Normalize source column names to lowercase for robust matching ---------
+  # The fetch script (01_geo_download.R) outputs all lowercase column names.
+  # Normalizing here ensures matching works regardless of casing variation
+  # across future fetch script versions.
+  colnames(raw) <- tolower(colnames(raw))
+
+  # -- Pass-through columns (taken as-is, already lowercase) -----------------
   out <- data.frame(
-    run            = .coalesce_columns(raw, c("Run")),
-    bioproject     = .coalesce_columns(raw, c("BioProject")),
-    biosample      = .coalesce_columns(raw, c("BioSample")),
-    samplename     = .coalesce_columns(raw, c("SampleName")),
-    experiment     = .coalesce_columns(raw, c("Experiment")),
-    srastudy       = .coalesce_columns(raw, c("SRAStudy")),
-    submission     = .coalesce_columns(raw, c("Submission")),
-    releasedate    = .coalesce_columns(raw, c("ReleaseDate")),
-    loaddate       = .coalesce_columns(raw, c("LoadDate")),
+    run            = .coalesce_columns(raw, c("run")),
+    bioproject     = .coalesce_columns(raw, c("bioproject")),
+    biosample      = .coalesce_columns(raw, c("biosample")),
+    samplename     = .coalesce_columns(raw, c("samplename")),
+    experiment     = .coalesce_columns(raw, c("experiment")),
+    srastudy       = .coalesce_columns(raw, c("srastudy")),
+    submission     = .coalesce_columns(raw, c("submission")),
+    releasedate    = .coalesce_columns(raw, c("releasedate")),
+    loaddate       = .coalesce_columns(raw, c("loaddate")),
     bases          = .coalesce_columns(raw, c("bases")),
     spots          = .coalesce_columns(raw, c("spots")),
-    avglength      = .coalesce_columns(raw, c("avgLength")),
-    size_mb        = .coalesce_columns(raw, c("size_MB")),
-    librarylayout  = .coalesce_columns(raw, c("LibraryLayout")),
-    platform       = .coalesce_columns(raw, c("Platform")),
-    model          = .coalesce_columns(raw, c("Model")),
+    avglength      = .coalesce_columns(raw, c("avglength")),
+    size_mb        = .coalesce_columns(raw, c("size_mb")),
+    librarylayout  = .coalesce_columns(raw, c("librarylayout")),
+    platform       = .coalesce_columns(raw, c("platform")),
+    model          = .coalesce_columns(raw, c("model")),
     fastq_ftp      = .coalesce_columns(raw, c("fastq_ftp")),
     fastq_md5      = .coalesce_columns(raw, c("fastq_md5")),
-    runhash        = .coalesce_columns(raw, c("RunHash")),
-    readhash       = .coalesce_columns(raw, c("ReadHash")),
-    taxid          = .coalesce_columns(raw, c("TaxID")),
-    scientificname = .coalesce_columns(raw, c("ScientificName")),
+    runhash        = .coalesce_columns(raw, c("runhash")),
+    readhash       = .coalesce_columns(raw, c("readhash")),
+    taxid          = .coalesce_columns(raw, c("taxid")),
+    scientificname = .coalesce_columns(raw, c("scientificname")),
     source_name    = .coalesce_columns(raw, c("source_name")),
     stringsAsFactors = FALSE
   )
@@ -346,7 +352,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     warning(
       bioproject_id, ": ", n_unmapped_geno,
       " genotype_gene value(s) could not be mapped. ",
-      "Add them to GENOTYPE_GENE_MAP in 04_transform_metadata.R."
+      "Add them to GENOTYPE_GENE_MAP in 05_transform_metadata.R."
     )
   }
 
@@ -387,7 +393,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # -- sex -------------------------------------------------------------------
   # Sex.x from SRA runinfo is always blank; Sex.y from BioSample has values.
   # Consolidate by taking the first non-NA across Sex.y then Sex.
-  raw_sex <- .coalesce_columns(raw, c("Sex.y", "Sex"))
+  raw_sex <- .coalesce_columns(raw, c("sex.y", "sex"))
   out[["sex"]] <- ifelse(is.na(raw_sex), "NP", tolower(trimws(raw_sex)))
 
   # -- treatment -------------------------------------------------------------
@@ -408,7 +414,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     warning(
       bioproject_id, ": ", n_unmapped_trt,
       " treatment_group value(s) could not be mapped. ",
-      "Add them to TREATMENT_GROUP_MAP in 04_transform_metadata.R."
+      "Add them to TREATMENT_GROUP_MAP in 05_transform_metadata.R."
     )
   }
 

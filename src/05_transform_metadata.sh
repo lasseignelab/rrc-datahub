@@ -1,20 +1,24 @@
 #!/bin/bash
-#
-# Transform raw BioProject sample metadata TSVs into harmonized, analysis-ready
-# TSVs with normalized column names, controlled vocabulary fields, and derived
-# biological annotations. One transformed TSV is produced per BioProject.
+### Sample metadata transformation
+# Author: Kieran Casper, with AI assistance from Claude (Anthropic)
+# Date: April 23, 2026
+## Goal: Transform raw BioProject sample metadata TSVs into harmonized,
+##       analysis-ready TSVs with normalized column names, controlled
+##       vocabulary fields, and derived biological annotations.
+##       One transformed TSV is produced per BioProject.
+## Reproducibility:
+# * GitHub: lasseignelab/rrc-datahub
+# * Docker: acrumley/rrc-datahub:0.1.0
 #
 # Inputs:
-#   - doc/geo_datasets.csv           : list of BioProject accession IDs
-#   - data/raw-data/<ID>/<ID>_metadata.tsv : raw metadata from 01_geo_download.R
+#   - doc/geo_datasets.csv                  : list of BioProject accession IDs
+#   - data/raw-data/<ID>/<ID>_metadata.tsv  : raw metadata from 01_geo_download.R
 #
 # Outputs:
-#   - results/<ID>/<ID>_transformed.tsv : harmonized metadata TSV per project
+#   - results/<ID>/<ID>_transformed.tsv     : harmonized metadata TSV per project
 #
 # Usage (from project root):
-#   cap run -e default -s batch src/04_transform_metadata.sh
-#
-# Author: Kieran Casper, with assistance from Claude (Anthropic)
+#   cap run -e default -s batch src/05_transform_metadata.sh
 #
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -61,7 +65,7 @@ singularity exec --cleanenv \
                  -B "${CAP_PROJECT_PATH}" \
                  --pwd "${CAP_PROJECT_PATH}" \
                  "${CAP_CONTAINER_PATH}"/rrc-datahub_0.1.0.sif \
-                 Rscript --vanilla "${CAP_PROJECT_PATH}"/src/05_transform_metadata.R \
+                 Rscript --vanilla "${CAP_PROJECT_PATH}"/src/04_transform_metadata.R \
                  "${DATASET}" \
                  "${INFILE}" \
                  "${OUTDIR}"
