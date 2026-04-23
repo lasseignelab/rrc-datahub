@@ -1,0 +1,470 @@
+#' Transform Raw BioProject Sample Metadata
+#'
+#' Code generated with Claude AI assistance.
+#'
+#' Reads a raw metadata TSV produced by 01_geo_download.R for a single
+#' BioProject, applies harmonization rules agreed upon during the rrc-datahub
+#' metadata curation process, and writes a normalized TSV containing only the
+#' 34 curated output columns in a fixed order with consistent lowercase names.
+#'
+#' Harmonization rules applied:
+#'   - Column names lowercased and standardized
+#'   - Genotype consolidated from genotype / genotype.variation /
+#'     control.or.cystic into genotype_raw; causal gene extracted into
+#'     genotype_gene via explicit lookup table
+#'   - Strain consolidated from strain / strain.background /
+#'     background.strain into strain_raw; spelling normalized in
+#'     strain_normalized
+#'   - Tissue normalized to controlled vocabulary; age embedded in tissue
+#'     string for PRJNA637874 is split out
+#'   - Age converted from free-text postnatal day strings to integer days
+#'     in age; original string preserved in age_raw
+#'   - Sex consolidated from Sex.x / Sex.y; Sex.x (always blank) dropped
+#'   - sample_type derived from source_name via lookup table
+#'   - treatment_group derived from treatment via lookup table
+#'   - NA used for not applicable; NP for not provided
+#'   - UNMAPPED flag written for any value absent from lookup tables so
+#'     new projects with novel strings are caught immediately
+#'
+#' @param args[1] Character. BioProject accession (e.g. "PRJNA285844").
+#' @param args[2] Character. Path to the input metadata TSV.
+#' @param args[3] Character. Path to the output directory.
+
+# ---------------------------------------------------------------------------
+# Parse command-line arguments
+# ---------------------------------------------------------------------------
+args <- commandArgs(trailingOnly = TRUE)
+
+if (length(args) != 3L) {
+  stop(
+    "Usage: Rscript 04_transform_metadata.R <bioproject_id> ",
+    "<input_tsv> <output_dir>"
+  )
+}
+
+bioproject_id <- args[1]
+input_path    <- args[2]
+output_dir    <- args[3]
+
+message("Starting metadata transformation for ", bioproject_id)
+
+# ---------------------------------------------------------------------------
+# Lookup tables
+# All controlled-vocabulary mappings are defined here so they are visible,
+# auditable, and easy to extend when new projects are added.
+# ---------------------------------------------------------------------------
+
+# Map every observed genotype_raw string to a causal-gene controlled value.
+# wild-type : sample has no PKD-related mutation
+# NA        : genotype concept not applicable (control.or.cystic projects)
+# UNMAPPED  : written at runtime for any string absent from this table
+GENOTYPE_GENE_MAP <- c(
+  # PRJNA285844
+  "wild-type"                              = "wild-type",
+  "Pkhd1Cre; Pkd2 F/F"                   = "Pkd2",
+  "Pkhd1Cre; Pkd2 F/F; miR-21null"       = "Pkd2",
+  # PRJNA342113
+  "Pkd1f/f"                               = "wild-type",
+  "Pkd1f/f:HoxB7-Cre"                    = "Pkd1",
+  "Pkd2f/f"                               = "wild-type",
+  "Pkd2f/f:HoxB7-Cre"                    = "Pkd2",
+  # PRJNA353115
+  "KspCre; Pkd1 F/RC"                    = "Pkd1",
+  "KspCre; Pkd1 F/RC miR17~92 F/F"      = "Pkd1",
+  # PRJNA428970
+  "KSP/Cre-;Pkd1f/f"                     = "wild-type",
+  "KSP/Cre+;Pkd1f/f"                     = "Pkd1",
+  "Pkhd1/Cre-;Pkd2f/f"                   = "wild-type",
+  "Pkhd1/Cre+;Pkd2f/f"                   = "Pkd2",
+  # PRJNA543107
+  "WT"                                    = "wild-type",
+  "Pkd1-RC/RC"                            = "Pkd1",
+  "Pkhd1-/-"                              = "Pkhd1",
+  "Digenic"                               = "Pkd1;Pkhd1",
+  # PRJNA556224
+  "Pdk2KO"                                = "Pkd2",
+  "wildtype"                              = "wild-type",
+  # PRJNA573926
+  "Pkhd1Cre; Pkd2 F/F; miR-214null"     = "Pkd2",
+  # PRJNA629819
+  "Wild type"                             = "wild-type",
+  "Pkd2fl/fl;Pax8rtTA;TetO-cre"         = "Pkd2",
+  "Ift88fl/fl;Pkd2fl/fl;Pax8rtTA;TetO-cre" = "Pkd2",
+  # PRJNA637874
+  "Pkd2fl/fl Pax8rtTA TetOCre mTmG"     = "Pkd2",
+  # PRJNA745972
+  "Pkd1-/-"                               = "Pkd1",
+  "Pkd2-/-"                               = "Pkd2",
+  # PRJNA857739
+  "Pkd1RC/RC-Casp1KO"                    = "Pkd1",
+  "Pkd1RC/RC"                             = "Pkd1"
+)
+
+# Map strain strings to canonical normalized values.
+# Only genuine spelling variants are normalized; biologically distinct
+# strains (Pcy/CD1, CD1) are left as-is.
+STRAIN_NORM_MAP <- c(
+  "C57BL/6J" = "C57BL/6",
+  "C57BL6"   = "C57BL/6"
+)
+
+# Map source_name values to controlled sample_type vocabulary.
+# Anything containing "kidney" (case-insensitive) is handled programmatically
+# below; only outliers require explicit entries here.
+SAMPLE_TYPE_MAP <- c(
+  "primary cell tubuloids"                      = "organoid",
+  "murine inner medullary collecting duct cells" = "cell_line",
+  "Cultured mIMCD-3 Cells (ATCC CRL-2123)"     = "cell_line"
+)
+
+# Map raw treatment strings to grouped controlled vocabulary.
+# vehicle_control covers PBS and DMSO; experimental covers active treatments.
+TREATMENT_GROUP_MAP <- c(
+  "RGLS4326"     = "experimental",
+  "DOX"          = "experimental",
+  "PBS"          = "vehicle_control",
+  "DMSO"         = "vehicle_control",
+  "No treatment" = "untreated"
+)
+
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
+
+#' Apply a named lookup vector, returning UNMAPPED for unknown inputs.
+#'
+#' @param x         Character vector of values to look up.
+#' @param map       Named character vector mapping input to output.
+#' @param na_value  Value to return for NA inputs instead of looking them up.
+#' @return Character vector of mapped values.
+.apply_lookup <- function(x, map, na_value = NA_character_) {
+  result <- map[x]
+  result[is.na(x)] <- na_value
+  # Values absent from the map but non-NA get UNMAPPED flag
+  result[is.na(result) & !is.na(x)] <- "UNMAPPED"
+  unname(result)
+}
+
+#' Consolidate a concept spread across several column name variants.
+#'
+#' Tries each candidate column name in order and returns the first non-NA,
+#' non-empty value found. Returns NA_character_ if none are present.
+#'
+#' @param df       data.frame to search.
+#' @param columns  Character vector of candidate column names in priority order.
+#' @return Character vector with the consolidated values.
+.coalesce_columns <- function(df, columns) {
+  result <- rep(NA_character_, nrow(df))
+  for (col in columns) {
+    if (col %in% colnames(df)) {
+      candidate <- as.character(df[[col]])
+      candidate[trimws(candidate) == ""] <- NA_character_
+      fill <- is.na(result) & !is.na(candidate)
+      result[fill] <- candidate[fill]
+    }
+  }
+  result
+}
+
+#' Parse a postnatal age string to integer days.
+#'
+#' Handles all observed spelling variants of "postnatal day N" and the
+#' special case "6 months old" -> 182 days. Returns NA_integer_ for strings
+#' that cannot be parsed.
+#'
+#' @param x Character vector of raw age strings.
+#' @return Integer vector of postnatal age in days.
+.parse_age_days <- function(x) {
+  result <- rep(NA_integer_, length(x))
+  # Match "post[-]?natal day N" (case-insensitive, hyphen optional, spaces
+  # between words optional) and extract the numeric part
+  pnd_pattern <- "(?i)post[- ]?natal\\s*day\\s*(\\d+)"
+  pnd_match   <- regmatches(x, regexpr(pnd_pattern, x, perl = TRUE))
+  pnd_nums    <- suppressWarnings(
+    as.integer(gsub("(?i).*?(\\d+)$", "\\1", pnd_match, perl = TRUE))
+  )
+  result[nchar(pnd_match) > 0] <- pnd_nums[nchar(pnd_match) > 0]
+
+  # Special case: PRJNA857739 uses "6 months old"
+  result[!is.na(x) & trimws(tolower(x)) == "6 months old"] <- 182L
+
+  result
+}
+
+#' Derive sample_type from source_name.
+#'
+#' Checks the explicit lookup table first, then classifies anything
+#' containing "kidney" (case-insensitive) as in_vivo_tissue.
+#'
+#' @param source_name Character vector of source_name values.
+#' @return Character vector of sample_type controlled vocabulary values.
+.derive_sample_type <- function(source_name) {
+  result <- rep(NA_character_, length(source_name))
+  for (i in seq_along(source_name)) {
+    val <- source_name[i]
+    if (is.na(val)) {
+      result[i] <- "NP"
+      next
+    }
+    if (val %in% names(SAMPLE_TYPE_MAP)) {
+      result[i] <- SAMPLE_TYPE_MAP[[val]]
+    } else if (grepl("kidney", val, ignore.case = TRUE)) {
+      result[i] <- "in_vivo_tissue"
+    } else {
+      result[i] <- "UNMAPPED"
+    }
+  }
+  result
+}
+
+#' Handle the PRJNA637874 tissue/age special case.
+#'
+#' For PRJNA637874, age was submitted inside the tissue field as
+#' "postnatal day 7-10 kidney". This function splits it out: tissue becomes
+#' "kidney" and age becomes 7 (lower bound of range).
+#'
+#' @param tissue_raw Character vector of raw tissue values.
+#' @param age_days   Integer vector of age in days (may be partially filled).
+#' @param age_raw    Character vector of raw age strings.
+#' @return A list with elements $tissue, $age_days, and $age_raw.
+.fix_prjna637874_tissue <- function(tissue_raw, age_days, age_raw) {
+  embedded_pattern <- "postnatal day 7-10 kidney"
+  match_rows <- !is.na(tissue_raw) &
+    trimws(tolower(tissue_raw)) == embedded_pattern
+  if (any(match_rows)) {
+    age_raw[match_rows]  <- tissue_raw[match_rows]
+    age_days[match_rows] <- 7L
+    tissue_raw[match_rows] <- "kidney"
+    message(
+      "  PRJNA637874: extracted age from tissue string for ",
+      sum(match_rows), " row(s)"
+    )
+  }
+  list(tissue = tissue_raw, age_days = age_days, age_raw = age_raw)
+}
+
+# ---------------------------------------------------------------------------
+# Main transformation function
+# ---------------------------------------------------------------------------
+
+#' Transform a single raw metadata TSV into harmonized output.
+#'
+#' @param bioproject_id Character. BioProject accession.
+#' @param input_path    Character. Path to the raw metadata TSV.
+#' @param output_dir    Character. Directory to write the output TSV.
+#' @return Invisibly returns the transformed data.frame.
+transform_metadata <- function(bioproject_id, input_path, output_dir) {
+
+  # -- Read input ------------------------------------------------------------
+  message("Reading: ", input_path)
+  raw <- read.delim(
+    input_path,
+    sep       = "\t",
+    header    = TRUE,
+    colClasses = "character",
+    na.strings = ""
+  )
+  message("  Rows: ", nrow(raw), " | Columns: ", ncol(raw))
+
+  # -- Filter: PRJNA342113 contains mixed miRNA-seq and RNA-seq runs ---------
+  # Only mRNA-seq runs (LibraryStrategy == "RNA-Seq") are retained.
+  if ("LibraryStrategy" %in% colnames(raw)) {
+    n_before <- nrow(raw)
+    raw <- raw[raw[["LibraryStrategy"]] == "RNA-Seq" |
+                 is.na(raw[["LibraryStrategy"]]), ]
+    n_dropped <- n_before - nrow(raw)
+    if (n_dropped > 0L) {
+      warning(
+        bioproject_id, ": dropped ", n_dropped,
+        " non-RNA-Seq row(s) (e.g. miRNA-Seq). Runs retained: ", nrow(raw)
+      )
+    }
+  }
+
+  # -- Pass-through columns (taken as-is, renamed to lowercase) --------------
+  out <- data.frame(
+    run            = .coalesce_columns(raw, c("Run")),
+    bioproject     = .coalesce_columns(raw, c("BioProject")),
+    biosample      = .coalesce_columns(raw, c("BioSample")),
+    samplename     = .coalesce_columns(raw, c("SampleName")),
+    experiment     = .coalesce_columns(raw, c("Experiment")),
+    srastudy       = .coalesce_columns(raw, c("SRAStudy")),
+    submission     = .coalesce_columns(raw, c("Submission")),
+    releasedate    = .coalesce_columns(raw, c("ReleaseDate")),
+    loaddate       = .coalesce_columns(raw, c("LoadDate")),
+    bases          = .coalesce_columns(raw, c("bases")),
+    spots          = .coalesce_columns(raw, c("spots")),
+    avglength      = .coalesce_columns(raw, c("avgLength")),
+    size_mb        = .coalesce_columns(raw, c("size_MB")),
+    librarylayout  = .coalesce_columns(raw, c("LibraryLayout")),
+    platform       = .coalesce_columns(raw, c("Platform")),
+    model          = .coalesce_columns(raw, c("Model")),
+    fastq_ftp      = .coalesce_columns(raw, c("fastq_ftp")),
+    fastq_md5      = .coalesce_columns(raw, c("fastq_md5")),
+    runhash        = .coalesce_columns(raw, c("RunHash")),
+    readhash       = .coalesce_columns(raw, c("ReadHash")),
+    taxid          = .coalesce_columns(raw, c("TaxID")),
+    scientificname = .coalesce_columns(raw, c("ScientificName")),
+    source_name    = .coalesce_columns(raw, c("source_name")),
+    stringsAsFactors = FALSE
+  )
+
+  # Replace any remaining NA in pass-through columns with NP
+  # (information exists but was not submitted by the depositor)
+  for (col in colnames(out)) {
+    out[[col]][is.na(out[[col]])] <- "NP"
+  }
+
+  # -- sample_type -----------------------------------------------------------
+  out[["sample_type"]] <- .derive_sample_type(
+    .coalesce_columns(raw, c("source_name"))
+  )
+
+  # -- genotype_raw ----------------------------------------------------------
+  # Priority: genotype > genotype.variation > control.or.cystic
+  # control.or.cystic encodes disease status not allele identity so it maps
+  # to NA in genotype_gene (see lookup table) but is still preserved here.
+  raw_genotype <- .coalesce_columns(
+    raw,
+    c("genotype", "genotype.variation", "control.or.cystic")
+  )
+  out[["genotype_raw"]] <- ifelse(is.na(raw_genotype), "NP", raw_genotype)
+
+  # -- genotype_gene ---------------------------------------------------------
+  # NA is correct for wild-type (no mutated PKD gene, not applicable)
+  # NA is also correct for PRJNA805541/805542 (control.or.cystic maps to NA)
+  out[["genotype_gene"]] <- .apply_lookup(
+    raw_genotype,
+    GENOTYPE_GENE_MAP,
+    na_value = "NP"
+  )
+  # Remap UNMAPPED to flag loudly in the output
+  n_unmapped_geno <- sum(out[["genotype_gene"]] == "UNMAPPED", na.rm = TRUE)
+  if (n_unmapped_geno > 0L) {
+    warning(
+      bioproject_id, ": ", n_unmapped_geno,
+      " genotype_gene value(s) could not be mapped. ",
+      "Add them to GENOTYPE_GENE_MAP in 04_transform_metadata.R."
+    )
+  }
+
+  # -- strain_raw and strain_normalized --------------------------------------
+  raw_strain <- .coalesce_columns(
+    raw,
+    c("strain", "strain.background", "background.strain")
+  )
+  out[["strain_raw"]] <- ifelse(is.na(raw_strain), "NP", raw_strain)
+
+  # Apply canonical spelling normalization; unknown strains copy as-is
+  strain_norm <- raw_strain
+  for (variant in names(STRAIN_NORM_MAP)) {
+    strain_norm[!is.na(strain_norm) & strain_norm == variant] <-
+      STRAIN_NORM_MAP[[variant]]
+  }
+  out[["strain_normalized"]] <- ifelse(is.na(strain_norm), "NP", strain_norm)
+
+  # -- tissue ----------------------------------------------------------------
+  raw_tissue <- .coalesce_columns(raw, c("tissue"))
+  # Normalize capitalization variants before PRJNA637874 fix
+  raw_tissue[!is.na(raw_tissue) & raw_tissue == "Kidney"] <- "kidney"
+
+  # -- age_raw and age -------------------------------------------------------
+  raw_age     <- .coalesce_columns(raw, c("age"))
+  age_days    <- .parse_age_days(raw_age)
+
+  # PRJNA637874: extract age from embedded tissue string
+  fixed <- .fix_prjna637874_tissue(raw_tissue, age_days, raw_age)
+  raw_tissue  <- fixed$tissue
+  age_days    <- fixed$age_days
+  raw_age_out <- fixed$age_raw
+
+  out[["tissue"]]  <- ifelse(is.na(raw_tissue), "NP", raw_tissue)
+  out[["age"]]     <- ifelse(is.na(age_days),   "NP", as.character(age_days))
+  out[["age_raw"]] <- ifelse(is.na(raw_age_out), "NP", raw_age_out)
+
+  # -- sex -------------------------------------------------------------------
+  # Sex.x from SRA runinfo is always blank; Sex.y from BioSample has values.
+  # Consolidate by taking the first non-NA across Sex.y then Sex.
+  raw_sex <- .coalesce_columns(raw, c("Sex.y", "Sex"))
+  out[["sex"]] <- ifelse(is.na(raw_sex), "NP", tolower(trimws(raw_sex)))
+
+  # -- treatment -------------------------------------------------------------
+  raw_treatment <- .coalesce_columns(raw, c("treatment"))
+  # NA here means no treatment was part of the study design (not applicable)
+  out[["treatment"]] <- ifelse(is.na(raw_treatment), "NA", raw_treatment)
+
+  # -- treatment_group -------------------------------------------------------
+  out[["treatment_group"]] <- .apply_lookup(
+    raw_treatment,
+    TREATMENT_GROUP_MAP,
+    na_value = "NA"
+  )
+  n_unmapped_trt <- sum(
+    out[["treatment_group"]] == "UNMAPPED", na.rm = TRUE
+  )
+  if (n_unmapped_trt > 0L) {
+    warning(
+      bioproject_id, ": ", n_unmapped_trt,
+      " treatment_group value(s) could not be mapped. ",
+      "Add them to TREATMENT_GROUP_MAP in 04_transform_metadata.R."
+    )
+  }
+
+  # -- Final column order (must match column reference exactly) --------------
+  final_cols <- c(
+    "run", "bioproject", "biosample", "samplename", "experiment",
+    "srastudy", "submission", "releasedate", "loaddate",
+    "bases", "spots", "avglength", "size_mb",
+    "librarylayout", "platform", "model",
+    "fastq_ftp", "fastq_md5", "runhash", "readhash",
+    "taxid", "scientificname", "source_name",
+    "sample_type",
+    "genotype_gene", "genotype_raw",
+    "strain_normalized", "strain_raw",
+    "tissue", "age", "age_raw",
+    "sex", "treatment", "treatment_group"
+  )
+
+  # Verify all expected columns were produced before writing
+  missing_cols <- setdiff(final_cols, colnames(out))
+  if (length(missing_cols) > 0L) {
+    stop(
+      bioproject_id, ": output is missing expected columns: ",
+      paste(missing_cols, collapse = ", ")
+    )
+  }
+
+  out <- out[, final_cols, drop = FALSE]
+
+  # -- Write output ----------------------------------------------------------
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+
+  output_path <- file.path(output_dir, paste0(bioproject_id, "_transformed.tsv"))
+
+  write.table(
+    out,
+    file      = output_path,
+    sep       = "\t",
+    quote     = FALSE,
+    row.names = FALSE,
+    na        = "NP"
+  )
+
+  message("Written: ", output_path)
+  message("  Rows: ", nrow(out), " | Columns: ", ncol(out))
+
+  invisible(out)
+}
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+transform_metadata(bioproject_id, input_path, output_dir)
+
+# ---------------------------------------------------------------------------
+# Session info (required by project coding guidelines)
+# ---------------------------------------------------------------------------
+message("\n--- Session Info ---")
+sessionInfo()
