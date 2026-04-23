@@ -264,7 +264,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     sep       = "\t",
     header    = TRUE,
     colClasses = "character",
-    na.strings = ""
+    na.strings = c("", "NA")
   )
   message("  Rows: ", nrow(raw), " | Columns: ", ncol(raw))
 
