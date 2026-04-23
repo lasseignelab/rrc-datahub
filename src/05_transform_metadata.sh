@@ -65,7 +65,7 @@ singularity exec --cleanenv \
                  -B "${CAP_PROJECT_PATH}" \
                  --pwd "${CAP_PROJECT_PATH}" \
                  "${CAP_CONTAINER_PATH}"/rrc-datahub_0.1.0.sif \
-                 Rscript --vanilla "${CAP_PROJECT_PATH}"/src/04_transform_metadata.R \
+                 Rscript --vanilla "${CAP_PROJECT_PATH}"/src/05_transform_metadata.R \
                  "${DATASET}" \
                  "${INFILE}" \
                  "${OUTDIR}"
