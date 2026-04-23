@@ -60,7 +60,7 @@ message("Starting metadata transformation for ", bioproject_id)
 # wild-type : sample has no PKD-related mutation
 # NA        : genotype concept not applicable (control.or.cystic projects)
 # UNMAPPED  : written at runtime for any string absent from this table
-GENOTYPE_GENE_MAP <- c(
+genotype_gene_map <- c(
   # PRJNA285844
   "wild-type"                              = "wild-type",
   "Pkhd1Cre; Pkd2 F/F"                   = "Pkd2",
@@ -105,7 +105,7 @@ GENOTYPE_GENE_MAP <- c(
 # Map strain strings to canonical normalized values.
 # Only genuine spelling variants are normalized; biologically distinct
 # strains (Pcy/CD1, CD1) are left as-is.
-STRAIN_NORM_MAP <- c(
+strain_norm_map <- c(
   "C57BL/6J" = "C57BL/6",
   "C57BL6"   = "C57BL/6"
 )
@@ -113,7 +113,7 @@ STRAIN_NORM_MAP <- c(
 # Map source_name values to controlled sample_type vocabulary.
 # Anything containing "kidney" (case-insensitive) is handled programmatically
 # below; only outliers require explicit entries here.
-SAMPLE_TYPE_MAP <- c(
+sample_type_map <- c(
   "primary cell tubuloids"                      = "organoid",
   "murine inner medullary collecting duct cells" = "cell_line",
   "Cultured mIMCD-3 Cells (ATCC CRL-2123)"     = "cell_line"
@@ -121,7 +121,7 @@ SAMPLE_TYPE_MAP <- c(
 
 # Map raw treatment strings to grouped controlled vocabulary.
 # vehicle_control covers PBS and DMSO; experimental covers active treatments.
-TREATMENT_GROUP_MAP <- c(
+treatment_group_map <- c(
   "RGLS4326"     = "experimental",
   "DOX"          = "experimental",
   "PBS"          = "vehicle_control",
@@ -208,8 +208,8 @@ TREATMENT_GROUP_MAP <- c(
       result[i] <- "NP"
       next
     }
-    if (val %in% names(SAMPLE_TYPE_MAP)) {
-      result[i] <- SAMPLE_TYPE_MAP[[val]]
+    if (val %in% names(sample_type_map)) {
+      result[i] <- sample_type_map[[val]]
     } else if (grepl("kidney", val, ignore.case = TRUE)) {
       result[i] <- "in_vivo_tissue"
     } else {
@@ -343,7 +343,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # NA is also correct for PRJNA805541/805542 (control.or.cystic maps to NA)
   out[["genotype_gene"]] <- .apply_lookup(
     raw_genotype,
-    GENOTYPE_GENE_MAP,
+    genotype_gene_map,
     na_value = "NP"
   )
   # Remap UNMAPPED to flag loudly in the output
@@ -352,7 +352,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     warning(
       bioproject_id, ": ", n_unmapped_geno,
       " genotype_gene value(s) could not be mapped. ",
-      "Add them to GENOTYPE_GENE_MAP in 05_transform_metadata.R."
+      "Add them to genotype_gene_map in 05_transform_metadata.R."
     )
   }
 
@@ -365,9 +365,9 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
 
   # Apply canonical spelling normalization; unknown strains copy as-is
   strain_norm <- raw_strain
-  for (variant in names(STRAIN_NORM_MAP)) {
+  for (variant in names(strain_norm_map)) {
     strain_norm[!is.na(strain_norm) & strain_norm == variant] <-
-      STRAIN_NORM_MAP[[variant]]
+      strain_norm_map[[variant]]
   }
   out[["strain_normalized"]] <- ifelse(is.na(strain_norm), "NP", strain_norm)
 
@@ -404,7 +404,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # -- treatment_group -------------------------------------------------------
   out[["treatment_group"]] <- .apply_lookup(
     raw_treatment,
-    TREATMENT_GROUP_MAP,
+    treatment_group_map,
     na_value = "NA"
   )
   n_unmapped_trt <- sum(
@@ -414,7 +414,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     warning(
       bioproject_id, ": ", n_unmapped_trt,
       " treatment_group value(s) could not be mapped. ",
-      "Add them to TREATMENT_GROUP_MAP in 05_transform_metadata.R."
+      "Add them to treatment_group_map in 05_transform_metadata.R."
     )
   }
 
@@ -449,7 +449,9 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     dir.create(output_dir, recursive = TRUE)
   }
 
-  output_path <- file.path(output_dir, paste0(bioproject_id, "_transformed.tsv"))
+  output_path <- file.path(
+    output_dir, paste0(bioproject_id, "_transformed.tsv")
+  )
 
   write.table(
     out,
