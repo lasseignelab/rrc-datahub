@@ -100,6 +100,10 @@ genotype_gene_map <- c(
   # PRJNA857739
   "Pkd1RC/RC-Casp1KO"                    = "Pkd1",
   "Pkd1RC/RC"                             = "Pkd1"
+
+  # PRJNA805541/805542 - control.or.cystic encodes disease status not genotype
+  "cystic"                               = "NA",
+  "control"                              = "NA"
 )
 
 # Map strain strings to canonical normalized values.
