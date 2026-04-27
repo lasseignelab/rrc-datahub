@@ -99,7 +99,7 @@ genotype_gene_map <- c(
   "Pkd2-/-"                               = "Pkd2",
   # PRJNA857739
   "Pkd1RC/RC-Casp1KO"                    = "Pkd1",
-  "Pkd1RC/RC"                             = "Pkd1"
+  "Pkd1RC/RC"                             = "Pkd1",
   "cystic"                                = "NA",
   "control"                               = "NA"
 )
