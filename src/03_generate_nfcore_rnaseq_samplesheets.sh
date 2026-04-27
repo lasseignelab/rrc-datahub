@@ -11,7 +11,7 @@
 echo "Downloading helper script for creating samplesheet ..."
 file="$CAP_PROJECT_PATH/src/03_fastq_dir_to_samplesheet.py"
 url="https://raw.githubusercontent.com/nf-core/rnaseq/refs/heads/master/bin/fastq_dir_to_samplesheet.py"
-wget -nc -O "$file" "$url"
+[ -f "$file" ] || wget -O "$file" "$url"
 
 dataset=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
 echo "Creating samplesheet for ${dataset} ..."
