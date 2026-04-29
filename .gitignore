@@ -8,6 +8,10 @@ bin/container/*.sif
 data/*
 !data/README
 
+work
+src/03_fastq_dir_to_samplesheet.py
+src/.nextflow*
+
 ##########################################################
 # R
 ##########################################################

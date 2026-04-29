@@ -1,0 +1,9 @@
+name: rrc-datahub-nfcore
+
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+
+dependencies:
+  - nextflow=24.04.2
