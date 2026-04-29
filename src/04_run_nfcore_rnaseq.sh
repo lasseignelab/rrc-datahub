@@ -27,15 +27,14 @@ conda activate rrc-datahub-nextflow-v26_04_0
 working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
 mkdir -p "$working_directory"
 
-nextflow run nf-core/rnaseq -r 3.18.0 \
+nextflow run nf-core/rnaseq -r 3.25.0 \
+    -c "${CAP_PROJECT_PATH}/config/nextflow.config" \
     --input "${samplesheet}" \
     --outdir "${out_dir}" \
     --gtf "${gtf}" \
     --fasta "${fasta}" \
     --aligner star_salmon \
     --pseudo_aligner salmon \
-    --gencode TRUE \
-    --save_reference TRUE \
     -w "${working_directory}" \
     -profile "${profile}"
 
