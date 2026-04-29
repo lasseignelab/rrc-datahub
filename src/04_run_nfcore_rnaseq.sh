@@ -22,7 +22,7 @@ profile="${NEXTFLOW_PROFILE:-singularity}"
 
 echo "Aligning ${dataset} to the reference genome ..."
 ml Anaconda3
-conda activate rrc-datahub-nfcore
+conda activate rrc-datahub-nextflow-v26_04_0
 
 working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
 mkdir -p "$working_directory"
