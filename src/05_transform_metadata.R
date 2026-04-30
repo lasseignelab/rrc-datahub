@@ -17,8 +17,10 @@
 #   strain
 # * Tissue normalized to controlled vocabulary; age embedded in tissue
 #   string for PRJNA637874 is split out
-# * Age converted from free-text postnatal day strings to integer days
-#   in age; original string preserved in age_raw
+# * Age converted from free-text postnatal day strings to integer days.
+#   All ages stored as ranges: age_range_lower and age_range_upper.
+#   Single ages have lower == upper. Ranges (e.g. 7-10) split into bounds.
+#   Original string preserved in age_raw.
 # * Sex consolidated from sex.y / sex; sex.x (always blank) dropped
 # * sample_type derived from source_name via lookup table
 # * treatment_group derived from treatment via lookup table
@@ -169,16 +171,28 @@ treatment_group_map <- c(
   result
 }
 
+#' Convert a month count to days using a 30-day month approximation.
+#'
+#' Standard biomedical approximation; precision beyond this is not warranted
+#' given the variability in how age is reported across studies.
+#'
+#' @param months Integer or numeric. Number of months.
+#' @return Integer. Number of days.
+.months_to_days <- function(months) {
+  as.integer(round(months * 30))
+}
+
 #' Parse a postnatal age string to integer days.
 #'
-#' Handles all observed spelling variants of "postnatal day N" and the
-#' special case "6 months old" -> 182 days. Returns NA_integer_ for strings
-#' that cannot be parsed.
+#' Handles all observed spelling variants of "postnatal day N" and any
+#' "N months old" string by extracting N and converting via .months_to_days().
+#' Returns NA_integer_ for strings that cannot be parsed.
 #'
 #' @param x Character vector of raw age strings.
 #' @return Integer vector of postnatal age in days.
 .parse_age_days <- function(x) {
   result <- rep(NA_integer_, length(x))
+
   # Match "post[-]?natal day N" (case-insensitive, hyphen optional, spaces
   # between words optional) and extract the numeric part
   pnd_pattern <- "(?i)post[- ]?natal\\s*day\\s*(\\d+)"
@@ -188,62 +202,112 @@ treatment_group_map <- c(
   )
   result[nchar(pnd_match) > 0] <- pnd_nums[nchar(pnd_match) > 0]
 
-  # Special case: PRJNA857739 uses "6 months old"
-  result[!is.na(x) & trimws(tolower(x)) == "6 months old"] <- 182L
+  # Match "N months old" (case-insensitive) and convert to days
+  # using a 30-day month approximation
+  mo_pattern <- "(?i)^(\\d+)\\s+months?\\s+old$"
+  mo_match   <- regmatches(x, regexpr(mo_pattern, x, perl = TRUE))
+  mo_nums    <- suppressWarnings(
+    as.integer(gsub("(?i)^(\\d+).*", "\\1", mo_match, perl = TRUE))
+  )
+  has_mo <- nchar(mo_match) > 0
+  result[has_mo] <- .months_to_days(mo_nums[has_mo])
 
   result
 }
 
 #' Derive sample_type from source_name.
 #'
-#' Checks the explicit lookup table first, then classifies anything
-#' containing "kidney" (case-insensitive) as in_vivo_tissue.
+#' Uses dplyr::case_when for vectorized classification. Checks the explicit
+#' lookup table first, then classifies anything containing "kidney"
+#' (case-insensitive) as in_vivo_tissue. The map is passed explicitly to
+#' avoid hidden dependency on the global environment.
 #'
-#' @param source_name Character vector of source_name values.
+#' @param source_name    Character vector of source_name values.
+#' @param type_map       Named character vector mapping source_name to
+#'   sample_type controlled vocabulary.
 #' @return Character vector of sample_type controlled vocabulary values.
-.derive_sample_type <- function(source_name) {
-  result <- rep(NA_character_, length(source_name))
-  for (i in seq_along(source_name)) {
-    val <- source_name[i]
-    if (is.na(val)) {
-      result[i] <- "NP"
-      next
-    }
-    if (val %in% names(sample_type_map)) {
-      result[i] <- sample_type_map[[val]]
-    } else if (grepl("kidney", val, ignore.case = TRUE)) {
-      result[i] <- "in_vivo_tissue"
-    } else {
-      result[i] <- "UNMAPPED"
-    }
-  }
-  result
+.derive_sample_type <- function(source_name, type_map) {
+  dplyr::case_when(
+    is.na(source_name)                         ~ "NP",
+    source_name %in% names(type_map)           ~ type_map[source_name],
+    grepl("kidney", source_name,
+          ignore.case = TRUE)                  ~ "in_vivo_tissue",
+    .default                                   = "UNMAPPED"
+  )
 }
 
-#' Handle the PRJNA637874 tissue/age special case.
+#' Extract age information embedded in tissue strings.
 #'
-#' For PRJNA637874, age was submitted inside the tissue field as
-#' "postnatal day 7-10 kidney". This function splits it out: tissue becomes
-#' "kidney" and age becomes 7 (lower bound of range).
+#' Some submitters include age information inside the tissue field
+#' (e.g. "postnatal day 7-10 kidney"). This function detects any tissue
+#' value that contains both an age pattern and a tissue keyword, splits
+#' them out, and updates tissue, age_lower, age_upper, and age_raw.
+#' Both single ages and ranges are supported — single ages have
+#' age_lower == age_upper.
 #'
 #' @param tissue_raw Character vector of raw tissue values.
-#' @param age_days   Integer vector of age in days (may be partially filled).
+#' @param age_lower  Integer vector of lower age bounds.
+#' @param age_upper  Integer vector of upper age bounds.
 #' @param age_raw    Character vector of raw age strings.
-#' @return A list with elements $tissue, $age_days, and $age_raw.
-.fix_prjna637874_tissue <- function(tissue_raw, age_days, age_raw) {
-  embedded_pattern <- "postnatal day 7-10 kidney"
-  match_rows <- !is.na(tissue_raw) &
-    trimws(tolower(tissue_raw)) == embedded_pattern
-  if (any(match_rows)) {
-    age_raw[match_rows]  <- tissue_raw[match_rows]
-    age_days[match_rows] <- 7L
-    tissue_raw[match_rows] <- "kidney"
+#' @return A list with elements $tissue, $age_lower, $age_upper, $age_raw.
+.extract_age_from_tissue <- function(tissue_raw, age_lower,
+                                     age_upper, age_raw) {
+  # Detect tissue strings that contain an embedded age pattern
+  # Pattern: postnatal day N or postnatal day N-M followed by a tissue word
+  embedded_pattern <- "(?i)(post[- ]?natal\\s*day\\s*\\d+(?:-\\d+)?)\\s+(.+)"
+  has_embedded <- !is.na(tissue_raw) &
+    grepl(embedded_pattern, tissue_raw, perl = TRUE)
+
+  if (any(has_embedded)) {
+    matched <- tissue_raw[has_embedded]
+
+    # Extract age string (first capture group)
+    age_str <- gsub(embedded_pattern, "\\1", matched, perl = TRUE)
+    # Extract tissue string (second capture group)
+    tissue_str <- gsub(embedded_pattern, "\\2", matched, perl = TRUE)
+
+    # Check if the age is a range (e.g. "7-10")
+    range_pattern <- "(\\d+)-(\\d+)"
+    is_range <- grepl(range_pattern, age_str, perl = TRUE)
+
+    for (idx in seq_along(matched)) {
+      age_raw[has_embedded][idx]    <- matched[idx]
+      tissue_raw[has_embedded][idx] <- tissue_str[idx]
+
+      if (is_range[idx]) {
+        lo <- as.integer(gsub(
+          paste0(".*", range_pattern, ".*"), "\\1",
+          age_str[idx], perl = TRUE
+        ))
+        hi <- as.integer(gsub(
+          paste0(".*", range_pattern, ".*"), "\\2",
+          age_str[idx], perl = TRUE
+        ))
+        age_lower[has_embedded][idx] <- lo
+        age_upper[has_embedded][idx] <- hi
+      } else {
+        single <- suppressWarnings(
+          as.integer(gsub(".*?(\\d+).*", "\\1",
+                          age_str[idx], perl = TRUE))
+        )
+        age_lower[has_embedded][idx] <- single
+        age_upper[has_embedded][idx] <- single
+      }
+    }
+
     message(
-      "  PRJNA637874: extracted age from tissue string for ",
-      sum(match_rows), " row(s)"
+      "  Extracted age from tissue string for ",
+      sum(has_embedded), " row(s) (",
+      sum(is_range), " range(s))"
     )
   }
-  list(tissue = tissue_raw, age_days = age_days, age_raw = age_raw)
+
+  list(
+    tissue    = tissue_raw,
+    age_lower = age_lower,
+    age_upper = age_upper,
+    age_raw   = age_raw
+  )
 }
 
 # ---------------------------------------------------------------------------
@@ -326,7 +390,8 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
 
   # -- sample_type -----------------------------------------------------------
   out[["sample_type"]] <- .derive_sample_type(
-    .coalesce_columns(raw, c("source_name"))
+    .coalesce_columns(raw, c("source_name")),
+    sample_type_map
   )
 
   # -- genotype ----------------------------------------------------------
@@ -339,6 +404,9 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   )
   out[["genotype"]] <- ifelse(is.na(raw_genotype), "NP", raw_genotype)
 
+  # Track mapping failures — script will error at end if any UNMAPPED remain
+  mapping_failures <- character(0)
+
   # -- underlying_variant --------------------------------------------------
   # NA is correct for wild-type (no mutated PKD gene, not applicable)
   # NA is also correct for PRJNA805541/805542 (control.or.cystic maps to NA)
@@ -347,15 +415,17 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     underlying_variant_map,
     na_value = "NP"
   )
-  # Remap UNMAPPED to flag loudly in the output
   n_unmapped_geno <- sum(
     out[["underlying_variant"]] == "UNMAPPED", na.rm = TRUE
   )
   if (n_unmapped_geno > 0L) {
-    warning(
-      bioproject_id, ": ", n_unmapped_geno,
-      " underlying_variant value(s) could not be mapped. ",
-      "Add them to underlying_variant_map in 05_transform_metadata.R."
+    mapping_failures <- c(
+      mapping_failures,
+      paste0(
+        bioproject_id, ": ", n_unmapped_geno,
+        " underlying_variant value(s) could not be mapped. ",
+        "Add them to underlying_variant_map in 05_transform_metadata.R."
+      )
     )
   }
 
@@ -379,23 +449,70 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # Normalize capitalization variants before PRJNA637874 fix
   raw_tissue[!is.na(raw_tissue) & raw_tissue == "Kidney"] <- "kidney"
 
-  # -- age_raw and age -------------------------------------------------------
-  raw_age     <- .coalesce_columns(raw, c("age"))
-  age_days    <- .parse_age_days(raw_age)
+  # -- age_raw, age_range_lower, and age_range_upper -------------------------
+  # All ages are stored as ranges with lower and upper bounds.
+  # Single ages (e.g. postnatal day 21) have lower == upper == 21.
+  # Age ranges (e.g. postnatal day 7-10) have lower = 7, upper = 10.
+  # This allows PostgreSQL to store as a native range type downstream.
+  raw_age         <- .coalesce_columns(raw, c("age"))
+  age_lower       <- rep(NA_integer_, nrow(raw))
+  age_upper       <- rep(NA_integer_, nrow(raw))
 
-  # PRJNA637874: extract age from embedded tissue string
-  fixed <- .fix_prjna637874_tissue(raw_tissue, age_days, raw_age)
+  # Parse single postnatal day values — exclude range strings (e.g. "7-10")
+  # by requiring no dash after the number
+  single_days <- .parse_age_days(raw_age)
+  # Mark as single only if raw_age is not a range pattern
+  is_range_str  <- !is.na(raw_age) &
+    grepl(range_pattern, raw_age, perl = TRUE)
+  has_single    <- !is.na(single_days) & !is_range_str
+  age_lower[has_single] <- single_days[has_single]
+  age_upper[has_single] <- single_days[has_single]
+
+  # Parse postnatal day ranges (e.g. "postnatal day 7-10")
+  range_pattern <- "(?i)post[- ]?natal\\s*day\\s*(\\d+)-(\\d+)"
+  has_range     <- !is.na(raw_age) &
+    grepl(range_pattern, raw_age, perl = TRUE)
+  if (any(has_range)) {
+    lo <- as.integer(gsub(range_pattern, "\\1",
+                          raw_age[has_range], perl = TRUE))
+    hi <- as.integer(gsub(range_pattern, "\\2",
+                          raw_age[has_range], perl = TRUE))
+    age_lower[has_range] <- lo
+    age_upper[has_range] <- hi
+  }
+
+  # Extract age from tissue strings where age was embedded by the submitter
+  fixed <- .extract_age_from_tissue(
+    raw_tissue, age_lower, age_upper, raw_age
+  )
   raw_tissue  <- fixed$tissue
-  age_days    <- fixed$age_days
+  age_lower   <- fixed$age_lower
+  age_upper   <- fixed$age_upper
   raw_age_out <- fixed$age_raw
 
-  out[["tissue"]]  <- ifelse(is.na(raw_tissue), "NP", raw_tissue)
-  out[["age"]]     <- ifelse(is.na(age_days),   "NP", as.character(age_days))
-  out[["age_raw"]] <- ifelse(is.na(raw_age_out), "NP", raw_age_out)
+  out[["tissue"]]          <- ifelse(is.na(raw_tissue), "NP", raw_tissue)
+  out[["age_raw"]]         <- ifelse(is.na(raw_age_out), "NP", raw_age_out)
+  out[["age_range_lower"]] <- ifelse(
+    is.na(age_lower), "NP", as.character(age_lower)
+  )
+  out[["age_range_upper"]] <- ifelse(
+    is.na(age_upper), "NP", as.character(age_upper)
+  )
 
   # -- sex -------------------------------------------------------------------
-  # Sex.x from SRA runinfo is always blank; Sex.y from BioSample has values.
-  # Consolidate by taking the first non-NA across Sex.y then Sex.
+  # sex.y from BioSample has the real values; sex.x from SRA runinfo is
+  # expected to be blank. Warn if sex.x has unexpected values so future
+  # datasets with populated sex.x are not silently dropped.
+  if ("sex.x" %in% colnames(raw)) {
+    sex_x_vals <- raw[["sex.x"]][!is.na(raw[["sex.x"]]) &
+                                    trimws(raw[["sex.x"]]) != ""]
+    if (length(sex_x_vals) > 0L) {
+      warning(
+        bioproject_id, ": sex.x has ", length(sex_x_vals),
+        " non-blank value(s) — review whether sex.y still takes priority."
+      )
+    }
+  }
   raw_sex <- .coalesce_columns(raw, c("sex.y", "sex"))
   out[["sex"]] <- ifelse(is.na(raw_sex), "NP", tolower(trimws(raw_sex)))
 
@@ -414,10 +531,21 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     out[["treatment_group"]] == "UNMAPPED", na.rm = TRUE
   )
   if (n_unmapped_trt > 0L) {
-    warning(
-      bioproject_id, ": ", n_unmapped_trt,
-      " treatment_group value(s) could not be mapped. ",
-      "Add them to treatment_group_map in 05_transform_metadata.R."
+    mapping_failures <- c(
+      mapping_failures,
+      paste0(
+        bioproject_id, ": ", n_unmapped_trt,
+        " treatment_group value(s) could not be mapped. ",
+        "Add them to treatment_group_map in 05_transform_metadata.R."
+      )
+    )
+  }
+
+  # Error if any mapping failures occurred so they are not silently missed
+  if (length(mapping_failures) > 0L) {
+    stop(
+      "Mapping failures detected — fix lookup tables before proceeding:\n",
+      paste(mapping_failures, collapse = "\n")
     )
   }
 
@@ -432,7 +560,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     "sample_type",
     "underlying_variant", "genotype",
     "strain", "strain_raw",
-    "tissue", "age", "age_raw",
+    "tissue", "age_raw", "age_range_lower", "age_range_upper",
     "sex", "treatment", "treatment_group"
   )
 
@@ -478,6 +606,12 @@ transform_metadata(bioproject_id, input_path, output_dir)
 
 # ---------------------------------------------------------------------------
 # Session info (required by project coding guidelines)
+# Written to a file so reviewers can access it without log file access.
 # ---------------------------------------------------------------------------
+session_info_path <- file.path(output_dir, "..", "session_info.txt")
+session_info_path <- normalizePath(session_info_path, mustWork = FALSE)
 message("\n--- Session Info ---")
-sessionInfo()
+session_info <- sessionInfo()
+print(session_info)
+writeLines(capture.output(print(session_info)), session_info_path)
+message("Session info written to: ", session_info_path)
