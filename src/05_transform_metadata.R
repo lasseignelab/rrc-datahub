@@ -6,16 +6,15 @@
 ##       vocabulary fields, and derived biological annotations.
 ## Reproducibility:
 # * GitHub: lasseignelab/rrc-datahub
-# * Docker: acrumley/rrc-datahub:0.1.0
 #
 ## Harmonization rules applied:
 # * Column names lowercased and standardized
 # * Genotype consolidated from genotype / genotype.variation /
-#   control.or.cystic into genotype_raw; causal gene extracted into
-#   genotype_gene via explicit lookup table
+#   control.or.cystic into genotype; causal gene extracted into
+#   underlying_variant via explicit lookup table
 # * Strain consolidated from strain / strain.background /
 #   background.strain into strain_raw; spelling normalized in
-#   strain_normalized
+#   strain
 # * Tissue normalized to controlled vocabulary; age embedded in tissue
 #   string for PRJNA637874 is split out
 # * Age converted from free-text postnatal day strings to integer days
@@ -60,7 +59,7 @@ message("Starting metadata transformation for ", bioproject_id)
 # wild-type : sample has no PKD-related mutation
 # NA        : genotype concept not applicable (control.or.cystic projects)
 # UNMAPPED  : written at runtime for any string absent from this table
-genotype_gene_map <- c(
+underlying_variant_map <- c(
   # PRJNA285844
   "wild-type"                              = "wild-type",
   "Pkhd1Cre; Pkd2 F/F"                   = "Pkd2",
@@ -296,31 +295,31 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     run            = .coalesce_columns(raw, c("run")),
     bioproject     = .coalesce_columns(raw, c("bioproject")),
     biosample      = .coalesce_columns(raw, c("biosample")),
-    samplename     = .coalesce_columns(raw, c("samplename")),
+    sample_name     = .coalesce_columns(raw, c("samplename")),
     experiment     = .coalesce_columns(raw, c("experiment")),
-    srastudy       = .coalesce_columns(raw, c("srastudy")),
+    sra_study       = .coalesce_columns(raw, c("srastudy")),
     submission     = .coalesce_columns(raw, c("submission")),
-    releasedate    = .coalesce_columns(raw, c("releasedate")),
-    loaddate       = .coalesce_columns(raw, c("loaddate")),
+    release_date    = .coalesce_columns(raw, c("releasedate")),
+    load_date       = .coalesce_columns(raw, c("loaddate")),
     bases          = .coalesce_columns(raw, c("bases")),
     spots          = .coalesce_columns(raw, c("spots")),
-    avglength      = .coalesce_columns(raw, c("avglength")),
+    avg_length      = .coalesce_columns(raw, c("avglength")),
     size_mb        = .coalesce_columns(raw, c("size_mb")),
-    librarylayout  = .coalesce_columns(raw, c("librarylayout")),
+    library_layout  = .coalesce_columns(raw, c("librarylayout")),
     platform       = .coalesce_columns(raw, c("platform")),
     model          = .coalesce_columns(raw, c("model")),
     fastq_ftp      = .coalesce_columns(raw, c("fastq_ftp")),
     fastq_md5      = .coalesce_columns(raw, c("fastq_md5")),
-    runhash        = .coalesce_columns(raw, c("runhash")),
-    readhash       = .coalesce_columns(raw, c("readhash")),
-    taxid          = .coalesce_columns(raw, c("taxid")),
-    scientificname = .coalesce_columns(raw, c("scientificname")),
+    run_hash        = .coalesce_columns(raw, c("runhash")),
+    read_hash       = .coalesce_columns(raw, c("readhash")),
+    tax_id          = .coalesce_columns(raw, c("taxid")),
+    scientific_name = .coalesce_columns(raw, c("scientificname")),
     source_name    = .coalesce_columns(raw, c("source_name")),
     stringsAsFactors = FALSE
   )
 
   # Replace any remaining NA in pass-through columns with NP
-  # (information exists but was not submitted by the depositor)
+  # (not provided by the depositor)
   for (col in colnames(out)) {
     out[[col]][is.na(out[[col]])] <- "NP"
   }
@@ -330,7 +329,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     .coalesce_columns(raw, c("source_name"))
   )
 
-  # -- genotype_raw ----------------------------------------------------------
+  # -- genotype ----------------------------------------------------------
   # Priority: genotype > genotype.variation > control.or.cystic
   # control.or.cystic encodes disease status not allele identity so it maps
   # to NA in genotype_gene (see lookup table) but is still preserved here.
@@ -338,23 +337,25 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     raw,
     c("genotype", "genotype.variation", "control.or.cystic")
   )
-  out[["genotype_raw"]] <- ifelse(is.na(raw_genotype), "NP", raw_genotype)
+  out[["genotype"]] <- ifelse(is.na(raw_genotype), "NP", raw_genotype)
 
-  # -- genotype_gene ---------------------------------------------------------
+  # -- underlying_variant --------------------------------------------------
   # NA is correct for wild-type (no mutated PKD gene, not applicable)
   # NA is also correct for PRJNA805541/805542 (control.or.cystic maps to NA)
-  out[["genotype_gene"]] <- .apply_lookup(
+  out[["underlying_variant"]] <- .apply_lookup(
     raw_genotype,
-    genotype_gene_map,
+    underlying_variant_map,
     na_value = "NP"
   )
   # Remap UNMAPPED to flag loudly in the output
-  n_unmapped_geno <- sum(out[["genotype_gene"]] == "UNMAPPED", na.rm = TRUE)
+  n_unmapped_geno <- sum(
+    out[["underlying_variant"]] == "UNMAPPED", na.rm = TRUE
+  )
   if (n_unmapped_geno > 0L) {
     warning(
       bioproject_id, ": ", n_unmapped_geno,
-      " genotype_gene value(s) could not be mapped. ",
-      "Add them to genotype_gene_map in 05_transform_metadata.R."
+      " underlying_variant value(s) could not be mapped. ",
+      "Add them to underlying_variant_map in 05_transform_metadata.R."
     )
   }
 
@@ -371,7 +372,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     strain_norm[!is.na(strain_norm) & strain_norm == variant] <-
       strain_norm_map[[variant]]
   }
-  out[["strain_normalized"]] <- ifelse(is.na(strain_norm), "NP", strain_norm)
+  out[["strain"]] <- ifelse(is.na(strain_norm), "NP", strain_norm)
 
   # -- tissue ----------------------------------------------------------------
   raw_tissue <- .coalesce_columns(raw, c("tissue"))
@@ -422,15 +423,15 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
 
   # -- Final column order (must match column reference exactly) --------------
   final_cols <- c(
-    "run", "bioproject", "biosample", "samplename", "experiment",
-    "srastudy", "submission", "releasedate", "loaddate",
-    "bases", "spots", "avglength", "size_mb",
-    "librarylayout", "platform", "model",
-    "fastq_ftp", "fastq_md5", "runhash", "readhash",
-    "taxid", "scientificname", "source_name",
+    "run", "bioproject", "biosample", "sample_name", "experiment",
+    "sra_study", "submission", "release_date", "load_date",
+    "bases", "spots", "avg_length", "size_mb",
+    "library_layout", "platform", "model",
+    "fastq_ftp", "fastq_md5", "run_hash", "read_hash",
+    "tax_id", "scientific_name", "source_name",
     "sample_type",
-    "genotype_gene", "genotype_raw",
-    "strain_normalized", "strain_raw",
+    "underlying_variant", "genotype",
+    "strain", "strain_raw",
     "tissue", "age", "age_raw",
     "sex", "treatment", "treatment_group"
   )

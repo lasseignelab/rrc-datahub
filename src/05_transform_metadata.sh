@@ -8,14 +8,13 @@
 ##       One transformed TSV is produced per BioProject.
 ## Reproducibility:
 # * GitHub: lasseignelab/rrc-datahub
-# * Docker: acrumley/rrc-datahub:0.1.0
 #
 # Inputs:
 #   - doc/geo_datasets.csv                  : list of BioProject accession IDs
 #   - data/raw-data/<ID>/<ID>_metadata.tsv  : raw metadata from 01_geo_download.R
 #
 # Outputs:
-#   - results/<ID>/<ID>_transformed.tsv     : harmonized metadata TSV per project
+#   - results/transformed-metadata/<ID>/<ID>_transformed.tsv : harmonized metadata TSV per project
 #
 # Usage (from project root):
 #   cap run -e default -s batch src/05_transform_metadata.sh
@@ -24,7 +23,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=4G
-#SBATCH --time=12:00:00
+#SBATCH --time=1:00:00
 #SBATCH --partition=short
 #SBATCH --array=0-13
 
@@ -33,7 +32,7 @@
 # ---------------------------------------------------------------------------
 DATASET=$(cap_array_value "${CAP_PROJECT_PATH}/doc/geo_datasets.csv")
 INFILE="${CAP_DATA_PATH}/raw-data/${DATASET}/${DATASET}_metadata.tsv"
-OUTDIR="${CAP_RESULTS_PATH}/${DATASET}"
+OUTDIR="${CAP_RESULTS_PATH}/transformed-metadata/${DATASET}"
 
 echo "Processing dataset: ${DATASET}"
 mkdir -p "${OUTDIR}"
@@ -63,7 +62,8 @@ cap_container "acrumley/rrc-datahub:0.1.0"
 singularity exec --cleanenv \
                  --containall \
                  -B "${CAP_PROJECT_PATH}" \
-                 --pwd "${CAP_PROJECT_PATH}" \
+                 -B "/data/project/lasseigne_lab" \
+		 --pwd "${CAP_PROJECT_PATH}" \
                  "${CAP_CONTAINER_PATH}"/rrc-datahub_0.1.0.sif \
                  Rscript --vanilla "${CAP_PROJECT_PATH}"/src/05_transform_metadata.R \
                  "${DATASET}" \
