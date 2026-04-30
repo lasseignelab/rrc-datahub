@@ -505,7 +505,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # datasets with populated sex.x are not silently dropped.
   if ("sex.x" %in% colnames(raw)) {
     sex_x_vals <- raw[["sex.x"]][!is.na(raw[["sex.x"]]) &
-                                    trimws(raw[["sex.x"]]) != ""]
+                                   trimws(raw[["sex.x"]]) != ""]
     if (length(sex_x_vals) > 0L) {
       warning(
         bioproject_id, ": sex.x has ", length(sex_x_vals),
