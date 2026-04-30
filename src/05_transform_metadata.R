@@ -458,6 +458,9 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   age_lower       <- rep(NA_integer_, nrow(raw))
   age_upper       <- rep(NA_integer_, nrow(raw))
 
+  # Pattern for postnatal day ranges used for both detection and extraction
+  range_pattern <- "(?i)post[- ]?natal\\s*day\\s*(\\d+)-(\\d+)"
+
   # Parse single postnatal day values — exclude range strings (e.g. "7-10")
   # by requiring no dash after the number
   single_days <- .parse_age_days(raw_age)
@@ -469,7 +472,6 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   age_upper[has_single] <- single_days[has_single]
 
   # Parse postnatal day ranges (e.g. "postnatal day 7-10")
-  range_pattern <- "(?i)post[- ]?natal\\s*day\\s*(\\d+)-(\\d+)"
   has_range     <- !is.na(raw_age) &
     grepl(range_pattern, raw_age, perl = TRUE)
   if (any(has_range)) {
@@ -505,7 +507,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # datasets with populated sex.x are not silently dropped.
   if ("sex.x" %in% colnames(raw)) {
     sex_x_vals <- raw[["sex.x"]][!is.na(raw[["sex.x"]]) &
-                                   trimws(raw[["sex.x"]]) != ""]
+                                    trimws(raw[["sex.x"]]) != ""]
     if (length(sex_x_vals) > 0L) {
       warning(
         bioproject_id, ": sex.x has ", length(sex_x_vals),
