@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --time=48:00:00
 #SBATCH --partition=medium
-#SBATCH --array=0-13
+#SBATCH --array=0-13%3
 
 # The results of the nf-core/rnaseq pipeline are not fully reproducible.
 # Processed outputs will be available on Zenodo to allow for downstream
