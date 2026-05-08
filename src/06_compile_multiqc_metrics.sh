@@ -20,7 +20,7 @@ singularity exec --cleanenv \
                  -B "${CAP_PROJECT_PATH}" \
                  -B "${REAL_RNASEQ_PATH}:${RNASEQ_DATA_PATH}" \
                  "${CAP_CONTAINER_PATH}"/sn-ml-drug-repurposing_2.1.0.sif \
-                 python3 -u "${CAP_PROJECT_PATH}"/src/05_compile_multiqc_metrics.py \
+                 python3 -u "${CAP_PROJECT_PATH}"/src/06_compile_multiqc_metrics.py \
                      --data-path "${RNASEQ_DATA_PATH}" \
                      --datasets-file "${CAP_PROJECT_PATH}"/doc/geo_datasets.csv \
                      --output "${OUTPUT_FILE}"
