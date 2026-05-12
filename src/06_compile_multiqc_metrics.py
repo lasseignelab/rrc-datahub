@@ -87,8 +87,8 @@ def main():
         stats_file = os.path.join(args.data_path, name, multiqc_stats_relative)
         if not os.path.isfile(stats_file):
             print(
-                f"Processed {num_samples} samples across "
-                f"{num_datasets} datasets.",
+                f"[ERROR] multiqc_general_stats.txt not found for dataset "
+                f"'{name}': {stats_file}",
                 file=sys.stderr,
             )
             sys.exit(1)
