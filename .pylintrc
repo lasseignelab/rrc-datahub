@@ -1,0 +1,6 @@
+[MASTER]
+module-rgx=^[a-z0-9_]+$
+
+[MESSAGES CONTROL]
+disable=E0401
+
