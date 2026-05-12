@@ -9,16 +9,14 @@ output directories. Produces a single CSV where each row is one dataset. Script
 expects the multiqc_general_stats.txt file for every dataset in
 data/nfcore_rnaseq/<dataset_dir>/multiqc/star_salmon/multiqc_report_data/
 """
-print("Setting up for analysis ...")
 import argparse
 import os
 import re
 import sys
 from pathlib import Path
-from typing import Optional
-import numpy as np
 import pandas as pd
 
+print("Setting up for QC metadata compilation ...")
 multiqc_stats_relative = os.path.join(
     "multiqc", "star_salmon", "multiqc_report_data", "multiqc_general_stats.txt"
 )
@@ -88,7 +86,11 @@ def main():
     for name in dataset_names:
         stats_file = os.path.join(args.data_path, name, multiqc_stats_relative)
         if not os.path.isfile(stats_file):
-            print(f"[ERROR] multiqc_general_stats.txt not found for dataset '{name}': {stats_file}", file=sys.stderr)
+            print(
+                f"Processed {num_samples} samples across "
+                f"{num_datasets} datasets.",
+                file=sys.stderr,
+            )
             sys.exit(1)
 
         print(f"[INFO] Processing '{name}' -> {stats_file}")
@@ -128,7 +130,7 @@ def main():
 def load_general_stats(path: str) -> pd.DataFrame:
     """
     Load multiqc_general_stats.txt and collapse per-sample rows, because MultiQC
-    sometimes splits one sample across multiple rows with suffixes (i.e., 
+    sometimes splits one sample across multiple rows with suffixes (i.e.,
     SAMPLE_ID, SAMPLE_ID_1, SAMPLE_ID_2). Return one row per unique sample.
     """
     df = pd.read_csv(path, sep="\t", index_col=0)
