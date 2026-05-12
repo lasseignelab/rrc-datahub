@@ -9,7 +9,6 @@ output directories. Produces a single CSV where each row is one dataset. Script
 expects the multiqc_general_stats.txt file for every dataset in
 data/nfcore_rnaseq/<dataset_dir>/multiqc/star_salmon/multiqc_report_data/
 """
-print("Setting up for analysis ...")
 import argparse
 import os
 import re
@@ -17,6 +16,7 @@ import sys
 from pathlib import Path
 import pandas as pd
 
+print("Setting up for analysis ...")
 sum_columns = {
     "fastqc_raw-total_sequences",
     "fastqc_trimmed-total_sequences",
