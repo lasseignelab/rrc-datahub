@@ -133,7 +133,7 @@ def main():
 def load_general_stats(path: str) -> pd.DataFrame:
     """
     Load multiqc_general_stats.txt and collapse per-sample rows, because MultiQC
-    sometimes splits one sample across multiple rows with suffixes (i.e., 
+    sometimes splits one sample across multiple rows with suffixes (i.e.,
     SAMPLE_ID, SAMPLE_ID_1, SAMPLE_ID_2). Return one row per unique sample.
     """
     df = pd.read_csv(path, sep="\t", index_col=0)
