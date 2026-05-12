@@ -5,7 +5,7 @@
 #SBATCH --partition=express
 
 echo "Getting Docker image ..."
-cap_container -c singularity "tsoelter/sn-ml-drug-repurposing:2.1.0"
+cap_container -c singularity "tsoelter/rrc-datahub:0.2.0"
 
 echo "Setting up for analysis ..."
 OUTPUT_DIR="${CAP_RESULTS_PATH}/multiqc"
@@ -18,7 +18,7 @@ singularity exec --cleanenv \
                  --containall \
                  -B "${CAP_PROJECT_PATH}" \
                  -B "${REAL_RNASEQ_PATH}" \
-                 "${CAP_CONTAINER_PATH}"/sn-ml-drug-repurposing_2.1.0.sif \
+                 "${CAP_CONTAINER_PATH}"/rrc-datahub_0.2.0.sif \
                  python3 -u "${CAP_PROJECT_PATH}"/src/06_compile_multiqc_metrics.py \
                      --data-path "${REAL_RNASEQ_PATH}" \
                      --datasets-file "${CAP_PROJECT_PATH}"/doc/geo_datasets.csv \
