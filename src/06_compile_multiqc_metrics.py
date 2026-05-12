@@ -16,11 +16,7 @@ import sys
 from pathlib import Path
 import pandas as pd
 
-print("Setting up for QC metadata compilation ...")
-multiqc_stats_relative = os.path.join(
-    "multiqc", "star_salmon", "multiqc_report_data", "multiqc_general_stats.txt"
-)
-
+print("Setting up for analysis ...")
 sum_columns = {
     "fastqc_raw-total_sequences",
     "fastqc_trimmed-total_sequences",
@@ -39,6 +35,9 @@ sum_columns = {
 
 
 def main():
+    """
+    Parse arguments, compile dataset-level MultiQC stats, and write output CSV.
+    """
     parser = argparse.ArgumentParser(
         description="Compile MultiQC stats across nf-core/rnaseq datasets."
     )
@@ -84,7 +83,11 @@ def main():
     rows = []
 
     for name in dataset_names:
-        stats_file = os.path.join(args.data_path, name, multiqc_stats_relative)
+        stats_file = os.path.join(
+            args.data_path, name,
+            "multiqc", "star_salmon", "multiqc_report_data",
+            "multiqc_general_stats.txt"
+        )
         if not os.path.isfile(stats_file):
             print(
                 f"[ERROR] multiqc_general_stats.txt not found for dataset "
@@ -130,13 +133,14 @@ def main():
 def load_general_stats(path: str) -> pd.DataFrame:
     """
     Load multiqc_general_stats.txt and collapse per-sample rows, because MultiQC
-    sometimes splits one sample across multiple rows with suffixes (i.e.,
+    sometimes splits one sample across multiple rows with suffixes (i.e., 
     SAMPLE_ID, SAMPLE_ID_1, SAMPLE_ID_2). Return one row per unique sample.
     """
     df = pd.read_csv(path, sep="\t", index_col=0)
 
-    df.index = [re.sub(r"_[12]$", "", idx) for idx in df.index]
-    df.index.name = "Sample"
+    df.index = pd.Index(
+        [re.sub(r"_[12]$", "", idx) for idx in df.index], name="Sample"
+    )
 
     df = df.groupby(df.index, sort=False).first()
 
@@ -196,7 +200,7 @@ def parse_datasets_file(path: str) -> list:
     - For CSV files, reads only the first column.
     """
     datasets = []
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line or line.startswith("#"):
