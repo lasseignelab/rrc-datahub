@@ -9,6 +9,7 @@ output directories. Produces a single CSV where each row is one dataset. Script
 expects the multiqc_general_stats.txt file for every dataset in
 data/nfcore_rnaseq/<dataset_dir>/multiqc/star_salmon/multiqc_report_data/
 """
+print("Setting up for analysis ...")
 import argparse
 import os
 import re
@@ -16,7 +17,6 @@ import sys
 from pathlib import Path
 import pandas as pd
 
-print("Setting up for analysis ...")
 sum_columns = {
     "fastqc_raw-total_sequences",
     "fastqc_trimmed-total_sequences",
@@ -36,7 +36,7 @@ sum_columns = {
 
 def main():
     """
-    Parse arguments, compile dataset-level MultiQC stats, and write output CSV.
+    Parse arguments, compile MultiQC stats across datasets, and write output CSV.
     """
     parser = argparse.ArgumentParser(
         description="Compile MultiQC stats across nf-core/rnaseq datasets."
@@ -75,14 +75,12 @@ def main():
     )
     args = parser.parse_args()
 
-    sep = args.sep.replace("\\t", "\t")
-    shorten = not args.no_shorten
-
     dataset_names = parse_datasets_file(args.datasets_file)
 
     rows = []
 
     for name in dataset_names:
+        # Construct the expected stats path directly; exit if it doesn't exist
         stats_file = os.path.join(
             args.data_path, name,
             "multiqc", "star_salmon", "multiqc_report_data",
@@ -101,10 +99,10 @@ def main():
         df = load_general_stats(stats_file)
         n_samples = len(df)
 
-        df_for_agg = shorten_columns(df) if shorten else df.copy()
+        df_for_agg = shorten_columns(df) if not args.no_shorten else df.copy()
         agg = aggregate_metrics(df_for_agg)
 
-        if not shorten:
+        if args.no_shorten:
             reverse_map = {_shorten(c): c for c in df.columns}
             agg.index = [
                 (reverse_map.get(col[:-4], col[:-4]) + "_avg")
@@ -127,7 +125,7 @@ def main():
 
     print("Saving final results ...")
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(args.output, sep=sep, index=False)
+    summary.to_csv(args.output, sep=args.sep.replace("\\t", "\t"), index=False)
 
 
 def load_general_stats(path: str) -> pd.DataFrame:
