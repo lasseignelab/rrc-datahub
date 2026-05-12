@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --ntasks=1            
 #SBATCH --time=01:00:00                    
 #SBATCH --mem=12G
@@ -18,11 +17,11 @@ echo "Compiling multiQC metrics ..."
 singularity exec --cleanenv \
                  --containall \
                  -B "${CAP_PROJECT_PATH}" \
-                 -B "${REAL_RNASEQ_PATH}:${RNASEQ_DATA_PATH}" \
+                 -B "${REAL_RNASEQ_PATH}" \
                  "${CAP_CONTAINER_PATH}"/sn-ml-drug-repurposing_2.1.0.sif \
                  python3 -u "${CAP_PROJECT_PATH}"/src/06_compile_multiqc_metrics.py \
-                     --data-path "${RNASEQ_DATA_PATH}" \
+                     --data-path "${REAL_RNASEQ_PATH}" \
                      --datasets-file "${CAP_PROJECT_PATH}"/doc/geo_datasets.csv \
                      --output "${OUTPUT_FILE}"
 
-echo "\tResults written to: ${OUTPUT_FILE}"
+echo "Results written to: ${OUTPUT_FILE}"
