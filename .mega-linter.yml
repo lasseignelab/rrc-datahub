@@ -35,3 +35,7 @@ PRE_COMMANDS:
     cwd: workspace
   - command: python -c "import sys; print('\n'.join(sys.path))"
     cwd: workspace
+  - command: which pylint && pylint --version
+    cwd: workspace
+  - command: pylint --init-hook="import sys; print('pylint sys.path:', sys.path)" --errors-only src/06_compile_multiqc_metrics.py
+    cwd: workspace
