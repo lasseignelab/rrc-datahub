@@ -29,3 +29,7 @@ FILEIO_REPORTER: false
 
 # Uncomment if you want MegaLinter to detect errors but not block CI to pass
 # DISABLE_ERRORS: true
+
+PRE_COMMANDS:
+  - command: pip3 install --break-system-packages numpy pandas
+    cwd: workspace
