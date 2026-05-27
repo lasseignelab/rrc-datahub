@@ -30,7 +30,7 @@ FILEIO_REPORTER: false
 # Uncomment if you want MegaLinter to detect errors but not block CI to pass
 # DISABLE_ERRORS: true
 
-PRE_COMMANDS:
+PYTHON_PYLINT_PRE_COMMANDS:
   - command: pip install numpy pandas
     cwd: workspace
   - command: python -c "import sys; print('\n'.join(sys.path))"
