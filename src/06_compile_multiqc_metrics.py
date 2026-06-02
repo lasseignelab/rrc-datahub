@@ -80,7 +80,6 @@ def main():
     rows = []
 
     for name in dataset_names:
-        # Construct the expected stats path directly; exit if it doesn't exist
         stats_file = os.path.join(
             args.data_path, name,
             "multiqc", "star_salmon", "multiqc_report_data",
