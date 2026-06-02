@@ -132,12 +132,12 @@ def load_general_stats(path: str) -> pd.DataFrame:
     """
     Load multiqc_general_stats.txt and collapse per-sample rows, because MultiQC
     sometimes splits one sample across multiple rows with suffixes (i.e.,
-    SAMPLE_ID, SAMPLE_ID_1, SAMPLE_ID_2). Return one row per unique sample.
+    SAMPLE_ID Read 1, SAMPLE_ID Read 2). Return one row per unique sample.
     """
     df = pd.read_csv(path, sep="\t", index_col=0)
 
     df.index = pd.Index(
-        [re.sub(r"_[12]$", "", idx) for idx in df.index], name="Sample"
+        [re.sub(r"(_\d+| Read \d+)$", "", idx) for idx in df.index], name="Sample"
     )
 
     df = df.groupby(df.index, sort=False).first()
