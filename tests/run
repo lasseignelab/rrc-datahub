@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cap_container "acrumley/rrc-datahub:0.1.1"
+
+singularity exec --cleanenv \
+                 --containall \
+                 -B "$(pwd)":/project \
+                 --pwd /project\
+                 bin/container/rrc-datahub_0.1.1.sif \
+                 Rscript -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'

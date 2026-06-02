@@ -1,0 +1,21 @@
+name: R Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: acrumley/rrc-datahub:0.1.1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          Rscript -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
