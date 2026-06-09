@@ -68,11 +68,7 @@ def main():
         default=",",
         help="Delimiter for the output file. Use '\\t' for TSV (default: ',').",
     )
-    parser.add_argument(
-        "--no-shorten",
-        action="store_true",
-        help="Keep original verbose MultiQC column names.",
-    )
+
     args = parser.parse_args()
 
     dataset_names = parse_datasets_file(args.datasets_file)
@@ -98,19 +94,7 @@ def main():
         df = load_general_stats(stats_file)
         n_samples = len(df)
 
-        df_for_agg = shorten_columns(df) if not args.no_shorten else df.copy()
-        agg = aggregate_metrics(df_for_agg)
-
-        if args.no_shorten:
-            reverse_map = {_shorten(c): c for c in df.columns}
-            agg.index = [
-                (reverse_map.get(col[:-4], col[:-4]) + "_avg")
-                if col.endswith("_avg") and col[:-4] in reverse_map
-                else (reverse_map.get(col[:-4], col[:-4]) + "_sum")
-                if col.endswith("_sum") and col[:-4] in reverse_map
-                else col
-                for col in agg.index
-            ]
+        agg = aggregate_metrics(df)
 
         agg["dataset"] = name
         agg["n_samples"] = n_samples
@@ -144,27 +128,10 @@ def load_general_stats(path: str) -> pd.DataFrame:
     return df
 
 
-def _shorten(col: str) -> str:
-    """
-    Strip the verbose MultiQC module prefix from a column name.
-    """
-    parts = col.split("_mqc-generalstats-", 1)
-    return parts[-1] if len(parts) > 1 else col
-
-
-def shorten_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Return df with shortened MultiQC column names applied.
-    """
-    df = df.copy()
-    df.columns = [_shorten(c) for c in df.columns]
-    return df
-
-
 def aggregate_metrics(df: pd.DataFrame) -> pd.Series:
     """
     Aggregate numeric columns across samples:
-      - Sum columns whose (already-shortened) name is in sum_columns.
+      - Sum columns whose name is in sum_columns.
       - Average all other numeric columns (percentages, rates, etc.)
 
     Returns a single Series with aggregated values, suffixed _sum or _avg.
