@@ -27,6 +27,8 @@ conda activate rrc-datahub-nextflow-v26_04_0
 working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
 mkdir -p "$working_directory"
 
+export NXF_CACHE_DIR="$working_directory"
+
 nextflow run nf-core/rnaseq -r 3.25.0 \
     -c "${CAP_PROJECT_PATH}/config/nextflow.config" \
     --input "${samplesheet}" \
