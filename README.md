@@ -1,12 +1,8 @@
 README
 ================
-2023-02-27
+2026-07-10
 
-**EDIT THIS DOCUMENT, NOT README.md**
-
-# README Template
-
-**\[Replace this header with your project name\]**
+**PKD RRC DataHub**
 
 ## Purpose
 
@@ -25,6 +21,116 @@ the University of Alabama at Birmingham](https://www.lasseigne.org/)
 “Dependencies” or “Scripts” Include a code chunk (if relevant) on what
 your project depends on. Include a “script tree” on how to reproduce
 your results with descriptions for all scripts
+
+## Pipeline Execution Guide
+
+Run each step in order. Each step includes a verification command — run
+it and check the diff before moving to the next step.
+
+### 1. Data download
+
+Downloads raw data from GEO.
+
+``` bash
+cap run -e default -s batch src/01_geo_download.sh
+```
+
+**Verify:**
+
+``` bash
+cap verify verifications/01_geo_download.sh -s batch
+```
+
+Once verification finishes, run:
+
+``` bash
+git diff verifications/01_geo_download.out
+```
+
+### 2. Reference genome download
+
+Downloads the reference genome used for alignment.
+
+``` bash
+cap run -e default -s batch src/02_ref_genome_download.sh
+```
+
+**Verify:**
+
+``` bash
+cap verify verifications/02_ref_genome_download.sh
+```
+
+Once verification finishes, run:
+
+``` bash
+git diff verifications/02_ref_genome_download.out
+```
+
+### 3. Data alignment
+
+Creates the conda environment and generates nf-core/rnaseq samplesheets.
+
+``` bash
+cap run -e default -s batch src/00_create_conda_env.sh
+cap run -e default -s batch src/03_generate_nfcore_rnaseq_samplesheets.sh
+```
+
+Once both finish, run the alignment pipeline:
+
+``` bash
+cap run -e default -s batch src/04_run_nfcore_rnaseq.sh
+```
+
+**Verify:**
+
+``` bash
+cap verify -s batch verifications/04_run_nfcore_rnaseq.sh
+```
+
+Once verification finishes, run:
+
+``` bash
+git diff verifications/04_run_nfcore_rnaseq.out
+```
+
+### 4. Transform metadata
+
+``` bash
+cap run -e default -s batch src/05_transform_metadata.sh
+```
+
+**Verify:**
+
+``` bash
+cap verify verifications/05_transform_metadata.sh -s batch
+```
+
+Once verification finishes, run:
+
+``` bash
+git diff verifications/05_transform_metadata.out
+```
+
+### 5. QC metadata compilation
+
+Compiles MultiQC metrics across datasets.
+
+``` bash
+cap run -e default -s batch src/06_compile_multiqc_metrics.sh
+```
+
+**Verify:**
+
+``` bash
+cap verify verifications/06_compile_multiqc_metrics.sh
+```
+
+Once verification finishes, run:
+
+``` bash
+git diff verifications/06_compile_multiqc_metrics.out
+```
 
 ## Authors
 
