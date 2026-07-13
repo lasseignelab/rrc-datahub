@@ -103,7 +103,7 @@ cap run -e default -s batch src/05_transform_metadata.sh
 **Verify:**
 
 ``` bash
-cap verify verifications/05_transform_metadata.sh -s batch
+cap verify -s batch verifications/05_transform_metadata.sh
 ```
 
 Once verification finishes, run:
