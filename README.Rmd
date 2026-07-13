@@ -39,7 +39,7 @@ cap run -e default -s batch src/01_geo_download.sh
 
 **Verify:**
 ```bash
-cap verify verifications/01_geo_download.sh -s batch
+cap verify -s batch verifications/01_geo_download.sh
 
 ```
 

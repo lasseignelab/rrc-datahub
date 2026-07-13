@@ -1,6 +1,6 @@
 README
 ================
-2026-07-10
+2026-07-13
 
 **PKD RRC DataHub**
 
@@ -38,7 +38,7 @@ cap run -e default -s batch src/01_geo_download.sh
 **Verify:**
 
 ``` bash
-cap verify verifications/01_geo_download.sh -s batch
+cap verify -s batch verifications/01_geo_download.sh
 ```
 
 Once verification finishes, run:
