@@ -29,7 +29,7 @@ mkdir -p "$working_directory"
 
 export NXF_CACHE_DIR="$working_directory"
 
-nextflow run nf-core/rnaseq -r 3.25.0 \
+nextflow run nf-core/rnaseq -r ${NFCORE_RNASEQ_VERSION} \
     -c "${CAP_PROJECT_PATH}/config/nextflow.config" \
     --input "${samplesheet}" \
     --outdir "${out_dir}" \
