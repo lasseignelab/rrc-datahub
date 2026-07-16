@@ -14,7 +14,6 @@ echo -e "\tFastq files for ${DATASET} will be saved to ${OUTDIR}"
 if [[ -f "${OUTDIR}/${DATASET}_metadata.tsv" ]]; then
     echo "File ${OUTDIR}/${DATASET}_metadata.tsv already exists"
 else
-    # Stagger the array jobs so api limits are not exceeded.
     sleep $(( SLURM_ARRAY_TASK_ID * 120 ))
     echo "Fetching metadata for ${DATASET} at $(date) ..."
     cap_container "acrumley/rrc-datahub:0.1.0"
@@ -75,12 +74,6 @@ while IFS=$'\t' read -r urls md5s; do
 
         if [[ "${success}" != true ]]; then
             echo "ERROR: Failed to download and verify ${filename} after ${MAX_RETRIES} attempts." >&2
-            echo "${DATASET}\t${filename}\t${url}" >> "${OUTDIR}/${DATASET}_failed_downloads.tsv"
         fi
     done
 done < "${OUTDIR}/${DATASET}_urls_and_md5s.tsv"
-
-if [[ -f "${OUTDIR}/${DATASET}_failed_downloads.tsv" ]]; then
-    echo "One or more files failed after retries — see ${OUTDIR}/${DATASET}_failed_downloads.tsv" >&2
-    exit 1
-fi
