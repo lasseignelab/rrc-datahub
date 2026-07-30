@@ -1,1 +1,3 @@
-250617c9626c9b4ba2fb6c218006b747  results/multiqc/multiqc_summary.csv
+Number of differences:
+0
+If differences > 0, re-run verification without the '-q' argument to investigate.
