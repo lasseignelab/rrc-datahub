@@ -65,10 +65,9 @@ class AlignmentData:
 
 def _align_data(df1, df2, config, out):
     """Align columns and rows, reporting structural differences."""
-    cols1, cols2 = list(df1.columns), list(df2.columns)
     diffs = {
-        "c1": [c for c in cols1 if c not in cols2],
-        "c2": [c for c in cols2 if c not in cols1],
+        "c1": [c for c in df1.columns if c not in df2.columns],
+        "c2": [c for c in df2.columns if c not in df1.columns],
     }
     if diffs["c1"] or diffs["c2"]:
         out("COLUMN DIFFERENCES")
@@ -78,14 +77,14 @@ def _align_data(df1, df2, config, out):
             out(f"  Only in file 2: {diffs['c2']}")
         out()
 
-    shared_cols = [c for c in cols1 if c in cols2]
+    shared_cols = [c for c in df1.columns if c in df2.columns]
     if config.key_col not in shared_cols:
         print(f"ERROR: key column {config.key_col!r} missing in both files",
               file=sys.stderr)
         sys.exit(2)
 
-    k1, k2 = set(df1[config.key_col]), set(df2[config.key_col])
-    diffs["r1"], diffs["r2"] = sorted(k1 - k2), sorted(k2 - k1)
+    s1, s2 = set(df1[config.key_col]), set(df2[config.key_col])
+    diffs["r1"], diffs["r2"] = sorted(s1 - s2), sorted(s2 - s1)
     if diffs["r1"] or diffs["r2"]:
         out("ROW DIFFERENCES")
         if diffs["r1"]:
@@ -94,19 +93,18 @@ def _align_data(df1, df2, config, out):
             out(f"  Only in file 2: {diffs['r2']}")
         out()
 
-    shared_keys = sorted(k1 & k2)
+    shared_keys = sorted(s1 & s2)
     val_cols = [c for c in shared_cols if c != config.key_col]
     a = df1.set_index(config.key_col).loc[shared_keys, val_cols]
     b = df2.set_index(config.key_col).loc[shared_keys, val_cols]
 
     num_cols = a.select_dtypes(include=[np.number]).columns.tolist()
-    oth_cols = [c for c in val_cols if c not in num_cols]
 
     return AlignmentData(
         df1_aligned=a,
         df2_aligned=b,
         numeric_cols=num_cols,
-        other_cols=oth_cols,
+        other_cols=[c for c in val_cols if c not in num_cols],
         diffs=diffs,
     )
 
