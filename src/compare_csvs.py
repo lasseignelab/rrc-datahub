@@ -25,7 +25,7 @@ Example (verbose):
 import argparse
 from dataclasses import dataclass, field
 import sys
-from typing import List, Optional
+from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
@@ -49,24 +49,33 @@ class AlignmentData:
     df2_aligned: pd.DataFrame
     numeric_cols: List[str]
     other_cols: List[str]
-    only_cols1: List[str] = field(default_factory=list)
-    only_cols2: List[str] = field(default_factory=list)
-    only_rows1: List[str] = field(default_factory=list)
-    only_rows2: List[str] = field(default_factory=list)
-    n_shared_rows: int = 0
+    diffs: Dict[str, List[str]] = field(default_factory=dict)
+    non_num_mismatches: int = 0
+
+    @property
+    def shared_rows_count(self) -> int:
+        """Return the number of shared rows between aligned dataframes."""
+        return len(self.df1_aligned)
+
+    @property
+    def struct_diff_count(self) -> int:
+        """Return total count of structural column and row differences."""
+        return sum(len(v) for v in self.diffs.values())
 
 
 def _align_data(df1, df2, config, out):
     """Align columns and rows, reporting structural differences."""
     cols1, cols2 = list(df1.columns), list(df2.columns)
-    only_cols1 = [c for c in cols1 if c not in cols2]
-    only_cols2 = [c for c in cols2 if c not in cols1]
-    if only_cols1 or only_cols2:
+    diffs = {
+        "c1": [c for c in cols1 if c not in cols2],
+        "c2": [c for c in cols2 if c not in cols1],
+    }
+    if diffs["c1"] or diffs["c2"]:
         out("COLUMN DIFFERENCES")
-        if only_cols1:
-            out(f"  Only in file 1: {only_cols1}")
-        if only_cols2:
-            out(f"  Only in file 2: {only_cols2}")
+        if diffs["c1"]:
+            out(f"  Only in file 1: {diffs['c1']}")
+        if diffs["c2"]:
+            out(f"  Only in file 2: {diffs['c2']}")
         out()
 
     shared_cols = [c for c in cols1 if c in cols2]
@@ -76,13 +85,13 @@ def _align_data(df1, df2, config, out):
         sys.exit(2)
 
     k1, k2 = set(df1[config.key_col]), set(df2[config.key_col])
-    only_rows1, only_rows2 = sorted(k1 - k2), sorted(k2 - k1)
-    if only_rows1 or only_rows2:
+    diffs["r1"], diffs["r2"] = sorted(k1 - k2), sorted(k2 - k1)
+    if diffs["r1"] or diffs["r2"]:
         out("ROW DIFFERENCES")
-        if only_rows1:
-            out(f"  Only in file 1: {only_rows1}")
-        if only_rows2:
-            out(f"  Only in file 2: {only_rows2}")
+        if diffs["r1"]:
+            out(f"  Only in file 1: {diffs['r1']}")
+        if diffs["r2"]:
+            out(f"  Only in file 2: {diffs['r2']}")
         out()
 
     shared_keys = sorted(k1 & k2)
@@ -98,25 +107,22 @@ def _align_data(df1, df2, config, out):
         df2_aligned=b,
         numeric_cols=num_cols,
         other_cols=oth_cols,
-        only_cols1=only_cols1,
-        only_cols2=only_cols2,
-        only_rows1=only_rows1,
-        only_rows2=only_rows2,
-        n_shared_rows=len(shared_keys),
+        diffs=diffs,
     )
 
 
-def _check_non_numeric(a, b, other_cols, out):
+def _check_non_numeric(align, out):
     """Compare non-numeric columns using strict equality."""
     mismatches = 0
-    for col in other_cols:
+    a, b = align.df1_aligned, align.df2_aligned
+    for col in align.other_cols:
         s1, s2 = a[col], b[col]
         mask = (s1 != s2) & ~(s1.isna() & s2.isna())
         if mask.any():
             count = int(mask.sum())
             mismatches += count
             out(f"  [non-numeric mismatch] {col}: {count} rows")
-    return mismatches
+    align.non_num_mismatches = mismatches
 
 
 def _check_numeric(a, b, numeric_cols, config):
@@ -144,11 +150,9 @@ def _check_numeric(a, b, numeric_cols, config):
     return stats
 
 
-def _print_verdict(align, non_num_diffs, num_exceed, stats, cfg, out):
+def _print_verdict(align, num_exceed, stats, cfg, out):
     """Print top differences summary and final verdict in verbose mode."""
-    struct_diffs = (len(align.only_cols1) + len(align.only_cols2) +
-                    len(align.only_rows1) + len(align.only_rows2))
-    total_diffs = struct_diffs + non_num_diffs + num_exceed
+    total_diffs = align.struct_diff_count + align.non_num_mismatches + num_exceed
     n_bad = sum(1 for s in stats.values() if s["exceed"] > 0)
 
     if stats:
@@ -165,14 +169,14 @@ def _print_verdict(align, non_num_diffs, num_exceed, stats, cfg, out):
             f"(rtol={cfg.rtol}, atol={cfg.atol}).")
     else:
         out(f"VERDICT: files DIFFER  (total differences: {total_diffs})")
-        if align.only_cols1 or align.only_cols2:
-            n_cols = len(align.only_cols1) + len(align.only_cols2)
+        if align.diffs["c1"] or align.diffs["c2"]:
+            n_cols = len(align.diffs["c1"]) + len(align.diffs["c2"])
             out(f"  - {n_cols} column(s) only in one file")
-        if align.only_rows1 or align.only_rows2:
-            n_rows = len(align.only_rows1) + len(align.only_rows2)
+        if align.diffs["r1"] or align.diffs["r2"]:
+            n_rows = len(align.diffs["r1"]) + len(align.diffs["r2"])
             out(f"  - {n_rows} row(s) only in one file")
-        if non_num_diffs:
-            out(f"  - {non_num_diffs} non-numeric cell mismatch(es)")
+        if align.non_num_mismatches:
+            out(f"  - {align.non_num_mismatches} non-numeric cell mismatch(es)")
         if num_exceed:
             out(f"  - {num_exceed} numeric cell(s) exceed tolerance "
                 f"(across {n_bad} column(s))")
@@ -193,13 +197,11 @@ def compare(path1, path2, config: Optional[CompareConfig] = None, **kwargs):
     out("-" * 78)
 
     align = _align_data(df1, df2, cfg, out)
-    out(f"Comparing {align.n_shared_rows} shared rows across "
+    out(f"Comparing {align.shared_rows_count} shared rows across "
         f"{len(align.numeric_cols)} numeric + "
         f"{len(align.other_cols)} non-numeric columns.\n")
 
-    non_num_mismatches = _check_non_numeric(
-        align.df1_aligned, align.df2_aligned, align.other_cols, out
-    )
+    _check_non_numeric(align, out)
     stats = _check_numeric(
         align.df1_aligned, align.df2_aligned, align.numeric_cols, cfg
     )
@@ -213,14 +215,13 @@ def compare(path1, path2, config: Optional[CompareConfig] = None, **kwargs):
     out(f"Numeric columns with differences EXCEEDING tolerance: "
         f"{n_bad} / {len(stats)}\n")
 
-    struct_diffs = (len(align.only_cols1) + len(align.only_cols2) +
-                    len(align.only_rows1) + len(align.only_rows2))
-    total_diffs = struct_diffs + non_num_mismatches + num_exceed
+    total_diffs = (align.struct_diff_count + align.non_num_mismatches +
+                   num_exceed)
 
     if cfg.quiet:
         print(total_diffs)
     else:
-        _print_verdict(align, non_num_mismatches, num_exceed, stats, cfg, out)
+        _print_verdict(align, num_exceed, stats, cfg, out)
 
     return 0 if total_diffs == 0 else 1
 
