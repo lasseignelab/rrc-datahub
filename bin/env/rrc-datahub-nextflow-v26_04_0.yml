@@ -1,4 +1,4 @@
-name: rrc-datahub-nfcore
+name: rrc-datahub-nextflow-v26_04_0
 
 channels:
   - bioconda
@@ -6,4 +6,4 @@ channels:
   - defaults
 
 dependencies:
-  - nextflow=24.04.2
+  - nextflow=26.04.0

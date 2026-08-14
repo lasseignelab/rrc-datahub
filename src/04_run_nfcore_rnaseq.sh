@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --time=48:00:00
 #SBATCH --partition=medium
-#SBATCH --array=0-13
+#SBATCH --array=0-13%3
 
 # The results of the nf-core/rnaseq pipeline are not fully reproducible.
 # Processed outputs will be available on Zenodo to allow for downstream
@@ -22,28 +22,23 @@ profile="${NEXTFLOW_PROFILE:-singularity}"
 
 echo "Aligning ${dataset} to the reference genome ..."
 ml Anaconda3
-conda activate rrc-datahub-nfcore
+conda activate rrc-datahub-nextflow-v26_04_0
 
 working_directory="$CAP_PROJECT_PATH/work/04_run_nfcore_rnaseq/$dataset"
 mkdir -p "$working_directory"
 
-if [[ "$profile" == "cheaha" ]]; then
-    profile_args=(-config "${CAP_PROJECT_PATH}/config/cheaha.config")
-else
-    profile_args=(-profile "${profile}")
-fi
+export NXF_CACHE_DIR="$working_directory"
 
-nextflow run nf-core/rnaseq -r 3.18.0 \
+nextflow run nf-core/rnaseq -r "${NFCORE_RNASEQ_VERSION}" \
+    -c "${CAP_PROJECT_PATH}/config/nextflow.config" \
     --input "${samplesheet}" \
     --outdir "${out_dir}" \
     --gtf "${gtf}" \
     --fasta "${fasta}" \
     --aligner star_salmon \
     --pseudo_aligner salmon \
-    --gencode TRUE \
-    --save_reference TRUE \
     -w "${working_directory}" \
-    "${profile_args[@]}"
+    -profile "${profile}"
 
 exit_code=$?
 
