@@ -24,7 +24,7 @@
 # * Sex consolidated from sex.y / sex; sex.x (always blank) dropped
 # * sample_type derived from source_name via lookup table
 # * treatment_group derived from treatment via lookup table
-# * NA used for not applicable; NP for not provided
+# * "Not provided" used for both not applicable and not provided
 # * UNMAPPED flag written for any value absent from lookup tables so
 #   new projects with novel strings are caught immediately
 #
@@ -32,6 +32,11 @@
 # * args[1]: BioProject accession (e.g. "PRJNA285844")
 # * args[2]: Path to the input metadata TSV
 # * args[3]: Path to the output directory
+
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+not_provided <- "Not provided"
 
 # ---------------------------------------------------------------------------
 # Parse command-line arguments
@@ -59,7 +64,7 @@ message("Starting metadata transformation for ", bioproject_id)
 
 # Map every observed genotype_raw string to a causal-gene controlled value.
 # wild-type : sample has no PKD-related mutation
-# NA        : genotype concept not applicable (control.or.cystic projects)
+# not_provided : genotype concept not applicable (control.or.cystic projects)
 # UNMAPPED  : written at runtime for any string absent from this table
 underlying_variant_map <- c(
   # PRJNA285844
@@ -101,8 +106,8 @@ underlying_variant_map <- c(
   # PRJNA857739
   "Pkd1RC/RC-Casp1KO"                    = "Pkd1",
   "Pkd1RC/RC"                             = "Pkd1",
-  "cystic"                                = "NA",
-  "control"                               = "NA"
+  "cystic"                                = not_provided,
+  "control"                               = not_provided
 )
 
 # Map strain strings to canonical normalized values.
@@ -228,7 +233,7 @@ treatment_group_map <- c(
 #' @return Character vector of sample_type controlled vocabulary values.
 .derive_sample_type <- function(source_name, type_map) {
   dplyr::case_when(
-    is.na(source_name)                         ~ "NP",
+    is.na(source_name)                         ~ not_provided,
     source_name %in% names(type_map)           ~ type_map[source_name],
     grepl("kidney", source_name,
           ignore.case = TRUE)                  ~ "in_vivo_tissue",
@@ -382,10 +387,10 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     stringsAsFactors = FALSE
   )
 
-  # Replace any remaining NA in pass-through columns with NP
-  # (not provided by the depositor)
+  # Any remaining NA in pass-through columns means the depositor did not
+  # provide a value
   for (col in colnames(out)) {
-    out[[col]][is.na(out[[col]])] <- "NP"
+    out[[col]][is.na(out[[col]])] <- not_provided
   }
 
   # -- sample_type -----------------------------------------------------------
@@ -397,23 +402,23 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # -- genotype ----------------------------------------------------------
   # Priority: genotype > genotype.variation > control.or.cystic
   # control.or.cystic encodes disease status not allele identity so it maps
-  # to NA in genotype_gene (see lookup table) but is still preserved here.
+  # to not_provided in genotype_gene (see lookup table) but is preserved here.
   raw_genotype <- .coalesce_columns(
     raw,
     c("genotype", "genotype.variation", "control.or.cystic")
   )
-  out[["genotype"]] <- ifelse(is.na(raw_genotype), "NP", raw_genotype)
+  out[["genotype"]] <- ifelse(is.na(raw_genotype), not_provided, raw_genotype)
 
   # Track mapping failures — script will error at end if any UNMAPPED remain
   mapping_failures <- character(0)
 
   # -- underlying_variant --------------------------------------------------
-  # NA is correct for wild-type (no mutated PKD gene, not applicable)
-  # NA is also correct for PRJNA805541/805542 (control.or.cystic maps to NA)
+  # not_provided is correct for wild-type (no mutated PKD gene)
+  # and for PRJNA805541/805542 (control.or.cystic carries no allele identity)
   out[["underlying_variant"]] <- .apply_lookup(
     raw_genotype,
     underlying_variant_map,
-    na_value = "NP"
+    na_value = not_provided
   )
   n_unmapped_geno <- sum(
     out[["underlying_variant"]] == "UNMAPPED", na.rm = TRUE
@@ -434,7 +439,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     raw,
     c("strain", "strain.background", "background.strain")
   )
-  out[["strain_raw"]] <- ifelse(is.na(raw_strain), "NP", raw_strain)
+  out[["strain_raw"]] <- ifelse(is.na(raw_strain), not_provided, raw_strain)
 
   # Apply canonical spelling normalization; unknown strains copy as-is
   strain_norm <- raw_strain
@@ -442,7 +447,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     strain_norm[!is.na(strain_norm) & strain_norm == variant] <-
       strain_norm_map[[variant]]
   }
-  out[["strain"]] <- ifelse(is.na(strain_norm), "NP", strain_norm)
+  out[["strain"]] <- ifelse(is.na(strain_norm), not_provided, strain_norm)
 
   # -- tissue ----------------------------------------------------------------
   raw_tissue <- .coalesce_columns(raw, c("tissue"))
@@ -492,13 +497,17 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   age_upper   <- fixed$age_upper
   raw_age_out <- fixed$age_raw
 
-  out[["tissue"]]          <- ifelse(is.na(raw_tissue), "NP", raw_tissue)
-  out[["age_raw"]]         <- ifelse(is.na(raw_age_out), "NP", raw_age_out)
+  out[["tissue"]]          <- ifelse(
+    is.na(raw_tissue), not_provided, raw_tissue
+  )
+  out[["age_raw"]]         <- ifelse(
+    is.na(raw_age_out), not_provided, raw_age_out
+  )
   out[["age_range_lower"]] <- ifelse(
-    is.na(age_lower), "NP", as.character(age_lower)
+    is.na(age_lower), not_provided, as.character(age_lower)
   )
   out[["age_range_upper"]] <- ifelse(
-    is.na(age_upper), "NP", as.character(age_upper)
+    is.na(age_upper), not_provided, as.character(age_upper)
   )
 
   # -- sex -------------------------------------------------------------------
@@ -516,18 +525,20 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     }
   }
   raw_sex <- .coalesce_columns(raw, c("sex.y", "sex"))
-  out[["sex"]] <- ifelse(is.na(raw_sex), "NP", tolower(trimws(raw_sex)))
+  out[["sex"]] <- ifelse(is.na(raw_sex), not_provided, tolower(trimws(raw_sex)))
 
   # -- treatment -------------------------------------------------------------
   raw_treatment <- .coalesce_columns(raw, c("treatment"))
-  # NA here means no treatment was part of the study design (not applicable)
-  out[["treatment"]] <- ifelse(is.na(raw_treatment), "NA", raw_treatment)
+  # Empty here means no treatment was part of the study design
+  out[["treatment"]] <- ifelse(
+    is.na(raw_treatment), not_provided, raw_treatment
+  )
 
   # -- treatment_group -------------------------------------------------------
   out[["treatment_group"]] <- .apply_lookup(
     raw_treatment,
     treatment_group_map,
-    na_value = "NA"
+    na_value = not_provided
   )
   n_unmapped_trt <- sum(
     out[["treatment_group"]] == "UNMAPPED", na.rm = TRUE
@@ -592,7 +603,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     sep       = "\t",
     quote     = FALSE,
     row.names = FALSE,
-    na        = "NP"
+    na        = not_provided
   )
 
   message("Written: ", output_path)
