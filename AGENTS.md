@@ -1,5 +1,11 @@
 # AGENTS.md
 
+## Changelog
+
+Record any change you make in `AGENTS_CHANGELOG.md`, newest first. Note what
+changed, why, and any follow-up work left undone, so the next agent does not
+have to rediscover it. Add the entry in the same commit as the change.
+
 ## What this repo is
 
 Research data pipeline for the Lasseigne Lab (UAB). Downloads GEO RNA-seq data, aligns with nf-core/rnaseq on Cheaha HPC, and compiles QC metadata. Languages: Bash, R, Python. Managed by `cap` (project scaffolding and pipeline runner).
@@ -30,6 +36,7 @@ See `README.md` for the exact step-by-step sequence. Steps 3a/3b (conda env + sa
 | `verifications/`         | Verification scripts + `.out` baselines for `cap verify`        |
 | `data/`                  | Gitignored raw data (downloaded by step 01)                     |
 | `results/`               | Pipeline outputs; `results/transformed-metadata/` is tracked    |
+| `AGENTS_CHANGELOG.md`    | Running log of agent changes; append to it, newest first        |
 
 ## Running tests
 
