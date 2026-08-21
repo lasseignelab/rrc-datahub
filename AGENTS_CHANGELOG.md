@@ -6,6 +6,15 @@ Each entry should record what changed, why, and anything a future agent or
 reviewer would otherwise have to rediscover, such as follow-up work left
 undone or decisions that were deliberately deferred.
 
+## 2026-08-20
+
+### Add overwrite option to step 05 transform script
+
+Added a `OVERWRITE` environment variable check to `src/05_transform_metadata.sh`.
+When `OVERWRITE=1` is set, the script will re-transform metadata even if the
+output file already exists. Without it, the existing skip-if-exists behavior is
+preserved.
+
 ## 2026-08-19
 
 ### Use a named constant for the not-provided sentinel (`418aa8a`)

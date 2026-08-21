@@ -38,10 +38,11 @@ echo "Processing dataset: ${DATASET}"
 mkdir -p "${OUTDIR}"
 
 # ---------------------------------------------------------------------------
-# Skip if output already exists (matches project convention)
+# Skip if output already exists (matches project convention).
+# Set OVERWRITE=1 to force re-transformation of existing outputs.
 # ---------------------------------------------------------------------------
-if [[ -f "${OUTDIR}/${DATASET}_transformed.tsv" ]]; then
-    echo "File ${OUTDIR}/${DATASET}_transformed.tsv already exists — skipping."
+if [[ -f "${OUTDIR}/${DATASET}_transformed.tsv" ]] && [[ "${OVERWRITE}" != "1" ]]; then
+    echo "File ${OUTDIR}/${DATASET}_transformed.tsv already exists — skipping. Set OVERWRITE=1 to overwrite."
     exit 0
 fi
 
