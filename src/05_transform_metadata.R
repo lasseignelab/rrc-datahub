@@ -24,7 +24,8 @@
 # * Sex consolidated from sex.y / sex; sex.x (always blank) dropped
 # * sample_type derived from source_name via lookup table
 # * treatment_group derived from treatment via lookup table
-# * "Not provided" used for both not applicable and not provided
+# * "Not provided" used for missing data which includes the R NA value
+# * "Not applicable" used for literal "NA" values
 # * UNMAPPED flag written for any value absent from lookup tables so
 #   new projects with novel strings are caught immediately
 #
@@ -334,7 +335,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     sep       = "\t",
     header    = TRUE,
     colClasses = "character",
-    na.strings = c("", "NA")
+    na.strings = c("")
   )
   message("  Rows: ", nrow(raw), " | Columns: ", ncol(raw))
 
@@ -358,6 +359,14 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # Normalizing here ensures matching works regardless of casing variation
   # across future fetch script versions.
   colnames(raw) <- tolower(colnames(raw))
+
+  # -- Replace literal string "NA" with "Not applicable" ---------------------
+  # NCBI returns the actual string "NA" for missing attributes on some
+  # samples (e.g. cell cultures with no age/strain/genotype).  Distinguish
+  # this from R's NA (true missing value) with an explicit string check.
+  for (col in colnames(raw)) {
+    raw[[col]][raw[[col]] == "NA"] <- "Not applicable"
+  }
 
   # -- Pass-through columns (taken as-is, already lowercase) -----------------
   out <- data.frame(

@@ -245,7 +245,8 @@ get_bioproject_metadata <- function(bioproject_id,
               file = output_path,
               sep = "\t",
               quote = FALSE,
-              row.names = FALSE)
+              row.names = FALSE,
+              na = "")
 
   message("Metadata written to: ", output_path)
   message("Runs: ", nrow(metadata), " | Fields: ", ncol(metadata))
@@ -319,7 +320,7 @@ get_bioproject_metadata <- function(bioproject_id,
   all_colnames <- unique(unlist(lapply(all_attrs, colnames)))
   combined <- do.call(rbind, lapply(all_attrs, function(df) {
     missing_cols <- setdiff(all_colnames, colnames(df))
-    for (col in missing_cols) df[[col]] <- NA_character_
+    for (col in missing_cols) df[[col]] <- ""
     df[, all_colnames, drop = FALSE]
   }))
 
@@ -365,7 +366,7 @@ get_bioproject_metadata <- function(bioproject_id,
 
   df <- do.call(rbind, lapply(rows, function(row) {
     vals <- vapply(all_names, function(nm) {
-      if (is.null(row[[nm]])) NA_character_ else as.character(row[[nm]])
+      if (is.null(row[[nm]])) "" else as.character(row[[nm]])
     }, character(1))
     as.data.frame(t(vals), stringsAsFactors = FALSE)
   }))
