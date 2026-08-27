@@ -6,6 +6,15 @@ Each entry should record what changed, why, and anything a future agent or
 reviewer would otherwise have to rediscover, such as follow-up work left
 undone or decisions that were deliberately deferred.
 
+## 2026-08-27
+
+### Align missing-attribute tests with intentional empty-string representation
+
+Updated the `.parse_biosample_xml` missing-attribute test to expect empty
+strings rather than R `NA` values. The implementation intentionally uses empty
+strings for absent attributes so they remain distinct from literal `"NA"` values
+received from NCBI. No production code changed and no follow-up work is required.
+
 ## 2026-08-26
 
 ### Fix MegaLinter linting errors across all linter categories

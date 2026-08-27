@@ -43,7 +43,7 @@ See `README.md` for the exact step-by-step sequence. Steps 3a/3b (conda env + sa
 R tests use testthat inside a Singularity container. Requires `bin/container/rrc-datahub_0.1.1.sif` to exist locally.
 
 ```bash
-bash tests/run
+cap run -edefault tests/run
 ```
 
 CI runs the same command via `Rscript -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'` inside the container image `acrumley/rrc-datahub:0.1.1`.
