@@ -8,6 +8,18 @@ undone or decisions that were deliberately deferred.
 
 ## 2026-08-27
 
+### Fix PRJNA428970 metadata transformation
+
+Mapped the normalized literal genotype value `"Not applicable"` through to the
+`underlying_variant` output, preventing five PRJNA428970 cell-culture samples
+from being incorrectly flagged as unmapped. Also fixed `.parse_age_days` to map
+regex matches back to their original vector positions, avoiding replacement
+length warnings and incorrect ages when some rows have nonmatching values. The
+age range bounds now also preserve `"Not applicable"` when that is the
+normalized raw age, rather than incorrectly labeling those bounds as
+`"Not provided"`. Regenerated the tracked PRJNA428970 transformed TSV and its
+verification checksum with the corrected values. No follow-up work is required.
+
 ### Align missing-attribute tests with intentional empty-string representation
 
 Updated the `.parse_biosample_xml` missing-attribute test to expect empty

@@ -80,6 +80,8 @@ underlying_variant_map <- c(
   # PRJNA353115
   "KspCre; Pkd1 F/RC"                    = "Pkd1",
   "KspCre; Pkd1 F/RC miR17~92 F/F"      = "Pkd1",
+  # Literal NCBI "NA" values are normalized before lookup
+  "Not applicable"                        = "Not applicable",
   # PRJNA428970
   "KSP/Cre-;Pkd1f/f"                     = "wild-type",
   "KSP/Cre+;Pkd1f/f"                     = "Pkd1",
@@ -202,21 +204,24 @@ treatment_group_map <- c(
   # Match "post[-]?natal day N" (case-insensitive, hyphen optional, spaces
   # between words optional) and extract the numeric part
   pnd_pattern <- "(?i)post[- ]?natal\\s*day\\s*(\\d+)"
-  pnd_match   <- regmatches(x, regexpr(pnd_pattern, x, perl = TRUE))
-  pnd_nums    <- suppressWarnings(
-    as.integer(gsub("(?i).*?(\\d+)$", "\\1", pnd_match, perl = TRUE))
+  pnd_positions <- regexpr(pnd_pattern, x, perl = TRUE)
+  has_pnd <- !is.na(pnd_positions) & pnd_positions > 0L
+  pnd_matches <- regmatches(x, pnd_positions)
+  pnd_nums <- suppressWarnings(
+    as.integer(sub(pnd_pattern, "\\1", pnd_matches, perl = TRUE))
   )
-  result[nchar(pnd_match) > 0] <- pnd_nums[nchar(pnd_match) > 0]
+  result[has_pnd] <- pnd_nums
 
   # Match "N months old" (case-insensitive) and convert to days
   # using a 30-day month approximation
   mo_pattern <- "(?i)^(\\d+)\\s+months?\\s+old$"
-  mo_match   <- regmatches(x, regexpr(mo_pattern, x, perl = TRUE))
-  mo_nums    <- suppressWarnings(
-    as.integer(gsub("(?i)^(\\d+).*", "\\1", mo_match, perl = TRUE))
+  mo_positions <- regexpr(mo_pattern, x, perl = TRUE)
+  has_mo <- !is.na(mo_positions) & mo_positions > 0L
+  mo_matches <- regmatches(x, mo_positions)
+  mo_nums <- suppressWarnings(
+    as.integer(gsub("(?i)^(\\d+).*", "\\1", mo_matches, perl = TRUE))
   )
-  has_mo <- nchar(mo_match) > 0
-  result[has_mo] <- .months_to_days(mo_nums[has_mo])
+  result[has_mo] <- .months_to_days(mo_nums)
 
   result
 }
@@ -513,10 +518,14 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     is.na(raw_age_out), not_provided, raw_age_out
   )
   out[["age_range_lower"]] <- ifelse(
-    is.na(age_lower), not_provided, as.character(age_lower)
+    !is.na(raw_age_out) & raw_age_out == "Not applicable",
+    "Not applicable",
+    ifelse(is.na(age_lower), not_provided, as.character(age_lower))
   )
   out[["age_range_upper"]] <- ifelse(
-    is.na(age_upper), not_provided, as.character(age_upper)
+    !is.na(raw_age_out) & raw_age_out == "Not applicable",
+    "Not applicable",
+    ifelse(is.na(age_upper), not_provided, as.character(age_upper))
   )
 
   # -- sex -------------------------------------------------------------------
