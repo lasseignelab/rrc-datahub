@@ -1,2 +1,4 @@
 a5215ea36214a89cb617a49cae399a2f  data/GRCm39_M37/gencode.vM37.primary_assembly.annotation.gtf
 f7e956ab58169c9b457c93bc7ecca0a2  data/GRCm39_M37/GRCm39.primary_assembly.genome.fa
+289b91e5e95e8b0450d223246f10a12e  data/GRCh_v50/gencode.v50.primary_assembly.annotation.gtf.gz
+da1a11258be075cfa7af718162c894e7  data/GRCh_v50/GRCh38.primary_assembly.genome.fa.gz
