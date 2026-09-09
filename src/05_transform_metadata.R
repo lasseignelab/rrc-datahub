@@ -371,6 +371,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   # this from R's NA (true missing value) with an explicit string check.
   for (col in colnames(raw)) {
     raw[[col]][raw[[col]] == "NA"] <- "Not applicable"
+    raw[[col]][raw[[col]] == "not applicable"] <- "Not applicable"
   }
 
   # -- Pass-through columns (taken as-is, already lowercase) -----------------
