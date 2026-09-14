@@ -18,9 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Purpose
 
-This repository contains the data processing pipeline for the **PKD RRC DataHub**, a community resource for polycystic kidney disease (PKD) research. The pipeline downloads public RNA-seq datasets from GEO, aligns them against a reference genome using `nf-core/rnaseq`, and compiles QC and sample metadata into a format ready for ingestion into the DataHub platform. All steps run through the CAPTURE framework (`cap run`/`cap verify`) on UAB's Cheaha HPC cluster for reproducibility.
-
-This is an R Markdown document created for the Lasseigne Lab R Project Template. The project and README template are designed to create standardized R projects for research ongoing in the [Lasseigne Lab at the University of Alabama at Birmingham](https://www.lasseigne.org/)
+This repository contains the data processing pipeline for the **PKD RRC DataHub**, a community resource for polycystic kidney disease (PKD) research. The pipeline downloads public transcriptomic datasets, aligns them against a reference genome, and compiles QC and sample metadata into a format ready for ingestion into the DataHub web platform. All steps run through the CAPTURE framework for reproducibility.
 
 ## Input Data
 
