@@ -2,7 +2,17 @@ README
 ================
 2026-09-14
 
-**PKD RRC DataHub**
+# PKD RRC DataHub
+
+## Authors
+
+**Tabea M. Soelter<sup>1\</sup, Anthony B. Crumley<sup>1\</sup, Kieran
+Casper<sup>1\</sup, Elizabeth Okunbor<sup>1\</sup, Brittany N.
+Lasseigne<sup>1</sup>**
+
+1.  Department of Cell, Developmental and Integrative Biology, Heersink
+    School of Medicine, The University of Alabama at Birmingham,
+    Birmingham, Alabama, United States of America
 
 ## Purpose
 
@@ -44,9 +54,11 @@ expand to additional species and sequencing types.
 
 ## Scripts
 
-This pipeline is run via the CAPTURE framework and depends on: - CAPTURE
-(`cap` CLI) for reproducible batch execution and verification - Conda
-(environment created in step 3) - `nf-core/rnaseq` for alignment
+This pipeline is run via the CAPTURE framework and depends on:  
+- CAPTURE (`cap` CLI) for reproducible batch execution and
+verification  
+- Conda (environment created in step 3)  
+- `nf-core/rnaseq` for alignment
 
 **Script tree:**
 
