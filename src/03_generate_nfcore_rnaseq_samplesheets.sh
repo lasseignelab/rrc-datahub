@@ -6,7 +6,7 @@
 #SBATCH --mem-per-cpu=2G
 #SBATCH --time=2:00:00
 #SBATCH --partition=express
-#SBATCH --array=0-13
+#SBATCH --array=0-23
 
 echo "Downloading helper script for creating samplesheet ..."
 file="$CAP_PROJECT_PATH/src/03_fastq_dir_to_samplesheet.py"
