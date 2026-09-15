@@ -16,7 +16,8 @@ dataset=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
 out_dir="${CAP_DATA_PATH}/nfcore_rnaseq/$dataset"
 mkdir -p "$out_dir"
 samplesheet="${CAP_DATA_PATH}/raw-data/$dataset/samplesheet.csv"
-scientific_name=$(awk -F',' -v row="$SLURM_ARRAY_TASK_ID" 'NR==1{for(i=1;i<=NF;i++){h=$i;gsub(/\r|"/,"",h);if(h=="scientificname")c=i}next}(NR-2)==row{v=$c;gsub(/\r|"/,"",v);print v;exit}' "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
+metadata_file="${CAP_DATA_PATH}/raw-data/${dataset}/${dataset}_metadata.tsv"
+scientific_name=$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++){h=$i;gsub(/\r/,"",h);if(h=="scientificname")c=i}next}{v=$c;gsub(/\r/,"",v);print v;exit}' "$metadata_file")
 case "$scientific_name" in
     "Mus musculus") gtf="${CAP_DATA_PATH}/GRCm39_M37/gencode.vM37.primary_assembly.annotation.gtf"; fasta="${CAP_DATA_PATH}/GRCm39_M37/GRCm39.primary_assembly.genome.fa" ;;
     "Homo sapiens") gtf="${CAP_DATA_PATH}/GRCh38_v50/gencode.v50.primary_assembly.annotation.gtf"; fasta="${CAP_DATA_PATH}/GRCh38_v50/GRCh38.primary_assembly.genome.fa" ;;
