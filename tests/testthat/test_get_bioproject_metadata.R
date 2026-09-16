@@ -138,7 +138,7 @@ test_that(".parse_biosample_xml handles multiple samples", {
   expect_equal(result$tissue[result$BioSample == "SAMN22222"], "liver")
 })
 
-test_that(".parse_biosample_xml fills NA for missing attributes", {
+test_that(".parse_biosample_xml fills empty strings for missing attributes", {
   xml_text <- '<?xml version="1.0" encoding="UTF-8"?>
     <BioSampleSet>
       <BioSample accession="SAMN11111">
@@ -158,8 +158,8 @@ test_that(".parse_biosample_xml fills NA for missing attributes", {
   result <- .parse_biosample_xml(xml_text)
 
   expect_equal(nrow(result), 2)
-  expect_true(is.na(result$strain[result$BioSample == "SAMN11111"]))
-  expect_true(is.na(result$sex[result$BioSample == "SAMN22222"]))
+  expect_equal(result$strain[result$BioSample == "SAMN11111"], "")
+  expect_equal(result$sex[result$BioSample == "SAMN22222"], "")
 })
 
 test_that(".parse_biosample_xml collapses duplicate attributes", {

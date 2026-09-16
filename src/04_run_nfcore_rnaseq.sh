@@ -30,22 +30,22 @@ mkdir -p "$working_directory"
 export NXF_CACHE_DIR="$working_directory"
 
 nextflow run nf-core/rnaseq -r "${NFCORE_RNASEQ_VERSION}" \
-    -c "${CAP_PROJECT_PATH}/config/nextflow.config" \
-    --input "${samplesheet}" \
-    --outdir "${out_dir}" \
-    --gtf "${gtf}" \
-    --fasta "${fasta}" \
-    --aligner star_salmon \
-    --pseudo_aligner salmon \
-    -w "${working_directory}" \
-    -profile "${profile}"
+	-c "${CAP_PROJECT_PATH}/config/nextflow.config" \
+	--input "${samplesheet}" \
+	--outdir "${out_dir}" \
+	--gtf "${gtf}" \
+	--fasta "${fasta}" \
+	--aligner star_salmon \
+	--pseudo_aligner salmon \
+	-w "${working_directory}" \
+	-profile "${profile}"
 
 exit_code=$?
 
 if [[ $exit_code -eq 0 ]]; then
-    rm -rf "$working_directory"
+	rm -rf "$working_directory"
 else
-    echo "Pipeline failed — preserving working directory"
+	echo "Pipeline failed — preserving working directory"
 fi
 
 exit $exit_code
