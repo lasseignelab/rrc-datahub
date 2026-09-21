@@ -22,24 +22,39 @@ This repository contains the data processing pipeline for the **PKD RRC DataHub*
 
 ## Input Data
 
-DataHub 0.1 is mouse-only Illumina bulk RNA-seq; future releases will expand to additional species and sequencing types.
+DataHub 0.1 is *Mus musculus*-only Illumina bulk RNA-seq; future releases will expand to additional species and sequencing types.
 
-| Accession | Species | Sequencing type | Original publication |
+| BioProject Accession | Species | Sequencing type | Original publication |
 |---|---|---|---|
-| PRJNA629819 | Mouse | Bulk RNA-seq | Zhang et al., 2021 |
-| PRJNA285844 | Mouse | Bulk RNA-seq | Lakhia et al., 2016 |
-| PRJNA556224 | Mouse | Bulk RNA-seq | Lee et al., 2019 |
-| PRJNA805542 | Mouse | Bulk RNA-seq | Lakhia et al., 2022 |
-| PRJNA857739 | Mouse | Bulk RNA-seq | Swenson-Fields et al., 2022 |
-| PRJNA745972 | Mouse | Bulk RNA-seq | Friedrich et al., 2021 |
-| PRJNA543107 | Mouse | Bulk RNA-seq | Olson et al., 2019 |
-| PRJNA353115 | Mouse | Bulk RNA-seq | Hajarnis et al., 2017 |
-| PRJNA342113 | Mouse | Bulk RNA-seq | Woo et al., 2017 |
-| PRJNA805547 | Mouse | Bulk RNA-seq | Lakhia & Ramalingam et al., 2022 |
-| PRJNA573926 | Mouse | Bulk RNA-seq | Lakhia et al., 2020 |
-| PRJNA428970 | Mouse | Bulk RNA-seq | Aboudehen et al., 2018 |
-| PRJNA637874 | Mouse | Bulk RNA-seq | Dixon et al., 2020 |
-| PRJNA556227 | Mouse | Bulk RNA-seq | Lee et al., 2019 |
+| PRJNA629819 | Mus musculus | Bulk RNA-seq | Zhang et al., 2021 |
+| PRJNA285844 | Mus musculus | Bulk RNA-seq | Lakhia et al., 2016 |
+| PRJNA556224 | Mus musculus | Bulk RNA-seq | Lee et al., 2019 |
+| PRJNA805542 | Mus musculus | Bulk RNA-seq | Lakhia et al., 2022 |
+| PRJNA857739 | Mus musculus | Bulk RNA-seq | Swenson-Fields et al., 2022 |
+| PRJNA745972 | Mus musculus | Bulk RNA-seq | Friedrich et al., 2021 |
+| PRJNA543107 | Mus musculus | Bulk RNA-seq | Olson et al., 2019 |
+| PRJNA353115 | Mus musculus | Bulk RNA-seq | Hajarnis et al., 2017 |
+| PRJNA342113 | Mus musculus | Bulk RNA-seq | Woo et al., 2017 |
+| PRJNA805547 | Mus musculus | Bulk RNA-seq | Lakhia & Ramalingam et al., 2022 |
+| PRJNA573926 | Mus musculus | Bulk RNA-seq | Lakhia et al., 2020 |
+| PRJNA428970 | Mus musculus | Bulk RNA-seq | Aboudehen et al., 2018 |
+| PRJNA637874 | Mus musculus | Bulk RNA-seq | Dixon et al., 2020 |
+| PRJNA556227 | Mus musculus | Bulk RNA-seq | Lee et al., 2019 |
+
+## Data Directory Structure
+
+```
+data/
+├── GRCm39_M37/              # Mouse reference genome files (GRCm39, release M37)
+├── nfcore_rnaseq/           # Alignment outputs, one subdirectory per dataset
+│   └── <BioProject ID>/     # nf-core/rnaseq output files for that dataset
+└── raw-data/                # Raw downloaded inputs, one subdirectory per dataset
+    └── <BioProject ID>/
+        ├── *_metadata.tsv   # Dataset-specific metadata
+        ├── *_urls_and_md5s.tsv   # Download URLs and MD5 checksums
+        ├── samplesheet.csv  # nf-core/rnaseq samplesheet
+        └── *.fastq.gz       # Raw FASTQ files
+```
 
 ## Scripts
 
@@ -70,6 +85,13 @@ This pipeline is run via the CAPTURE framework and depends on:
 ## Pipeline Execution Guide
 
 Run each step in order. Each step includes a verification command  run it and check the diff before moving to the next step.
+
+### Adding a new dataset
+
+To add a new dataset to the pipeline:
+
+1. Add a new row to `doc/geo_datasets.csv` with the new dataset's information.
+2. Update the `#SBATCH --array` value in each pipeline script under `src/` so it matches the total number of rows in `doc/geo_datasets.csv`.
 
 ### 1. Data download
 
