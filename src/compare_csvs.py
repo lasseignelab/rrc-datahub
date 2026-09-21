@@ -23,9 +23,10 @@ Example (verbose):
     python compare_csvs.py file1.csv file2.csv --key dataset --rtol 1e-6
 """
 import argparse
-from dataclasses import dataclass, field
 import sys
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional
+
 import numpy as np
 import pandas as pd
 
@@ -79,8 +80,10 @@ def _align_data(df1, df2, config, out):
 
     shared_cols = [c for c in df1.columns if c in df2.columns]
     if config.key_col not in shared_cols:
-        print(f"ERROR: key column {config.key_col!r} missing in both files",
-              file=sys.stderr)
+        print(
+            f"ERROR: key column {config.key_col!r} missing in both files",
+            file=sys.stderr,
+        )
         sys.exit(2)
 
     s1, s2 = set(df1[config.key_col]), set(df2[config.key_col])
@@ -137,8 +140,13 @@ def _check_numeric(a, b, numeric_cols, config):
         denom = np.maximum(np.abs(x_vals[finite]), np.abs(y_vals[finite]))
         rel = np.zeros_like(diff)
         np.divide(diff, denom, out=rel, where=denom > 0)
-        exceed = int((~np.isclose(x_vals[finite], y_vals[finite],
-                                  rtol=config.rtol, atol=config.atol)).sum())
+        exceed = int(
+            (
+                ~np.isclose(
+                    x_vals[finite], y_vals[finite], rtol=config.rtol, atol=config.atol
+                )
+            ).sum()
+        )
         stats[col] = {
             "max_abs": float(diff.max()),
             "max_rel": float(rel.max()),
@@ -154,17 +162,21 @@ def _print_verdict(align, num_exceed, stats, cfg, out):
     n_bad = sum(1 for s in stats.values() if s["exceed"] > 0)
 
     if stats:
-        top = sorted(stats.items(), key=lambda kv: -kv[1]["max_abs"])[:cfg.top_n]
+        top = sorted(stats.items(), key=lambda kv: -kv[1]["max_abs"])[: cfg.top_n]
         out(f"Top {len(top)} columns by max absolute difference:")
         out(f"  {'max_abs':>12}  {'max_rel':>12}  {'exceed':>6}  column")
         for c, s in top:
-            out(f"  {s['max_abs']:12.3e}  {s['max_rel']:12.3e}  "
-                f"{s['exceed']:>6}  {c}")
+            out(
+                f"  {s['max_abs']:12.3e}  {s['max_rel']:12.3e}  "
+                f"{s['exceed']:>6}  {c}"
+            )
         out()
 
     if total_diffs == 0:
-        out(f"VERDICT: files are equivalent within tolerance "
-            f"(rtol={cfg.rtol}, atol={cfg.atol}).")
+        out(
+            f"VERDICT: files are equivalent within tolerance "
+            f"(rtol={cfg.rtol}, atol={cfg.atol})."
+        )
     else:
         out(f"VERDICT: files DIFFER  (total differences: {total_diffs})")
         if align.diffs["c1"] or align.diffs["c2"]:
@@ -176,8 +188,10 @@ def _print_verdict(align, num_exceed, stats, cfg, out):
         if align.non_num_mismatches:
             out(f"  - {align.non_num_mismatches} non-numeric cell mismatch(es)")
         if num_exceed:
-            out(f"  - {num_exceed} numeric cell(s) exceed tolerance "
-                f"(across {n_bad} column(s))")
+            out(
+                f"  - {num_exceed} numeric cell(s) exceed tolerance "
+                f"(across {n_bad} column(s))"
+            )
 
 
 def compare(path1, path2, config: Optional[CompareConfig] = None, **kwargs):
@@ -195,9 +209,11 @@ def compare(path1, path2, config: Optional[CompareConfig] = None, **kwargs):
     out("-" * 78)
 
     align = _align_data(df1, df2, cfg, out)
-    out(f"Comparing {align.shared_rows_count} shared rows across "
+    out(
+        f"Comparing {align.shared_rows_count} shared rows across "
         f"{len(align.numeric_cols)} numeric + "
-        f"{len(align.other_cols)} non-numeric columns.\n")
+        f"{len(align.other_cols)} non-numeric columns.\n"
+    )
 
     _check_non_numeric(align, out)
     stats = _check_numeric(
@@ -208,13 +224,16 @@ def compare(path1, path2, config: Optional[CompareConfig] = None, **kwargs):
     n_bad = sum(1 for s in stats.values() if s["exceed"] > 0)
     num_exceed = sum(s["exceed"] for s in stats.values())
 
-    out(f"Numeric columns with ANY non-zero difference:        "
-        f"{n_any} / {len(stats)}")
-    out(f"Numeric columns with differences EXCEEDING tolerance: "
-        f"{n_bad} / {len(stats)}\n")
+    out(
+        f"Numeric columns with ANY non-zero difference:        "
+        f"{n_any} / {len(stats)}"
+    )
+    out(
+        f"Numeric columns with differences EXCEEDING tolerance: "
+        f"{n_bad} / {len(stats)}\n"
+    )
 
-    total_diffs = (align.struct_diff_count + align.non_num_mismatches +
-                   num_exceed)
+    total_diffs = align.struct_diff_count + align.non_num_mismatches + num_exceed
 
     if cfg.quiet:
         print(total_diffs)
@@ -233,8 +252,12 @@ def main():
     p.add_argument("--rtol", type=float, default=1e-5)
     p.add_argument("--atol", type=float, default=1e-8)
     p.add_argument("--top-n", type=int, default=10)
-    p.add_argument("-q", "--quiet", action="store_true",
-                   help="suppress reporting; print only total difference count")
+    p.add_argument(
+        "-q",
+        "--quiet",
+        action="store_true",
+        help="suppress reporting; print only total difference count",
+    )
     args = p.parse_args()
 
     cfg = CompareConfig(

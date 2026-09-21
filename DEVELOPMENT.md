@@ -1,14 +1,18 @@
 Development Setup
 ===============
+
 This document provides recommendations for setting up a development environment
 to facilitate reproducible research.
+
 # Github Rulesets
-Github rulesets define rules for interacting with a repository.  They are
+
+Github rulesets define rules for interacting with a repository. They are
 intended to improve code quality through better code review and merging
 practices.
 
 A Github ruleset can be setup by importing a ruleset JSON file.
 To setup a ruleset follow these steps:
+
 * Navigate in your browser to the Github repository for the project created
 with the `cap new` command.
 * Navigate to the file `.github/settings/default_ruleset.sh` in Github and
