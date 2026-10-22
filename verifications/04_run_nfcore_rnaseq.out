@@ -1,5 +1,3360 @@
 ##### nf-core/rnaseq pipeline files #####
 data/nfcore_rnaseq/
+├── PRJNA1091688
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR28446987.txt
+│   │   │       ├── SRR28446988.txt
+│   │   │       ├── SRR28446989.txt
+│   │   │       ├── SRR28446990.txt
+│   │   │       ├── SRR28446991.txt
+│   │   │       └── SRR28446992.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR28446987
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR28446988
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR28446989
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR28446990
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR28446991
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR28446992
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR28446987.txt
+│       │       ├── SRR28446988.txt
+│       │       ├── SRR28446989.txt
+│       │       ├── SRR28446990.txt
+│       │       ├── SRR28446991.txt
+│       │       └── SRR28446992.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR28446987
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR28446987.markdup.sorted.bam
+│       ├── SRR28446987.markdup.sorted.bam.bai
+│       ├── SRR28446988
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR28446988.markdup.sorted.bam
+│       ├── SRR28446988.markdup.sorted.bam.bai
+│       ├── SRR28446989
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR28446989.markdup.sorted.bam
+│       ├── SRR28446989.markdup.sorted.bam.bai
+│       ├── SRR28446990
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR28446990.markdup.sorted.bam
+│       ├── SRR28446990.markdup.sorted.bam.bai
+│       ├── SRR28446991
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR28446991.markdup.sorted.bam
+│       ├── SRR28446991.markdup.sorted.bam.bai
+│       ├── SRR28446992
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR28446992.markdup.sorted.bam
+│       └── SRR28446992.markdup.sorted.bam.bai
+├── PRJNA1207576
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR31918904.txt
+│   │   │       ├── SRR31918905.txt
+│   │   │       ├── SRR31918906.txt
+│   │   │       ├── SRR31918907.txt
+│   │   │       ├── SRR31918908.txt
+│   │   │       └── SRR31918909.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR31918904
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR31918905
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR31918906
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR31918907
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR31918908
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR31918909
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR31918904.txt
+│       │       ├── SRR31918905.txt
+│       │       ├── SRR31918906.txt
+│       │       ├── SRR31918907.txt
+│       │       ├── SRR31918908.txt
+│       │       └── SRR31918909.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR31918904
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR31918904.markdup.sorted.bam
+│       ├── SRR31918904.markdup.sorted.bam.bai
+│       ├── SRR31918905
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR31918905.markdup.sorted.bam
+│       ├── SRR31918905.markdup.sorted.bam.bai
+│       ├── SRR31918906
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR31918906.markdup.sorted.bam
+│       ├── SRR31918906.markdup.sorted.bam.bai
+│       ├── SRR31918907
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR31918907.markdup.sorted.bam
+│       ├── SRR31918907.markdup.sorted.bam.bai
+│       ├── SRR31918908
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR31918908.markdup.sorted.bam
+│       ├── SRR31918908.markdup.sorted.bam.bai
+│       ├── SRR31918909
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR31918909.markdup.sorted.bam
+│       └── SRR31918909.markdup.sorted.bam.bai
+├── PRJNA1225177
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR32381209.txt
+│   │   │       ├── SRR32381210.txt
+│   │   │       ├── SRR32381211.txt
+│   │   │       ├── SRR32381212.txt
+│   │   │       ├── SRR32381213.txt
+│   │   │       ├── SRR32381214.txt
+│   │   │       ├── SRR32381215.txt
+│   │   │       ├── SRR32381216.txt
+│   │   │       ├── SRR32381217.txt
+│   │   │       ├── SRR32381218.txt
+│   │   │       ├── SRR32381219.txt
+│   │   │       ├── SRR32381220.txt
+│   │   │       ├── SRR32381221.txt
+│   │   │       ├── SRR32381222.txt
+│   │   │       ├── SRR32381223.txt
+│   │   │       ├── SRR32381224.txt
+│   │   │       ├── SRR32381225.txt
+│   │   │       ├── SRR32381226.txt
+│   │   │       ├── SRR32381227.txt
+│   │   │       ├── SRR32381228.txt
+│   │   │       ├── SRR32381229.txt
+│   │   │       ├── SRR32381230.txt
+│   │   │       ├── SRR32381231.txt
+│   │   │       ├── SRR32381232.txt
+│   │   │       ├── SRR32381233.txt
+│   │   │       ├── SRR32381235.txt
+│   │   │       ├── SRR32381236.txt
+│   │   │       ├── SRR32381237.txt
+│   │   │       ├── SRR32381238.txt
+│   │   │       ├── SRR32381239.txt
+│   │   │       ├── SRR32381240.txt
+│   │   │       ├── SRR32381241.txt
+│   │   │       ├── SRR32381242.txt
+│   │   │       ├── SRR32381243.txt
+│   │   │       ├── SRR32381244.txt
+│   │   │       ├── SRR32381245.txt
+│   │   │       ├── SRR32381246.txt
+│   │   │       ├── SRR32381247.txt
+│   │   │       ├── SRR32381248.txt
+│   │   │       ├── SRR32381249.txt
+│   │   │       ├── SRR32381250.txt
+│   │   │       ├── SRR32381251.txt
+│   │   │       ├── SRR32381252.txt
+│   │   │       ├── SRR32381253.txt
+│   │   │       ├── SRR32381254.txt
+│   │   │       ├── SRR32381255.txt
+│   │   │       ├── SRR32381256.txt
+│   │   │       ├── SRR32381257.txt
+│   │   │       ├── SRR32381258.txt
+│   │   │       ├── SRR32381259.txt
+│   │   │       ├── SRR32381260.txt
+│   │   │       ├── SRR32381261.txt
+│   │   │       ├── SRR32381262.txt
+│   │   │       ├── SRR32381263.txt
+│   │   │       ├── SRR32381264.txt
+│   │   │       ├── SRR32381265.txt
+│   │   │       ├── SRR32381266.txt
+│   │   │       ├── SRR32381267.txt
+│   │   │       ├── SRR32381268.txt
+│   │   │       ├── SRR32381269.txt
+│   │   │       ├── SRR32381270.txt
+│   │   │       ├── SRR32381271.txt
+│   │   │       ├── SRR32381272.txt
+│   │   │       ├── SRR32381273.txt
+│   │   │       ├── SRR32381274.txt
+│   │   │       ├── SRR32381275.txt
+│   │   │       ├── SRR32381276.txt
+│   │   │       ├── SRR32381277.txt
+│   │   │       ├── SRR32381278.txt
+│   │   │       ├── SRR32381279.txt
+│   │   │       ├── SRR32381280.txt
+│   │   │       ├── SRR32381281.txt
+│   │   │       ├── SRR32381282.txt
+│   │   │       ├── SRR32381283.txt
+│   │   │       ├── SRR32381284.txt
+│   │   │       ├── SRR32381285.txt
+│   │   │       ├── SRR32381286.txt
+│   │   │       ├── SRR32381287.txt
+│   │   │       ├── SRR32381288.txt
+│   │   │       ├── SRR32381289.txt
+│   │   │       ├── SRR32381290.txt
+│   │   │       ├── SRR32381291.txt
+│   │   │       ├── SRR32381292.txt
+│   │   │       ├── SRR32381293.txt
+│   │   │       ├── SRR32381294.txt
+│   │   │       ├── SRR32381295.txt
+│   │   │       ├── SRR32381296.txt
+│   │   │       ├── SRR32381297.txt
+│   │   │       ├── SRR32381298.txt
+│   │   │       ├── SRR32381299.txt
+│   │   │       ├── SRR32381300.txt
+│   │   │       ├── SRR32381301.txt
+│   │   │       ├── SRR32381302.txt
+│   │   │       ├── SRR32381303.txt
+│   │   │       ├── SRR32381304.txt
+│   │   │       ├── SRR32381305.txt
+│   │   │       ├── SRR32381306.txt
+│   │   │       ├── SRR32381307.txt
+│   │   │       ├── SRR32381308.txt
+│   │   │       ├── SRR32381309.txt
+│   │   │       ├── SRR32381310.txt
+│   │   │       ├── SRR32381311.txt
+│   │   │       ├── SRR32381312.txt
+│   │   │       ├── SRR32381313.txt
+│   │   │       ├── SRR32381314.txt
+│   │   │       ├── SRR32381315.txt
+│   │   │       ├── SRR32381316.txt
+│   │   │       ├── SRR32381317.txt
+│   │   │       └── SRR32381318.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR32381209
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381210
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381211
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381212
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381213
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381214
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381215
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381216
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381217
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381218
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381219
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381220
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381221
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381222
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381223
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381224
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381225
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381226
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381227
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381228
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381229
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381230
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381231
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381232
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381233
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381235
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381236
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381237
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381238
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381239
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381240
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381241
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381242
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381243
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381244
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381245
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381246
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381247
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381248
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381249
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381250
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381251
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381252
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381253
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381254
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381255
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381256
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381257
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381258
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381259
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381260
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381261
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381262
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381263
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381264
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381265
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381266
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381267
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381268
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381269
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381270
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381271
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381272
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381273
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381274
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381275
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381276
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381277
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381278
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381279
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381280
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381281
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381282
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381283
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381284
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381285
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381286
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381287
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381288
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381289
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381290
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381291
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381292
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381293
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381294
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381295
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381296
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381297
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381298
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381299
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381300
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381301
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381302
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381303
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381304
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381305
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381306
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381307
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381308
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381309
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381310
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381311
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381312
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381313
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381314
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381315
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381316
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381317
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR32381318
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR32381209.txt
+│       │       ├── SRR32381210.txt
+│       │       ├── SRR32381211.txt
+│       │       ├── SRR32381212.txt
+│       │       ├── SRR32381213.txt
+│       │       ├── SRR32381214.txt
+│       │       ├── SRR32381215.txt
+│       │       ├── SRR32381216.txt
+│       │       ├── SRR32381217.txt
+│       │       ├── SRR32381218.txt
+│       │       ├── SRR32381219.txt
+│       │       ├── SRR32381220.txt
+│       │       ├── SRR32381221.txt
+│       │       ├── SRR32381222.txt
+│       │       ├── SRR32381223.txt
+│       │       ├── SRR32381224.txt
+│       │       ├── SRR32381225.txt
+│       │       ├── SRR32381226.txt
+│       │       ├── SRR32381227.txt
+│       │       ├── SRR32381228.txt
+│       │       ├── SRR32381229.txt
+│       │       ├── SRR32381230.txt
+│       │       ├── SRR32381231.txt
+│       │       ├── SRR32381232.txt
+│       │       ├── SRR32381233.txt
+│       │       ├── SRR32381235.txt
+│       │       ├── SRR32381236.txt
+│       │       ├── SRR32381237.txt
+│       │       ├── SRR32381238.txt
+│       │       ├── SRR32381239.txt
+│       │       ├── SRR32381240.txt
+│       │       ├── SRR32381241.txt
+│       │       ├── SRR32381242.txt
+│       │       ├── SRR32381243.txt
+│       │       ├── SRR32381244.txt
+│       │       ├── SRR32381245.txt
+│       │       ├── SRR32381246.txt
+│       │       ├── SRR32381247.txt
+│       │       ├── SRR32381248.txt
+│       │       ├── SRR32381249.txt
+│       │       ├── SRR32381250.txt
+│       │       ├── SRR32381251.txt
+│       │       ├── SRR32381252.txt
+│       │       ├── SRR32381253.txt
+│       │       ├── SRR32381254.txt
+│       │       ├── SRR32381255.txt
+│       │       ├── SRR32381256.txt
+│       │       ├── SRR32381257.txt
+│       │       ├── SRR32381258.txt
+│       │       ├── SRR32381259.txt
+│       │       ├── SRR32381260.txt
+│       │       ├── SRR32381261.txt
+│       │       ├── SRR32381262.txt
+│       │       ├── SRR32381263.txt
+│       │       ├── SRR32381264.txt
+│       │       ├── SRR32381265.txt
+│       │       ├── SRR32381266.txt
+│       │       ├── SRR32381267.txt
+│       │       ├── SRR32381268.txt
+│       │       ├── SRR32381269.txt
+│       │       ├── SRR32381270.txt
+│       │       ├── SRR32381271.txt
+│       │       ├── SRR32381272.txt
+│       │       ├── SRR32381273.txt
+│       │       ├── SRR32381274.txt
+│       │       ├── SRR32381275.txt
+│       │       ├── SRR32381276.txt
+│       │       ├── SRR32381277.txt
+│       │       ├── SRR32381278.txt
+│       │       ├── SRR32381279.txt
+│       │       ├── SRR32381280.txt
+│       │       ├── SRR32381281.txt
+│       │       ├── SRR32381282.txt
+│       │       ├── SRR32381283.txt
+│       │       ├── SRR32381284.txt
+│       │       ├── SRR32381285.txt
+│       │       ├── SRR32381286.txt
+│       │       ├── SRR32381287.txt
+│       │       ├── SRR32381288.txt
+│       │       ├── SRR32381289.txt
+│       │       ├── SRR32381290.txt
+│       │       ├── SRR32381291.txt
+│       │       ├── SRR32381292.txt
+│       │       ├── SRR32381293.txt
+│       │       ├── SRR32381294.txt
+│       │       ├── SRR32381295.txt
+│       │       ├── SRR32381296.txt
+│       │       ├── SRR32381297.txt
+│       │       ├── SRR32381298.txt
+│       │       ├── SRR32381299.txt
+│       │       ├── SRR32381300.txt
+│       │       ├── SRR32381301.txt
+│       │       ├── SRR32381302.txt
+│       │       ├── SRR32381303.txt
+│       │       ├── SRR32381304.txt
+│       │       ├── SRR32381305.txt
+│       │       ├── SRR32381306.txt
+│       │       ├── SRR32381307.txt
+│       │       ├── SRR32381308.txt
+│       │       ├── SRR32381309.txt
+│       │       ├── SRR32381310.txt
+│       │       ├── SRR32381311.txt
+│       │       ├── SRR32381312.txt
+│       │       ├── SRR32381313.txt
+│       │       ├── SRR32381314.txt
+│       │       ├── SRR32381315.txt
+│       │       ├── SRR32381316.txt
+│       │       ├── SRR32381317.txt
+│       │       └── SRR32381318.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR32381209
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381209.markdup.sorted.bam
+│       ├── SRR32381209.markdup.sorted.bam.bai
+│       ├── SRR32381210
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381210.markdup.sorted.bam
+│       ├── SRR32381210.markdup.sorted.bam.bai
+│       ├── SRR32381211
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381211.markdup.sorted.bam
+│       ├── SRR32381211.markdup.sorted.bam.bai
+│       ├── SRR32381212
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381212.markdup.sorted.bam
+│       ├── SRR32381212.markdup.sorted.bam.bai
+│       ├── SRR32381213
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381213.markdup.sorted.bam
+│       ├── SRR32381213.markdup.sorted.bam.bai
+│       ├── SRR32381214
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381214.markdup.sorted.bam
+│       ├── SRR32381214.markdup.sorted.bam.bai
+│       ├── SRR32381215
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381215.markdup.sorted.bam
+│       ├── SRR32381215.markdup.sorted.bam.bai
+│       ├── SRR32381216
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381216.markdup.sorted.bam
+│       ├── SRR32381216.markdup.sorted.bam.bai
+│       ├── SRR32381217
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381217.markdup.sorted.bam
+│       ├── SRR32381217.markdup.sorted.bam.bai
+│       ├── SRR32381218
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381218.markdup.sorted.bam
+│       ├── SRR32381218.markdup.sorted.bam.bai
+│       ├── SRR32381219
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381219.markdup.sorted.bam
+│       ├── SRR32381219.markdup.sorted.bam.bai
+│       ├── SRR32381220
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381220.markdup.sorted.bam
+│       ├── SRR32381220.markdup.sorted.bam.bai
+│       ├── SRR32381221
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381221.markdup.sorted.bam
+│       ├── SRR32381221.markdup.sorted.bam.bai
+│       ├── SRR32381222
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381222.markdup.sorted.bam
+│       ├── SRR32381222.markdup.sorted.bam.bai
+│       ├── SRR32381223
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381223.markdup.sorted.bam
+│       ├── SRR32381223.markdup.sorted.bam.bai
+│       ├── SRR32381224
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381224.markdup.sorted.bam
+│       ├── SRR32381224.markdup.sorted.bam.bai
+│       ├── SRR32381225
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381225.markdup.sorted.bam
+│       ├── SRR32381225.markdup.sorted.bam.bai
+│       ├── SRR32381226
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381226.markdup.sorted.bam
+│       ├── SRR32381226.markdup.sorted.bam.bai
+│       ├── SRR32381227
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381227.markdup.sorted.bam
+│       ├── SRR32381227.markdup.sorted.bam.bai
+│       ├── SRR32381228
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381228.markdup.sorted.bam
+│       ├── SRR32381228.markdup.sorted.bam.bai
+│       ├── SRR32381229
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381229.markdup.sorted.bam
+│       ├── SRR32381229.markdup.sorted.bam.bai
+│       ├── SRR32381230
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381230.markdup.sorted.bam
+│       ├── SRR32381230.markdup.sorted.bam.bai
+│       ├── SRR32381231
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381231.markdup.sorted.bam
+│       ├── SRR32381231.markdup.sorted.bam.bai
+│       ├── SRR32381232
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381232.markdup.sorted.bam
+│       ├── SRR32381232.markdup.sorted.bam.bai
+│       ├── SRR32381233
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381233.markdup.sorted.bam
+│       ├── SRR32381233.markdup.sorted.bam.bai
+│       ├── SRR32381235
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381235.markdup.sorted.bam
+│       ├── SRR32381235.markdup.sorted.bam.bai
+│       ├── SRR32381236
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381236.markdup.sorted.bam
+│       ├── SRR32381236.markdup.sorted.bam.bai
+│       ├── SRR32381237
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381237.markdup.sorted.bam
+│       ├── SRR32381237.markdup.sorted.bam.bai
+│       ├── SRR32381238
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381238.markdup.sorted.bam
+│       ├── SRR32381238.markdup.sorted.bam.bai
+│       ├── SRR32381239
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381239.markdup.sorted.bam
+│       ├── SRR32381239.markdup.sorted.bam.bai
+│       ├── SRR32381240
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381240.markdup.sorted.bam
+│       ├── SRR32381240.markdup.sorted.bam.bai
+│       ├── SRR32381241
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381241.markdup.sorted.bam
+│       ├── SRR32381241.markdup.sorted.bam.bai
+│       ├── SRR32381242
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381242.markdup.sorted.bam
+│       ├── SRR32381242.markdup.sorted.bam.bai
+│       ├── SRR32381243
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381243.markdup.sorted.bam
+│       ├── SRR32381243.markdup.sorted.bam.bai
+│       ├── SRR32381244
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381244.markdup.sorted.bam
+│       ├── SRR32381244.markdup.sorted.bam.bai
+│       ├── SRR32381245
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381245.markdup.sorted.bam
+│       ├── SRR32381245.markdup.sorted.bam.bai
+│       ├── SRR32381246
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381246.markdup.sorted.bam
+│       ├── SRR32381246.markdup.sorted.bam.bai
+│       ├── SRR32381247
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381247.markdup.sorted.bam
+│       ├── SRR32381247.markdup.sorted.bam.bai
+│       ├── SRR32381248
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381248.markdup.sorted.bam
+│       ├── SRR32381248.markdup.sorted.bam.bai
+│       ├── SRR32381249
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381249.markdup.sorted.bam
+│       ├── SRR32381249.markdup.sorted.bam.bai
+│       ├── SRR32381250
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381250.markdup.sorted.bam
+│       ├── SRR32381250.markdup.sorted.bam.bai
+│       ├── SRR32381251
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381251.markdup.sorted.bam
+│       ├── SRR32381251.markdup.sorted.bam.bai
+│       ├── SRR32381252
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381252.markdup.sorted.bam
+│       ├── SRR32381252.markdup.sorted.bam.bai
+│       ├── SRR32381253
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381253.markdup.sorted.bam
+│       ├── SRR32381253.markdup.sorted.bam.bai
+│       ├── SRR32381254
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381254.markdup.sorted.bam
+│       ├── SRR32381254.markdup.sorted.bam.bai
+│       ├── SRR32381255
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381255.markdup.sorted.bam
+│       ├── SRR32381255.markdup.sorted.bam.bai
+│       ├── SRR32381256
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381256.markdup.sorted.bam
+│       ├── SRR32381256.markdup.sorted.bam.bai
+│       ├── SRR32381257
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381257.markdup.sorted.bam
+│       ├── SRR32381257.markdup.sorted.bam.bai
+│       ├── SRR32381258
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381258.markdup.sorted.bam
+│       ├── SRR32381258.markdup.sorted.bam.bai
+│       ├── SRR32381259
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381259.markdup.sorted.bam
+│       ├── SRR32381259.markdup.sorted.bam.bai
+│       ├── SRR32381260
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381260.markdup.sorted.bam
+│       ├── SRR32381260.markdup.sorted.bam.bai
+│       ├── SRR32381261
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381261.markdup.sorted.bam
+│       ├── SRR32381261.markdup.sorted.bam.bai
+│       ├── SRR32381262
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381262.markdup.sorted.bam
+│       ├── SRR32381262.markdup.sorted.bam.bai
+│       ├── SRR32381263
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381263.markdup.sorted.bam
+│       ├── SRR32381263.markdup.sorted.bam.bai
+│       ├── SRR32381264
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381264.markdup.sorted.bam
+│       ├── SRR32381264.markdup.sorted.bam.bai
+│       ├── SRR32381265
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381265.markdup.sorted.bam
+│       ├── SRR32381265.markdup.sorted.bam.bai
+│       ├── SRR32381266
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381266.markdup.sorted.bam
+│       ├── SRR32381266.markdup.sorted.bam.bai
+│       ├── SRR32381267
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381267.markdup.sorted.bam
+│       ├── SRR32381267.markdup.sorted.bam.bai
+│       ├── SRR32381268
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381268.markdup.sorted.bam
+│       ├── SRR32381268.markdup.sorted.bam.bai
+│       ├── SRR32381269
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381269.markdup.sorted.bam
+│       ├── SRR32381269.markdup.sorted.bam.bai
+│       ├── SRR32381270
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381270.markdup.sorted.bam
+│       ├── SRR32381270.markdup.sorted.bam.bai
+│       ├── SRR32381271
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381271.markdup.sorted.bam
+│       ├── SRR32381271.markdup.sorted.bam.bai
+│       ├── SRR32381272
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381272.markdup.sorted.bam
+│       ├── SRR32381272.markdup.sorted.bam.bai
+│       ├── SRR32381273
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381273.markdup.sorted.bam
+│       ├── SRR32381273.markdup.sorted.bam.bai
+│       ├── SRR32381274
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381274.markdup.sorted.bam
+│       ├── SRR32381274.markdup.sorted.bam.bai
+│       ├── SRR32381275
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381275.markdup.sorted.bam
+│       ├── SRR32381275.markdup.sorted.bam.bai
+│       ├── SRR32381276
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381276.markdup.sorted.bam
+│       ├── SRR32381276.markdup.sorted.bam.bai
+│       ├── SRR32381277
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381277.markdup.sorted.bam
+│       ├── SRR32381277.markdup.sorted.bam.bai
+│       ├── SRR32381278
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381278.markdup.sorted.bam
+│       ├── SRR32381278.markdup.sorted.bam.bai
+│       ├── SRR32381279
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381279.markdup.sorted.bam
+│       ├── SRR32381279.markdup.sorted.bam.bai
+│       ├── SRR32381280
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381280.markdup.sorted.bam
+│       ├── SRR32381280.markdup.sorted.bam.bai
+│       ├── SRR32381281
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381281.markdup.sorted.bam
+│       ├── SRR32381281.markdup.sorted.bam.bai
+│       ├── SRR32381282
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381282.markdup.sorted.bam
+│       ├── SRR32381282.markdup.sorted.bam.bai
+│       ├── SRR32381283
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381283.markdup.sorted.bam
+│       ├── SRR32381283.markdup.sorted.bam.bai
+│       ├── SRR32381284
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381284.markdup.sorted.bam
+│       ├── SRR32381284.markdup.sorted.bam.bai
+│       ├── SRR32381285
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381285.markdup.sorted.bam
+│       ├── SRR32381285.markdup.sorted.bam.bai
+│       ├── SRR32381286
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381286.markdup.sorted.bam
+│       ├── SRR32381286.markdup.sorted.bam.bai
+│       ├── SRR32381287
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381287.markdup.sorted.bam
+│       ├── SRR32381287.markdup.sorted.bam.bai
+│       ├── SRR32381288
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381288.markdup.sorted.bam
+│       ├── SRR32381288.markdup.sorted.bam.bai
+│       ├── SRR32381289
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381289.markdup.sorted.bam
+│       ├── SRR32381289.markdup.sorted.bam.bai
+│       ├── SRR32381290
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381290.markdup.sorted.bam
+│       ├── SRR32381290.markdup.sorted.bam.bai
+│       ├── SRR32381291
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381291.markdup.sorted.bam
+│       ├── SRR32381291.markdup.sorted.bam.bai
+│       ├── SRR32381292
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381292.markdup.sorted.bam
+│       ├── SRR32381292.markdup.sorted.bam.bai
+│       ├── SRR32381293
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381293.markdup.sorted.bam
+│       ├── SRR32381293.markdup.sorted.bam.bai
+│       ├── SRR32381294
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381294.markdup.sorted.bam
+│       ├── SRR32381294.markdup.sorted.bam.bai
+│       ├── SRR32381295
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381295.markdup.sorted.bam
+│       ├── SRR32381295.markdup.sorted.bam.bai
+│       ├── SRR32381296
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381296.markdup.sorted.bam
+│       ├── SRR32381296.markdup.sorted.bam.bai
+│       ├── SRR32381297
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381297.markdup.sorted.bam
+│       ├── SRR32381297.markdup.sorted.bam.bai
+│       ├── SRR32381298
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381298.markdup.sorted.bam
+│       ├── SRR32381298.markdup.sorted.bam.bai
+│       ├── SRR32381299
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381299.markdup.sorted.bam
+│       ├── SRR32381299.markdup.sorted.bam.bai
+│       ├── SRR32381300
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381300.markdup.sorted.bam
+│       ├── SRR32381300.markdup.sorted.bam.bai
+│       ├── SRR32381301
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381301.markdup.sorted.bam
+│       ├── SRR32381301.markdup.sorted.bam.bai
+│       ├── SRR32381302
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381302.markdup.sorted.bam
+│       ├── SRR32381302.markdup.sorted.bam.bai
+│       ├── SRR32381303
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381303.markdup.sorted.bam
+│       ├── SRR32381303.markdup.sorted.bam.bai
+│       ├── SRR32381304
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381304.markdup.sorted.bam
+│       ├── SRR32381304.markdup.sorted.bam.bai
+│       ├── SRR32381305
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381305.markdup.sorted.bam
+│       ├── SRR32381305.markdup.sorted.bam.bai
+│       ├── SRR32381306
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381306.markdup.sorted.bam
+│       ├── SRR32381306.markdup.sorted.bam.bai
+│       ├── SRR32381307
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381307.markdup.sorted.bam
+│       ├── SRR32381307.markdup.sorted.bam.bai
+│       ├── SRR32381308
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381308.markdup.sorted.bam
+│       ├── SRR32381308.markdup.sorted.bam.bai
+│       ├── SRR32381309
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381309.markdup.sorted.bam
+│       ├── SRR32381309.markdup.sorted.bam.bai
+│       ├── SRR32381310
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381310.markdup.sorted.bam
+│       ├── SRR32381310.markdup.sorted.bam.bai
+│       ├── SRR32381311
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381311.markdup.sorted.bam
+│       ├── SRR32381311.markdup.sorted.bam.bai
+│       ├── SRR32381312
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381312.markdup.sorted.bam
+│       ├── SRR32381312.markdup.sorted.bam.bai
+│       ├── SRR32381313
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381313.markdup.sorted.bam
+│       ├── SRR32381313.markdup.sorted.bam.bai
+│       ├── SRR32381314
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381314.markdup.sorted.bam
+│       ├── SRR32381314.markdup.sorted.bam.bai
+│       ├── SRR32381315
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381315.markdup.sorted.bam
+│       ├── SRR32381315.markdup.sorted.bam.bai
+│       ├── SRR32381316
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381316.markdup.sorted.bam
+│       ├── SRR32381316.markdup.sorted.bam.bai
+│       ├── SRR32381317
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381317.markdup.sorted.bam
+│       ├── SRR32381317.markdup.sorted.bam.bai
+│       ├── SRR32381318
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381318.markdup.sorted.bam
+│       └── SRR32381318.markdup.sorted.bam.bai
+├── PRJNA1259002
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR33433657.txt
+│   │   │       ├── SRR33433658.txt
+│   │   │       ├── SRR33433659.txt
+│   │   │       ├── SRR33433660.txt
+│   │   │       ├── SRR33433661.txt
+│   │   │       └── SRR33433662.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR33433657
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR33433658
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR33433659
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR33433660
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR33433661
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR33433662
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR33433657.txt
+│       │       ├── SRR33433658.txt
+│       │       ├── SRR33433659.txt
+│       │       ├── SRR33433660.txt
+│       │       ├── SRR33433661.txt
+│       │       └── SRR33433662.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR33433657
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR33433657.markdup.sorted.bam
+│       ├── SRR33433657.markdup.sorted.bam.bai
+│       ├── SRR33433658
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR33433658.markdup.sorted.bam
+│       ├── SRR33433658.markdup.sorted.bam.bai
+│       ├── SRR33433659
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR33433659.markdup.sorted.bam
+│       ├── SRR33433659.markdup.sorted.bam.bai
+│       ├── SRR33433660
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR33433660.markdup.sorted.bam
+│       ├── SRR33433660.markdup.sorted.bam.bai
+│       ├── SRR33433661
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR33433661.markdup.sorted.bam
+│       ├── SRR33433661.markdup.sorted.bam.bai
+│       ├── SRR33433662
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR33433662.markdup.sorted.bam
+│       └── SRR33433662.markdup.sorted.bam.bai
 ├── PRJNA285844
 │   ├── genome
 │   │   ├── gencode.vM37.primary_assembly.annotation.filtered.gtf
@@ -3639,6 +6994,201 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR9734475.markdup.sorted.bam
 │       └── SRR9734475.markdup.sorted.bam.bai
+├── PRJNA556225
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR9734436.txt
+│   │   │       ├── SRR9734437.txt
+│   │   │       ├── SRR9734438.txt
+│   │   │       ├── SRR9734439.txt
+│   │   │       ├── SRR9734440.txt
+│   │   │       └── SRR9734441.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR9734436
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR9734437
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR9734438
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR9734439
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR9734440
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR9734441
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR9734436.txt
+│       │       ├── SRR9734437.txt
+│       │       ├── SRR9734438.txt
+│       │       ├── SRR9734439.txt
+│       │       ├── SRR9734440.txt
+│       │       └── SRR9734441.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR9734436
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR9734436.markdup.sorted.bam
+│       ├── SRR9734436.markdup.sorted.bam.bai
+│       ├── SRR9734437
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR9734437.markdup.sorted.bam
+│       ├── SRR9734437.markdup.sorted.bam.bai
+│       ├── SRR9734438
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR9734438.markdup.sorted.bam
+│       ├── SRR9734438.markdup.sorted.bam.bai
+│       ├── SRR9734439
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR9734439.markdup.sorted.bam
+│       ├── SRR9734439.markdup.sorted.bam.bai
+│       ├── SRR9734440
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR9734440.markdup.sorted.bam
+│       ├── SRR9734440.markdup.sorted.bam.bai
+│       ├── SRR9734441
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR9734441.markdup.sorted.bam
+│       └── SRR9734441.markdup.sorted.bam.bai
 ├── PRJNA556227
 │   ├── genome
 │   │   ├── gencode.vM37.primary_assembly.annotation.filtered.gtf
@@ -4652,6 +8202,251 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR10175014.markdup.sorted.bam
 │       └── SRR10175014.markdup.sorted.bam.bai
+├── PRJNA594607
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR10620160.txt
+│   │   │       ├── SRR10620161.txt
+│   │   │       ├── SRR10620162.txt
+│   │   │       ├── SRR10620163.txt
+│   │   │       ├── SRR10620164.txt
+│   │   │       ├── SRR10620165.txt
+│   │   │       ├── SRR10620166.txt
+│   │   │       └── SRR10620167.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR10620160
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR10620161
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR10620162
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR10620163
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR10620164
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR10620165
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR10620166
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR10620167
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR10620160.txt
+│       │       ├── SRR10620161.txt
+│       │       ├── SRR10620162.txt
+│       │       ├── SRR10620163.txt
+│       │       ├── SRR10620164.txt
+│       │       ├── SRR10620165.txt
+│       │       ├── SRR10620166.txt
+│       │       └── SRR10620167.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR10620160
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620160.markdup.sorted.bam
+│       ├── SRR10620160.markdup.sorted.bam.bai
+│       ├── SRR10620161
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620161.markdup.sorted.bam
+│       ├── SRR10620161.markdup.sorted.bam.bai
+│       ├── SRR10620162
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620162.markdup.sorted.bam
+│       ├── SRR10620162.markdup.sorted.bam.bai
+│       ├── SRR10620163
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620163.markdup.sorted.bam
+│       ├── SRR10620163.markdup.sorted.bam.bai
+│       ├── SRR10620164
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620164.markdup.sorted.bam
+│       ├── SRR10620164.markdup.sorted.bam.bai
+│       ├── SRR10620165
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620165.markdup.sorted.bam
+│       ├── SRR10620165.markdup.sorted.bam.bai
+│       ├── SRR10620166
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620166.markdup.sorted.bam
+│       ├── SRR10620166.markdup.sorted.bam.bai
+│       ├── SRR10620167
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR10620167.markdup.sorted.bam
+│       └── SRR10620167.markdup.sorted.bam.bai
 ├── PRJNA629819
 │   ├── genome
 │   │   ├── gencode.vM37.primary_assembly.annotation.filtered.gtf
@@ -5509,6 +9304,1096 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR15103230.markdup.sorted.bam
 │       └── SRR15103230.markdup.sorted.bam.bai
+├── PRJNA761104
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR15731068.txt
+│   │   │       ├── SRR15731069.txt
+│   │   │       ├── SRR15731070.txt
+│   │   │       └── SRR15731071.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR15731068
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR15731069
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR15731070
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR15731071
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR15731068.txt
+│       │       ├── SRR15731069.txt
+│       │       ├── SRR15731070.txt
+│       │       └── SRR15731071.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR15731068
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR15731068.markdup.sorted.bam
+│       ├── SRR15731068.markdup.sorted.bam.bai
+│       ├── SRR15731069
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR15731069.markdup.sorted.bam
+│       ├── SRR15731069.markdup.sorted.bam.bai
+│       ├── SRR15731070
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR15731070.markdup.sorted.bam
+│       ├── SRR15731070.markdup.sorted.bam.bai
+│       ├── SRR15731071
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR15731071.markdup.sorted.bam
+│       └── SRR15731071.markdup.sorted.bam.bai
+├── PRJNA802014
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR17828650.txt
+│   │   │       ├── SRR17828651.txt
+│   │   │       ├── SRR17828652.txt
+│   │   │       ├── SRR17828653.txt
+│   │   │       ├── SRR17828654.txt
+│   │   │       ├── SRR17828655.txt
+│   │   │       ├── SRR17828656.txt
+│   │   │       ├── SRR17828657.txt
+│   │   │       ├── SRR17828658.txt
+│   │   │       ├── SRR17828659.txt
+│   │   │       ├── SRR17828660.txt
+│   │   │       ├── SRR17828661.txt
+│   │   │       ├── SRR17828662.txt
+│   │   │       ├── SRR17828663.txt
+│   │   │       ├── SRR17828664.txt
+│   │   │       ├── SRR17828665.txt
+│   │   │       ├── SRR17828666.txt
+│   │   │       ├── SRR17828667.txt
+│   │   │       ├── SRR17828668.txt
+│   │   │       ├── SRR17828669.txt
+│   │   │       ├── SRR17828670.txt
+│   │   │       ├── SRR17828671.txt
+│   │   │       ├── SRR17828672.txt
+│   │   │       ├── SRR17828673.txt
+│   │   │       ├── SRR17828674.txt
+│   │   │       ├── SRR17828675.txt
+│   │   │       ├── SRR17828676.txt
+│   │   │       ├── SRR17828677.txt
+│   │   │       ├── SRR17828678.txt
+│   │   │       ├── SRR17828679.txt
+│   │   │       ├── SRR17828680.txt
+│   │   │       ├── SRR17828681.txt
+│   │   │       ├── SRR17828682.txt
+│   │   │       ├── SRR17828683.txt
+│   │   │       ├── SRR17828684.txt
+│   │   │       └── SRR17828685.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR17828650
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828651
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828652
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828653
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828654
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828655
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828656
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828657
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828658
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828659
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828660
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828661
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828662
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828663
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828664
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828665
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828666
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828667
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828668
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828669
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828670
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828671
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828672
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828673
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828674
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828675
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828676
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828677
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828678
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828679
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828680
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828681
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828682
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828683
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR17828684
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR17828685
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR17828650.txt
+│       │       ├── SRR17828651.txt
+│       │       ├── SRR17828652.txt
+│       │       ├── SRR17828653.txt
+│       │       ├── SRR17828654.txt
+│       │       ├── SRR17828655.txt
+│       │       ├── SRR17828656.txt
+│       │       ├── SRR17828657.txt
+│       │       ├── SRR17828658.txt
+│       │       ├── SRR17828659.txt
+│       │       ├── SRR17828660.txt
+│       │       ├── SRR17828661.txt
+│       │       ├── SRR17828662.txt
+│       │       ├── SRR17828663.txt
+│       │       ├── SRR17828664.txt
+│       │       ├── SRR17828665.txt
+│       │       ├── SRR17828666.txt
+│       │       ├── SRR17828667.txt
+│       │       ├── SRR17828668.txt
+│       │       ├── SRR17828669.txt
+│       │       ├── SRR17828670.txt
+│       │       ├── SRR17828671.txt
+│       │       ├── SRR17828672.txt
+│       │       ├── SRR17828673.txt
+│       │       ├── SRR17828674.txt
+│       │       ├── SRR17828675.txt
+│       │       ├── SRR17828676.txt
+│       │       ├── SRR17828677.txt
+│       │       ├── SRR17828678.txt
+│       │       ├── SRR17828679.txt
+│       │       ├── SRR17828680.txt
+│       │       ├── SRR17828681.txt
+│       │       ├── SRR17828682.txt
+│       │       ├── SRR17828683.txt
+│       │       ├── SRR17828684.txt
+│       │       └── SRR17828685.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR17828650
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828650.markdup.sorted.bam
+│       ├── SRR17828650.markdup.sorted.bam.bai
+│       ├── SRR17828651
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828651.markdup.sorted.bam
+│       ├── SRR17828651.markdup.sorted.bam.bai
+│       ├── SRR17828652
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828652.markdup.sorted.bam
+│       ├── SRR17828652.markdup.sorted.bam.bai
+│       ├── SRR17828653
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828653.markdup.sorted.bam
+│       ├── SRR17828653.markdup.sorted.bam.bai
+│       ├── SRR17828654
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828654.markdup.sorted.bam
+│       ├── SRR17828654.markdup.sorted.bam.bai
+│       ├── SRR17828655
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828655.markdup.sorted.bam
+│       ├── SRR17828655.markdup.sorted.bam.bai
+│       ├── SRR17828656
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828656.markdup.sorted.bam
+│       ├── SRR17828656.markdup.sorted.bam.bai
+│       ├── SRR17828657
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828657.markdup.sorted.bam
+│       ├── SRR17828657.markdup.sorted.bam.bai
+│       ├── SRR17828658
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828658.markdup.sorted.bam
+│       ├── SRR17828658.markdup.sorted.bam.bai
+│       ├── SRR17828659
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828659.markdup.sorted.bam
+│       ├── SRR17828659.markdup.sorted.bam.bai
+│       ├── SRR17828660
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828660.markdup.sorted.bam
+│       ├── SRR17828660.markdup.sorted.bam.bai
+│       ├── SRR17828661
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828661.markdup.sorted.bam
+│       ├── SRR17828661.markdup.sorted.bam.bai
+│       ├── SRR17828662
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828662.markdup.sorted.bam
+│       ├── SRR17828662.markdup.sorted.bam.bai
+│       ├── SRR17828663
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828663.markdup.sorted.bam
+│       ├── SRR17828663.markdup.sorted.bam.bai
+│       ├── SRR17828664
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828664.markdup.sorted.bam
+│       ├── SRR17828664.markdup.sorted.bam.bai
+│       ├── SRR17828665
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828665.markdup.sorted.bam
+│       ├── SRR17828665.markdup.sorted.bam.bai
+│       ├── SRR17828666
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828666.markdup.sorted.bam
+│       ├── SRR17828666.markdup.sorted.bam.bai
+│       ├── SRR17828667
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828667.markdup.sorted.bam
+│       ├── SRR17828667.markdup.sorted.bam.bai
+│       ├── SRR17828668
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828668.markdup.sorted.bam
+│       ├── SRR17828668.markdup.sorted.bam.bai
+│       ├── SRR17828669
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828669.markdup.sorted.bam
+│       ├── SRR17828669.markdup.sorted.bam.bai
+│       ├── SRR17828670
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828670.markdup.sorted.bam
+│       ├── SRR17828670.markdup.sorted.bam.bai
+│       ├── SRR17828671
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828671.markdup.sorted.bam
+│       ├── SRR17828671.markdup.sorted.bam.bai
+│       ├── SRR17828672
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828672.markdup.sorted.bam
+│       ├── SRR17828672.markdup.sorted.bam.bai
+│       ├── SRR17828673
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828673.markdup.sorted.bam
+│       ├── SRR17828673.markdup.sorted.bam.bai
+│       ├── SRR17828674
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828674.markdup.sorted.bam
+│       ├── SRR17828674.markdup.sorted.bam.bai
+│       ├── SRR17828675
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828675.markdup.sorted.bam
+│       ├── SRR17828675.markdup.sorted.bam.bai
+│       ├── SRR17828676
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828676.markdup.sorted.bam
+│       ├── SRR17828676.markdup.sorted.bam.bai
+│       ├── SRR17828677
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828677.markdup.sorted.bam
+│       ├── SRR17828677.markdup.sorted.bam.bai
+│       ├── SRR17828678
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828678.markdup.sorted.bam
+│       ├── SRR17828678.markdup.sorted.bam.bai
+│       ├── SRR17828679
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828679.markdup.sorted.bam
+│       ├── SRR17828679.markdup.sorted.bam.bai
+│       ├── SRR17828680
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828680.markdup.sorted.bam
+│       ├── SRR17828680.markdup.sorted.bam.bai
+│       ├── SRR17828681
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828681.markdup.sorted.bam
+│       ├── SRR17828681.markdup.sorted.bam.bai
+│       ├── SRR17828682
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828682.markdup.sorted.bam
+│       ├── SRR17828682.markdup.sorted.bam.bai
+│       ├── SRR17828683
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828683.markdup.sorted.bam
+│       ├── SRR17828683.markdup.sorted.bam.bai
+│       ├── SRR17828684
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828684.markdup.sorted.bam
+│       ├── SRR17828684.markdup.sorted.bam.bai
+│       ├── SRR17828685
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR17828685.markdup.sorted.bam
+│       └── SRR17828685.markdup.sorted.bam.bai
 ├── PRJNA805542
 │   ├── genome
 │   │   ├── gencode.vM37.primary_assembly.annotation.filtered.gtf
@@ -6497,9 +11382,624 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR17983762.markdup.sorted.bam
 │       └── SRR17983762.markdup.sorted.bam.bai
-└── PRJNA857739
+├── PRJNA857739
+│   ├── genome
+│   │   ├── gencode.vM37.primary_assembly.annotation.filtered.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR20082246.txt
+│   │   │       ├── SRR20082247.txt
+│   │   │       ├── SRR20082248.txt
+│   │   │       ├── SRR20082249.txt
+│   │   │       ├── SRR20082250.txt
+│   │   │       ├── SRR20082251.txt
+│   │   │       ├── SRR20082252.txt
+│   │   │       ├── SRR20082253.txt
+│   │   │       ├── SRR20082254.txt
+│   │   │       ├── SRR20082255.txt
+│   │   │       ├── SRR20082256.txt
+│   │   │       └── SRR20082257.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR20082246
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082247
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082248
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082249
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082250
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082251
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082252
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082253
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082254
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082255
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR20082256
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR20082257
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR20082246.txt
+│       │       ├── SRR20082247.txt
+│       │       ├── SRR20082248.txt
+│       │       ├── SRR20082249.txt
+│       │       ├── SRR20082250.txt
+│       │       ├── SRR20082251.txt
+│       │       ├── SRR20082252.txt
+│       │       ├── SRR20082253.txt
+│       │       ├── SRR20082254.txt
+│       │       ├── SRR20082255.txt
+│       │       ├── SRR20082256.txt
+│       │       └── SRR20082257.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR20082246
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082246.markdup.sorted.bam
+│       ├── SRR20082246.markdup.sorted.bam.bai
+│       ├── SRR20082247
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082247.markdup.sorted.bam
+│       ├── SRR20082247.markdup.sorted.bam.bai
+│       ├── SRR20082248
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082248.markdup.sorted.bam
+│       ├── SRR20082248.markdup.sorted.bam.bai
+│       ├── SRR20082249
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082249.markdup.sorted.bam
+│       ├── SRR20082249.markdup.sorted.bam.bai
+│       ├── SRR20082250
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082250.markdup.sorted.bam
+│       ├── SRR20082250.markdup.sorted.bam.bai
+│       ├── SRR20082251
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082251.markdup.sorted.bam
+│       ├── SRR20082251.markdup.sorted.bam.bai
+│       ├── SRR20082252
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082252.markdup.sorted.bam
+│       ├── SRR20082252.markdup.sorted.bam.bai
+│       ├── SRR20082253
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082253.markdup.sorted.bam
+│       ├── SRR20082253.markdup.sorted.bam.bai
+│       ├── SRR20082254
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082254.markdup.sorted.bam
+│       ├── SRR20082254.markdup.sorted.bam.bai
+│       ├── SRR20082255
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082255.markdup.sorted.bam
+│       ├── SRR20082255.markdup.sorted.bam.bai
+│       ├── SRR20082256
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082256.markdup.sorted.bam
+│       ├── SRR20082256.markdup.sorted.bam.bai
+│       ├── SRR20082257
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR20082257.markdup.sorted.bam
+│       └── SRR20082257.markdup.sorted.bam.bai
+├── PRJNA891209
+│   ├── genome
+│   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+│   │   ├── gencode.v50.primary_assembly.annotation.gtf
+│   │   └── genome.transcripts.fa
+│   ├── multiqc
+│   │   └── star_salmon
+│   │       └── multiqc_report.html
+│   ├── salmon
+│   │   ├── deseq2_qc
+│   │   │   ├── deseq2.dds.RData
+│   │   │   ├── deseq2.pca.vals.txt
+│   │   │   ├── deseq2.sample.dists.txt
+│   │   │   └── size_factors
+│   │   │       ├── deseq2.size_factors.RData
+│   │   │       ├── SRR21929878.txt
+│   │   │       ├── SRR21929879.txt
+│   │   │       ├── SRR21929881.txt
+│   │   │       ├── SRR21929882.txt
+│   │   │       ├── SRR21929883.txt
+│   │   │       ├── SRR21929884.txt
+│   │   │       ├── SRR21929885.txt
+│   │   │       ├── SRR21929886.txt
+│   │   │       └── SRR21929888.txt
+│   │   ├── salmon.merged.gene_counts_length_scaled.tsv
+│   │   ├── salmon.merged.gene_counts_scaled.tsv
+│   │   ├── salmon.merged.gene_counts.tsv
+│   │   ├── salmon.merged.gene_lengths.tsv
+│   │   ├── salmon.merged.gene.SummarizedExperiment.rds
+│   │   ├── salmon.merged.gene_tpm.tsv
+│   │   ├── salmon.merged.transcript_counts.tsv
+│   │   ├── salmon.merged.transcript_lengths.tsv
+│   │   ├── salmon.merged.transcript.SummarizedExperiment.rds
+│   │   ├── salmon.merged.transcript_tpm.tsv
+│   │   ├── salmon.merged.tx2gene.tsv
+│   │   ├── SRR21929878
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929879
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929881
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929882
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929883
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929884
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929885
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929886
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR21929888
+│   │       ├── aux_info
+│   │       │   ├── ambig_info.tsv
+│   │       │   └── meta_info.json
+│   │       ├── cmd_info.json
+│   │       ├── lib_format_counts.json
+│   │       ├── libParams
+│   │       │   └── flenDist.txt
+│   │       ├── logs
+│   │       ├── quant.genes.sf
+│   │       └── quant.sf
+│   └── star_salmon
+│       ├── bigwig
+│       ├── deseq2_qc
+│       │   ├── deseq2.dds.RData
+│       │   ├── deseq2.pca.vals.txt
+│       │   ├── deseq2.sample.dists.txt
+│       │   └── size_factors
+│       │       ├── deseq2.size_factors.RData
+│       │       ├── SRR21929878.txt
+│       │       ├── SRR21929879.txt
+│       │       ├── SRR21929881.txt
+│       │       ├── SRR21929882.txt
+│       │       ├── SRR21929883.txt
+│       │       ├── SRR21929884.txt
+│       │       ├── SRR21929885.txt
+│       │       ├── SRR21929886.txt
+│       │       └── SRR21929888.txt
+│       ├── salmon.merged.gene_counts_length_scaled.tsv
+│       ├── salmon.merged.gene_counts_scaled.tsv
+│       ├── salmon.merged.gene_counts.tsv
+│       ├── salmon.merged.gene_lengths.tsv
+│       ├── salmon.merged.gene.SummarizedExperiment.rds
+│       ├── salmon.merged.gene_tpm.tsv
+│       ├── salmon.merged.transcript_counts.tsv
+│       ├── salmon.merged.transcript_lengths.tsv
+│       ├── salmon.merged.transcript.SummarizedExperiment.rds
+│       ├── salmon.merged.transcript_tpm.tsv
+│       ├── salmon.merged.tx2gene.tsv
+│       ├── SRR21929878
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929878.markdup.sorted.bam
+│       ├── SRR21929878.markdup.sorted.bam.bai
+│       ├── SRR21929879
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929879.markdup.sorted.bam
+│       ├── SRR21929879.markdup.sorted.bam.bai
+│       ├── SRR21929881
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929881.markdup.sorted.bam
+│       ├── SRR21929881.markdup.sorted.bam.bai
+│       ├── SRR21929882
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929882.markdup.sorted.bam
+│       ├── SRR21929882.markdup.sorted.bam.bai
+│       ├── SRR21929883
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929883.markdup.sorted.bam
+│       ├── SRR21929883.markdup.sorted.bam.bai
+│       ├── SRR21929884
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929884.markdup.sorted.bam
+│       ├── SRR21929884.markdup.sorted.bam.bai
+│       ├── SRR21929885
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929885.markdup.sorted.bam
+│       ├── SRR21929885.markdup.sorted.bam.bai
+│       ├── SRR21929886
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929886.markdup.sorted.bam
+│       ├── SRR21929886.markdup.sorted.bam.bai
+│       ├── SRR21929888
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929888.markdup.sorted.bam
+│       └── SRR21929888.markdup.sorted.bam.bai
+└── PRJNA952259
     ├── genome
-    │   ├── gencode.vM37.primary_assembly.annotation.filtered.gtf
+    │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
+    │   ├── gencode.v50.primary_assembly.annotation.gtf
     │   └── genome.transcripts.fa
     ├── multiqc
     │   └── star_salmon
@@ -6511,18 +12011,19 @@ data/nfcore_rnaseq/
     │   │   ├── deseq2.sample.dists.txt
     │   │   └── size_factors
     │   │       ├── deseq2.size_factors.RData
-    │   │       ├── SRR20082246.txt
-    │   │       ├── SRR20082247.txt
-    │   │       ├── SRR20082248.txt
-    │   │       ├── SRR20082249.txt
-    │   │       ├── SRR20082250.txt
-    │   │       ├── SRR20082251.txt
-    │   │       ├── SRR20082252.txt
-    │   │       ├── SRR20082253.txt
-    │   │       ├── SRR20082254.txt
-    │   │       ├── SRR20082255.txt
-    │   │       ├── SRR20082256.txt
-    │   │       └── SRR20082257.txt
+    │   │       ├── SRR25824033.txt
+    │   │       ├── SRR25824035.txt
+    │   │       ├── SRR25824036.txt
+    │   │       ├── SRR25824038.txt
+    │   │       ├── SRR25824039.txt
+    │   │       ├── SRR25824040.txt
+    │   │       ├── SRR25824041.txt
+    │   │       ├── SRR25824042.txt
+    │   │       ├── SRR25824043.txt
+    │   │       ├── SRR25824044.txt
+    │   │       ├── SRR25824045.txt
+    │   │       ├── SRR25824046.txt
+    │   │       └── SRR25824047.txt
     │   ├── salmon.merged.gene_counts_length_scaled.tsv
     │   ├── salmon.merged.gene_counts_scaled.tsv
     │   ├── salmon.merged.gene_counts.tsv
@@ -6534,7 +12035,7 @@ data/nfcore_rnaseq/
     │   ├── salmon.merged.transcript.SummarizedExperiment.rds
     │   ├── salmon.merged.transcript_tpm.tsv
     │   ├── salmon.merged.tx2gene.tsv
-    │   ├── SRR20082246
+    │   ├── SRR25824033
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6545,7 +12046,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082247
+    │   ├── SRR25824035
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6556,7 +12057,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082248
+    │   ├── SRR25824036
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6567,7 +12068,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082249
+    │   ├── SRR25824038
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6578,7 +12079,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082250
+    │   ├── SRR25824039
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6589,7 +12090,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082251
+    │   ├── SRR25824040
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6600,7 +12101,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082252
+    │   ├── SRR25824041
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6611,7 +12112,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082253
+    │   ├── SRR25824042
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6622,7 +12123,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082254
+    │   ├── SRR25824043
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6633,7 +12134,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082255
+    │   ├── SRR25824044
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6644,7 +12145,7 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   ├── SRR20082256
+    │   ├── SRR25824045
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -6655,7 +12156,18 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
-    │   └── SRR20082257
+    │   ├── SRR25824046
+    │   │   ├── aux_info
+    │   │   │   ├── ambig_info.tsv
+    │   │   │   └── meta_info.json
+    │   │   ├── cmd_info.json
+    │   │   ├── lib_format_counts.json
+    │   │   ├── libParams
+    │   │   │   └── flenDist.txt
+    │   │   ├── logs
+    │   │   ├── quant.genes.sf
+    │   │   └── quant.sf
+    │   └── SRR25824047
     │       ├── aux_info
     │       │   ├── ambig_info.tsv
     │       │   └── meta_info.json
@@ -6674,18 +12186,19 @@ data/nfcore_rnaseq/
         │   ├── deseq2.sample.dists.txt
         │   └── size_factors
         │       ├── deseq2.size_factors.RData
-        │       ├── SRR20082246.txt
-        │       ├── SRR20082247.txt
-        │       ├── SRR20082248.txt
-        │       ├── SRR20082249.txt
-        │       ├── SRR20082250.txt
-        │       ├── SRR20082251.txt
-        │       ├── SRR20082252.txt
-        │       ├── SRR20082253.txt
-        │       ├── SRR20082254.txt
-        │       ├── SRR20082255.txt
-        │       ├── SRR20082256.txt
-        │       └── SRR20082257.txt
+        │       ├── SRR25824033.txt
+        │       ├── SRR25824035.txt
+        │       ├── SRR25824036.txt
+        │       ├── SRR25824038.txt
+        │       ├── SRR25824039.txt
+        │       ├── SRR25824040.txt
+        │       ├── SRR25824041.txt
+        │       ├── SRR25824042.txt
+        │       ├── SRR25824043.txt
+        │       ├── SRR25824044.txt
+        │       ├── SRR25824045.txt
+        │       ├── SRR25824046.txt
+        │       └── SRR25824047.txt
         ├── salmon.merged.gene_counts_length_scaled.tsv
         ├── salmon.merged.gene_counts_scaled.tsv
         ├── salmon.merged.gene_counts.tsv
@@ -6697,7 +12210,7 @@ data/nfcore_rnaseq/
         ├── salmon.merged.transcript.SummarizedExperiment.rds
         ├── salmon.merged.transcript_tpm.tsv
         ├── salmon.merged.tx2gene.tsv
-        ├── SRR20082246
+        ├── SRR25824033
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6707,9 +12220,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082246.markdup.sorted.bam
-        ├── SRR20082246.markdup.sorted.bam.bai
-        ├── SRR20082247
+        ├── SRR25824033.markdup.sorted.bam
+        ├── SRR25824033.markdup.sorted.bam.bai
+        ├── SRR25824035
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6719,9 +12232,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082247.markdup.sorted.bam
-        ├── SRR20082247.markdup.sorted.bam.bai
-        ├── SRR20082248
+        ├── SRR25824035.markdup.sorted.bam
+        ├── SRR25824035.markdup.sorted.bam.bai
+        ├── SRR25824036
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6731,9 +12244,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082248.markdup.sorted.bam
-        ├── SRR20082248.markdup.sorted.bam.bai
-        ├── SRR20082249
+        ├── SRR25824036.markdup.sorted.bam
+        ├── SRR25824036.markdup.sorted.bam.bai
+        ├── SRR25824038
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6743,9 +12256,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082249.markdup.sorted.bam
-        ├── SRR20082249.markdup.sorted.bam.bai
-        ├── SRR20082250
+        ├── SRR25824038.markdup.sorted.bam
+        ├── SRR25824038.markdup.sorted.bam.bai
+        ├── SRR25824039
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6755,9 +12268,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082250.markdup.sorted.bam
-        ├── SRR20082250.markdup.sorted.bam.bai
-        ├── SRR20082251
+        ├── SRR25824039.markdup.sorted.bam
+        ├── SRR25824039.markdup.sorted.bam.bai
+        ├── SRR25824040
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6767,9 +12280,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082251.markdup.sorted.bam
-        ├── SRR20082251.markdup.sorted.bam.bai
-        ├── SRR20082252
+        ├── SRR25824040.markdup.sorted.bam
+        ├── SRR25824040.markdup.sorted.bam.bai
+        ├── SRR25824041
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6779,9 +12292,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082252.markdup.sorted.bam
-        ├── SRR20082252.markdup.sorted.bam.bai
-        ├── SRR20082253
+        ├── SRR25824041.markdup.sorted.bam
+        ├── SRR25824041.markdup.sorted.bam.bai
+        ├── SRR25824042
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6791,9 +12304,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082253.markdup.sorted.bam
-        ├── SRR20082253.markdup.sorted.bam.bai
-        ├── SRR20082254
+        ├── SRR25824042.markdup.sorted.bam
+        ├── SRR25824042.markdup.sorted.bam.bai
+        ├── SRR25824043
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6803,9 +12316,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082254.markdup.sorted.bam
-        ├── SRR20082254.markdup.sorted.bam.bai
-        ├── SRR20082255
+        ├── SRR25824043.markdup.sorted.bam
+        ├── SRR25824043.markdup.sorted.bam.bai
+        ├── SRR25824044
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6815,9 +12328,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082255.markdup.sorted.bam
-        ├── SRR20082255.markdup.sorted.bam.bai
-        ├── SRR20082256
+        ├── SRR25824044.markdup.sorted.bam
+        ├── SRR25824044.markdup.sorted.bam.bai
+        ├── SRR25824045
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6827,9 +12340,9 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082256.markdup.sorted.bam
-        ├── SRR20082256.markdup.sorted.bam.bai
-        ├── SRR20082257
+        ├── SRR25824045.markdup.sorted.bam
+        ├── SRR25824045.markdup.sorted.bam.bai
+        ├── SRR25824046
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
         │   │   └── meta_info.json
@@ -6839,7 +12352,19 @@ data/nfcore_rnaseq/
         │   ├── logs
         │   ├── quant.genes.sf
         │   └── quant.sf
-        ├── SRR20082257.markdup.sorted.bam
-        └── SRR20082257.markdup.sorted.bam.bai
+        ├── SRR25824046.markdup.sorted.bam
+        ├── SRR25824046.markdup.sorted.bam.bai
+        ├── SRR25824047
+        │   ├── aux_info
+        │   │   ├── ambig_info.tsv
+        │   │   └── meta_info.json
+        │   ├── cmd_info.json
+        │   ├── libParams
+        │   │   └── flenDist.txt
+        │   ├── logs
+        │   ├── quant.genes.sf
+        │   └── quant.sf
+        ├── SRR25824047.markdup.sorted.bam
+        └── SRR25824047.markdup.sorted.bam.bai
 
-2146 directories, 4695 files
+3880 directories, 8486 files
