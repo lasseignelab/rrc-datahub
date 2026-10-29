@@ -1,0 +1,2 @@
+bioproject	status	column	source_column	raw_value	output_value	n_rows	rows	runs
+PRJNA1259002	INFO	underlying_variant	genotype / genotype.variation / control.or.cystic	cilia-KO	NA	3	1;3;5	SRR33433657;SRR33433659;SRR33433661

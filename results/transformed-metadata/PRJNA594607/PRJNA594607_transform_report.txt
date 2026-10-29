@@ -1,0 +1,2 @@
+bioproject	status	column	source_column	raw_value	output_value	n_rows	rows	runs
+PRJNA594607	INFO	underlying_variant	genotype / genotype.variation / control.or.cystic	Nrf2 knockout	NA	4	5;6;7;8	SRR10620164;SRR10620165;SRR10620166;SRR10620167

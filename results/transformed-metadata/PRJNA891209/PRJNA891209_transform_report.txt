@@ -1,0 +1,2 @@
+bioproject	status	column	source_column	raw_value	output_value	n_rows	rows	runs
+PRJNA891209	INFO	treatment	treatment	Human iPS cell-derived ureteric bud tip cells that were cultured for 6 weeks.	NA	12	1;2;3;4;5;6;7;8;9;10;11;12	SRR21929878;SRR21929879;SRR21929880;SRR21929881;SRR21929882;SRR21929883;SRR21929884;SRR21929885;SRR21929886;SRR21929887;SRR21929888;SRR21929889
