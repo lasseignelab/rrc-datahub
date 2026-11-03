@@ -10,7 +10,7 @@
 #
 ## Harmonization rules applied (one rule set for every species):
 # * Column names lowercased; values trimmed. NCBI placeholders ("missing",
-#   "not collected", "not provided", "not available") become Not provided;
+#   "not collected", "not provided", "not available") become NP;
 #   "not applicable" becomes NA.
 # * Genotype: first non-empty of genotype / genotype.variation /
 #   control.or.cystic, copied as written by the submitter. underlying_variant
@@ -27,7 +27,7 @@
 #   background.strain / cell.line / cell.line.background, so a human cell
 #   line is recorded where a mouse strain would be. strain is the same
 #   value with spelling normalised; generic material words (Organoid, Tissue)
-#   are not strains, so strain is Not provided for them (strain_raw keeps
+#   are not strains, so strain is NP for them (strain_raw keeps
 #   the raw value and sample_type uses it).
 # * sample_type: in_vivo_tissue, cell_line, organoid, ipsc_derived or
 #   primary_cells, derived from source_name, cell line, cell.type, strain and
@@ -40,8 +40,8 @@
 #   and stored as age_range_lower / age_range_upper (single ages have
 #   lower == upper). Culture time (e.g. "10 days" of differentiation) is
 #   treated as age. Passage notation (P4) is recognised but not a duration:
-#   age_raw keeps it and the ranges are Not provided. Any other age string is
-#   UNMAPPED in the report (ranges Not provided).
+#   age_raw keeps it and the ranges are NP. Any other age string is
+#   UNMAPPED in the report (ranges NP).
 # * Culture descriptions in the treatment column (culture or differentiation
 #   wording plus a duration, no dose, no known compound or vehicle) are not
 #   treatments: treatment becomes NA and the duration becomes the age.
@@ -49,7 +49,7 @@
 #   experimental (listed compounds, non-zero doses), untreated. No
 #   treatment column = NA. Anything else = UNMAPPED.
 # * Sex consolidated from sex.y / sex; sex.x (always blank) dropped.
-# * Not provided = depositor gave no value; NA = not applicable;
+# * NP = depositor gave no value; NA = not applicable;
 #   UNMAPPED = a value was present but no rule matched it.
 #
 ## Output: <bioproject>_transformed.tsv (36 columns; columns 1-35 are
@@ -66,7 +66,7 @@
 #      and add rows to the lookup tables below.
 #
 ## Changes from the previous version (all intended):
-# * NP is now "Not provided"; the dplyr dependency was removed.
+# * The dplyr dependency was removed. NP (not provided) is unchanged.
 # * Lookups are case- and whitespace-insensitive.
 # * UNMAPPED no longer stops the script; it is reported and exit code 2.
 # * sample_type is now checked for UNMAPPED (it was not before).
@@ -104,7 +104,7 @@ message("Starting metadata transformation for ", bioproject_id)
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-NOT_PROVIDED   <- "Not provided"
+NOT_PROVIDED   <- "NP"
 NOT_APPLICABLE <- "NA"
 UNMAPPED       <- "UNMAPPED"
 EXIT_FLAGGED   <- 2L
@@ -269,7 +269,7 @@ free_cystic_rx      <- paste0(
 }
 
 #' Trim values and convert NCBI placeholder words.
-#' Blank and placeholder values become NA (written later as Not provided);
+#' Blank and placeholder values become NA (written later as NP);
 #' "not applicable" becomes the string NA.
 .clean_values <- function(x) {
   x   <- tryCatch(trimws(x), error = function(e) x)
@@ -491,7 +491,7 @@ free_cystic_rx      <- paste0(
 #'
 #' Order: exact table, wild-type rule, standalone gene symbols. A genotype
 #' that matches nothing gets NA (no listed gene). A missing genotype gets
-#' Not provided.
+#' NP.
 #'
 #' @param genotype   Character vector of raw genotype strings.
 #' @param exact_map  Named character vector of exact strings to values.
@@ -622,7 +622,7 @@ free_cystic_rx      <- paste0(
 #' 5. a cell line is named, or the text says cell line / immortalized
 #' 6. "primary" wording (primary cells / cultures)
 #' 7. "kidney" in source_name (in_vivo_tissue)
-#' Otherwise UNMAPPED, or Not provided when no descriptive field has a value.
+#' Otherwise UNMAPPED, or NP when no descriptive field has a value.
 #'
 #' @return Character vector of sample_type values.
 .derive_sample_type <- function(source_name, cell_line, cell_type,
@@ -665,7 +665,7 @@ free_cystic_rx      <- paste0(
 #' Dedicated fields (phenotype, diagnosis, control.or.cystic) are read
 #' first and must match the vocabulary exactly, otherwise UNMAPPED. Rows with
 #' no dedicated value are scanned for state words in tissue, source_name and
-#' cell.type (negations first). No signal = Not provided.
+#' cell.type (negations first). No signal = NP.
 #'
 #' @return List with $state, $source (where the value came from) and
 #'   $raw (the dedicated raw value, NA when none).
@@ -845,7 +845,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     stringsAsFactors = FALSE
   )
 
-  # Replace any remaining NA in pass-through columns with Not provided
+  # Replace any remaining NA in pass-through columns with NP
   for (col in colnames(out)) {
     out[[col]][is.na(out[[col]])] <- NOT_PROVIDED
   }
@@ -1085,7 +1085,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   out <- out[, final_cols, drop = FALSE]
 
   # A true NA would be written as text and mislabelled; every missing value
-  # must already be Not provided or the string NA.
+  # must already be NP or the string NA.
   na_cols <- colnames(out)[vapply(out, anyNA, logical(1))]
   if (length(na_cols) > 0L) {
     stop(
