@@ -44,11 +44,21 @@ releases will expand to additional species and sequencing types.
 | PRJNA428970 | Mus musculus | Bulk RNA-seq | Aboudehen et al., 2018 |
 | PRJNA637874 | Mus musculus | Bulk RNA-seq | Dixon et al., 2020 |
 | PRJNA556227 | Mus musculus | Bulk RNA-seq | Lee et al., 2019 |
+| PRJNA1225177 | Homo sapiens | Bulk RNA-seq | Decuypere et al., 2025 |
+| PRJNA891209 | Homo sapiens | Bulk RNA-seq | Mae et al., 2023 |
+| PRJNA952259 | Homo sapiens | Bulk RNA-seq | Guo et al., 2026 |
+| PRJNA556225 | Homo sapiens | Bulk RNA-seq | Lee et al., 2019 |
+| PRJNA1259002 | Homo sapiens | Bulk RNA-seq | Guo et al., 2026 |
+| PRJNA802014 | Homo sapiens | Bulk RNA-seq | Tran et al., 2022 |
+| PRJNA594607 | Homo sapiens | Bulk RNA-seq | Lu et al., 2020 |
+| PRJNA1207576 | Homo sapiens | Bulk RNA-seq | Scarlat et al., 2025 |
+| PRJNA1091688 | Homo sapiens | Bulk RNA-seq | Tran et al., 2026 |
+| PRJNA761104 | Homo sapiens | Bulk RNA-seq | Dang et al., 2022 |
 
 ## Data Directory Structure
 
     data/
-    ├── GRCm39_M37/              # Mouse reference genome files (GRCm39, release M37)
+    ├── RefGenomeFiles/              # Reference genome files, varies by species
     ├── nfcore_rnaseq/           # Alignment outputs, one subdirectory per dataset
     │   └── <BioProject ID>/     # nf-core/rnaseq output files for that dataset
     └── raw-data/                # Raw downloaded inputs, one subdirectory per dataset
@@ -82,7 +92,7 @@ verification
 
 - CAPTURE: v1.0.0
 - nf-core/rnaseq: v3.25.0
-- Reference genome: GRCm39, release M37
+- Reference genomes: GRCm39, release M37. GRCh38, release 50.
 - All other tools are containerized (conda/Docker). Please see pipeline
   configs for exact pinned versions.
 
