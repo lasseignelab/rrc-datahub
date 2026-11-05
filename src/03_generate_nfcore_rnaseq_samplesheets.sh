@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --ntasks=1  
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=2G
 #SBATCH --time=2:00:00
@@ -18,14 +18,14 @@ echo "Creating samplesheet for ${dataset} ..."
 fastq_dir="$CAP_DATA_PATH/raw-data/${dataset}"
 cd "$fastq_dir" || exit
 
-if ls -- *_1.fastq.gz 1> /dev/null 2>&1; then
-    python3 "$file" "$fastq_dir" "$fastq_dir/samplesheet.csv" \
-    -r1 "_1.fastq.gz" \
-    -r2 "_2.fastq.gz"
+if ls -- *_1.fastq.gz 1>/dev/null 2>&1; then
+	python3 "$file" "$fastq_dir" "$fastq_dir/samplesheet.csv" \
+		-r1 "_1.fastq.gz" \
+		-r2 "_2.fastq.gz"
 else
-    python3 "$file" "$fastq_dir" "$fastq_dir/samplesheet.csv" \
-    -r1 ".fastq.gz" \
-    -se
+	python3 "$file" "$fastq_dir" "$fastq_dir/samplesheet.csv" \
+		-r1 ".fastq.gz" \
+		-se
 fi
 
 sed -i 's|/[^,]*/data/raw-data/|../data/raw-data/|g' "$fastq_dir/samplesheet.csv"

@@ -14,6 +14,7 @@ import os
 import re
 import sys
 from pathlib import Path
+
 import pandas as pd
 
 print("Setting up for analysis ...")
@@ -46,7 +47,7 @@ def main():
         required=True,
         metavar="DIR",
         help="Root directory containing all dataset subdirectories "
-             "(i.e. $CAP_DATA_PATH/nfcore_rnaseq).",
+        "(i.e. $CAP_DATA_PATH/nfcore_rnaseq).",
     )
     parser.add_argument(
         "--datasets-file",
@@ -77,9 +78,12 @@ def main():
 
     for name in dataset_names:
         stats_file = os.path.join(
-            args.data_path, name,
-            "multiqc", "star_salmon", "multiqc_report_data",
-            "multiqc_general_stats.txt"
+            args.data_path,
+            name,
+            "multiqc",
+            "star_salmon",
+            "multiqc_report_data",
+            "multiqc_general_stats.txt",
         )
         if not os.path.isfile(stats_file):
             print(
@@ -142,8 +146,7 @@ def aggregate_metrics(df: pd.DataFrame) -> pd.Series:
     unmatched = sum_columns - matched
     if unmatched:
         print(
-            f"[WARNING] sum_columns entries not found in data: "
-            f"{sorted(unmatched)}",
+            f"[WARNING] sum_columns entries not found in data: " f"{sorted(unmatched)}",
             file=sys.stderr,
         )
 

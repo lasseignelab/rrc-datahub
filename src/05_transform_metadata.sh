@@ -38,19 +38,20 @@ echo "Processing dataset: ${DATASET}"
 mkdir -p "${OUTDIR}"
 
 # ---------------------------------------------------------------------------
-# Skip if output already exists (matches project convention)
+# Skip if output already exists (matches project convention).
+# Set OVERWRITE=1 to force re-transformation of existing outputs.
 # ---------------------------------------------------------------------------
-if [[ -f "${OUTDIR}/${DATASET}_transformed.tsv" ]]; then
-    echo "File ${OUTDIR}/${DATASET}_transformed.tsv already exists — skipping."
-    exit 0
+if [[ -f "${OUTDIR}/${DATASET}_transformed.tsv" ]] && [[ "${OVERWRITE}" != "1" ]]; then
+	echo "File ${OUTDIR}/${DATASET}_transformed.tsv already exists — skipping. Set OVERWRITE=1 to overwrite."
+	exit 0
 fi
 
 # ---------------------------------------------------------------------------
 # Verify input exists before attempting transformation
 # ---------------------------------------------------------------------------
 if [[ ! -f "${INFILE}" ]]; then
-    echo "ERROR: Input file not found: ${INFILE}" >&2
-    exit 1
+	echo "ERROR: Input file not found: ${INFILE}" >&2
+	exit 1
 fi
 
 echo "Transforming metadata for ${DATASET} at $(date) ..."
@@ -60,14 +61,14 @@ echo "Transforming metadata for ${DATASET} at $(date) ..."
 # ---------------------------------------------------------------------------
 cap_container "acrumley/rrc-datahub:0.1.0"
 singularity exec --cleanenv \
-                 --containall \
-                 -B "${CAP_PROJECT_PATH}" \
-                 -B "/data/project/lasseigne_lab" \
-		 --pwd "${CAP_PROJECT_PATH}" \
-                 "${CAP_CONTAINER_PATH}"/rrc-datahub_0.1.0.sif \
-                 Rscript --vanilla "${CAP_PROJECT_PATH}"/src/05_transform_metadata.R \
-                 "${DATASET}" \
-                 "${INFILE}" \
-                 "${OUTDIR}"
+	--containall \
+	-B "${CAP_PROJECT_PATH}" \
+	-B "/data/project/lasseigne_lab" \
+	--pwd "${CAP_PROJECT_PATH}" \
+	"${CAP_CONTAINER_PATH}"/rrc-datahub_0.1.0.sif \
+	Rscript --vanilla "${CAP_PROJECT_PATH}"/src/05_transform_metadata.R \
+	"${DATASET}" \
+	"${INFILE}" \
+	"${OUTDIR}"
 
 echo "Done: ${DATASET} at $(date)"
