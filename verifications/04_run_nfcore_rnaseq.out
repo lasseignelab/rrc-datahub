@@ -430,6 +430,7 @@ data/nfcore_rnaseq/
 │   │   │       ├── SRR32381231.txt
 │   │   │       ├── SRR32381232.txt
 │   │   │       ├── SRR32381233.txt
+│   │   │       ├── SRR32381234.txt
 │   │   │       ├── SRR32381235.txt
 │   │   │       ├── SRR32381236.txt
 │   │   │       ├── SRR32381237.txt
@@ -790,6 +791,17 @@ data/nfcore_rnaseq/
 │   │   │   ├── quant.genes.sf
 │   │   │   └── quant.sf
 │   │   ├── SRR32381233
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR32381234
 │   │   │   ├── aux_info
 │   │   │   │   ├── ambig_info.tsv
 │   │   │   │   └── meta_info.json
@@ -1757,6 +1769,7 @@ data/nfcore_rnaseq/
 │       │       ├── SRR32381231.txt
 │       │       ├── SRR32381232.txt
 │       │       ├── SRR32381233.txt
+│       │       ├── SRR32381234.txt
 │       │       ├── SRR32381235.txt
 │       │       ├── SRR32381236.txt
 │       │       ├── SRR32381237.txt
@@ -2152,6 +2165,18 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR32381233.markdup.sorted.bam
 │       ├── SRR32381233.markdup.sorted.bam.bai
+│       ├── SRR32381234
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR32381234.markdup.sorted.bam
+│       ├── SRR32381234.markdup.sorted.bam.bai
 │       ├── SRR32381235
 │       │   ├── aux_info
 │       │   │   ├── ambig_info.tsv
@@ -11743,13 +11768,16 @@ data/nfcore_rnaseq/
 │   │   │       ├── deseq2.size_factors.RData
 │   │   │       ├── SRR21929878.txt
 │   │   │       ├── SRR21929879.txt
+│   │   │       ├── SRR21929880.txt
 │   │   │       ├── SRR21929881.txt
 │   │   │       ├── SRR21929882.txt
 │   │   │       ├── SRR21929883.txt
 │   │   │       ├── SRR21929884.txt
 │   │   │       ├── SRR21929885.txt
 │   │   │       ├── SRR21929886.txt
-│   │   │       └── SRR21929888.txt
+│   │   │       ├── SRR21929887.txt
+│   │   │       ├── SRR21929888.txt
+│   │   │       └── SRR21929889.txt
 │   │   ├── salmon.merged.gene_counts_length_scaled.tsv
 │   │   ├── salmon.merged.gene_counts_scaled.tsv
 │   │   ├── salmon.merged.gene_counts.tsv
@@ -11773,6 +11801,17 @@ data/nfcore_rnaseq/
 │   │   │   ├── quant.genes.sf
 │   │   │   └── quant.sf
 │   │   ├── SRR21929879
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929880
 │   │   │   ├── aux_info
 │   │   │   │   ├── ambig_info.tsv
 │   │   │   │   └── meta_info.json
@@ -11849,7 +11888,29 @@ data/nfcore_rnaseq/
 │   │   │   ├── logs
 │   │   │   ├── quant.genes.sf
 │   │   │   └── quant.sf
-│   │   └── SRR21929888
+│   │   ├── SRR21929887
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   ├── SRR21929888
+│   │   │   ├── aux_info
+│   │   │   │   ├── ambig_info.tsv
+│   │   │   │   └── meta_info.json
+│   │   │   ├── cmd_info.json
+│   │   │   ├── lib_format_counts.json
+│   │   │   ├── libParams
+│   │   │   │   └── flenDist.txt
+│   │   │   ├── logs
+│   │   │   ├── quant.genes.sf
+│   │   │   └── quant.sf
+│   │   └── SRR21929889
 │   │       ├── aux_info
 │   │       │   ├── ambig_info.tsv
 │   │       │   └── meta_info.json
@@ -11870,13 +11931,16 @@ data/nfcore_rnaseq/
 │       │       ├── deseq2.size_factors.RData
 │       │       ├── SRR21929878.txt
 │       │       ├── SRR21929879.txt
+│       │       ├── SRR21929880.txt
 │       │       ├── SRR21929881.txt
 │       │       ├── SRR21929882.txt
 │       │       ├── SRR21929883.txt
 │       │       ├── SRR21929884.txt
 │       │       ├── SRR21929885.txt
 │       │       ├── SRR21929886.txt
-│       │       └── SRR21929888.txt
+│       │       ├── SRR21929887.txt
+│       │       ├── SRR21929888.txt
+│       │       └── SRR21929889.txt
 │       ├── salmon.merged.gene_counts_length_scaled.tsv
 │       ├── salmon.merged.gene_counts_scaled.tsv
 │       ├── salmon.merged.gene_counts.tsv
@@ -11912,6 +11976,18 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR21929879.markdup.sorted.bam
 │       ├── SRR21929879.markdup.sorted.bam.bai
+│       ├── SRR21929880
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929880.markdup.sorted.bam
+│       ├── SRR21929880.markdup.sorted.bam.bai
 │       ├── SRR21929881
 │       │   ├── aux_info
 │       │   │   ├── ambig_info.tsv
@@ -11984,6 +12060,18 @@ data/nfcore_rnaseq/
 │       │   └── quant.sf
 │       ├── SRR21929886.markdup.sorted.bam
 │       ├── SRR21929886.markdup.sorted.bam.bai
+│       ├── SRR21929887
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929887.markdup.sorted.bam
+│       ├── SRR21929887.markdup.sorted.bam.bai
 │       ├── SRR21929888
 │       │   ├── aux_info
 │       │   │   ├── ambig_info.tsv
@@ -11995,7 +12083,19 @@ data/nfcore_rnaseq/
 │       │   ├── quant.genes.sf
 │       │   └── quant.sf
 │       ├── SRR21929888.markdup.sorted.bam
-│       └── SRR21929888.markdup.sorted.bam.bai
+│       ├── SRR21929888.markdup.sorted.bam.bai
+│       ├── SRR21929889
+│       │   ├── aux_info
+│       │   │   ├── ambig_info.tsv
+│       │   │   └── meta_info.json
+│       │   ├── cmd_info.json
+│       │   ├── libParams
+│       │   │   └── flenDist.txt
+│       │   ├── logs
+│       │   ├── quant.genes.sf
+│       │   └── quant.sf
+│       ├── SRR21929889.markdup.sorted.bam
+│       └── SRR21929889.markdup.sorted.bam.bai
 └── PRJNA952259
     ├── genome
     │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
@@ -12012,8 +12112,10 @@ data/nfcore_rnaseq/
     │   │   └── size_factors
     │   │       ├── deseq2.size_factors.RData
     │   │       ├── SRR25824033.txt
+    │   │       ├── SRR25824034.txt
     │   │       ├── SRR25824035.txt
     │   │       ├── SRR25824036.txt
+    │   │       ├── SRR25824037.txt
     │   │       ├── SRR25824038.txt
     │   │       ├── SRR25824039.txt
     │   │       ├── SRR25824040.txt
@@ -12046,6 +12148,17 @@ data/nfcore_rnaseq/
     │   │   ├── logs
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
+    │   ├── SRR25824034
+    │   │   ├── aux_info
+    │   │   │   ├── ambig_info.tsv
+    │   │   │   └── meta_info.json
+    │   │   ├── cmd_info.json
+    │   │   ├── lib_format_counts.json
+    │   │   ├── libParams
+    │   │   │   └── flenDist.txt
+    │   │   ├── logs
+    │   │   ├── quant.genes.sf
+    │   │   └── quant.sf
     │   ├── SRR25824035
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
@@ -12058,6 +12171,17 @@ data/nfcore_rnaseq/
     │   │   ├── quant.genes.sf
     │   │   └── quant.sf
     │   ├── SRR25824036
+    │   │   ├── aux_info
+    │   │   │   ├── ambig_info.tsv
+    │   │   │   └── meta_info.json
+    │   │   ├── cmd_info.json
+    │   │   ├── lib_format_counts.json
+    │   │   ├── libParams
+    │   │   │   └── flenDist.txt
+    │   │   ├── logs
+    │   │   ├── quant.genes.sf
+    │   │   └── quant.sf
+    │   ├── SRR25824037
     │   │   ├── aux_info
     │   │   │   ├── ambig_info.tsv
     │   │   │   └── meta_info.json
@@ -12187,8 +12311,10 @@ data/nfcore_rnaseq/
         │   └── size_factors
         │       ├── deseq2.size_factors.RData
         │       ├── SRR25824033.txt
+        │       ├── SRR25824034.txt
         │       ├── SRR25824035.txt
         │       ├── SRR25824036.txt
+        │       ├── SRR25824037.txt
         │       ├── SRR25824038.txt
         │       ├── SRR25824039.txt
         │       ├── SRR25824040.txt
@@ -12222,6 +12348,18 @@ data/nfcore_rnaseq/
         │   └── quant.sf
         ├── SRR25824033.markdup.sorted.bam
         ├── SRR25824033.markdup.sorted.bam.bai
+        ├── SRR25824034
+        │   ├── aux_info
+        │   │   ├── ambig_info.tsv
+        │   │   └── meta_info.json
+        │   ├── cmd_info.json
+        │   ├── libParams
+        │   │   └── flenDist.txt
+        │   ├── logs
+        │   ├── quant.genes.sf
+        │   └── quant.sf
+        ├── SRR25824034.markdup.sorted.bam
+        ├── SRR25824034.markdup.sorted.bam.bai
         ├── SRR25824035
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
@@ -12246,6 +12384,18 @@ data/nfcore_rnaseq/
         │   └── quant.sf
         ├── SRR25824036.markdup.sorted.bam
         ├── SRR25824036.markdup.sorted.bam.bai
+        ├── SRR25824037
+        │   ├── aux_info
+        │   │   ├── ambig_info.tsv
+        │   │   └── meta_info.json
+        │   ├── cmd_info.json
+        │   ├── libParams
+        │   │   └── flenDist.txt
+        │   ├── logs
+        │   ├── quant.genes.sf
+        │   └── quant.sf
+        ├── SRR25824037.markdup.sorted.bam
+        ├── SRR25824037.markdup.sorted.bam.bai
         ├── SRR25824038
         │   ├── aux_info
         │   │   ├── ambig_info.tsv
@@ -12367,4 +12517,4 @@ data/nfcore_rnaseq/
         ├── SRR25824047.markdup.sorted.bam
         └── SRR25824047.markdup.sorted.bam.bai
 
-3880 directories, 8486 files
+3928 directories, 8588 files
