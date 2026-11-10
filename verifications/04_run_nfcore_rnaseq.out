@@ -3,7 +3,6 @@ data/nfcore_rnaseq/
 ├── PRJNA1091688
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -198,7 +197,6 @@ data/nfcore_rnaseq/
 ├── PRJNA1207576
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -393,7 +391,6 @@ data/nfcore_rnaseq/
 ├── PRJNA1225177
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -3188,7 +3185,6 @@ data/nfcore_rnaseq/
 ├── PRJNA1259002
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -7022,7 +7018,6 @@ data/nfcore_rnaseq/
 ├── PRJNA556225
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -8230,7 +8225,6 @@ data/nfcore_rnaseq/
 ├── PRJNA594607
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -9332,7 +9326,6 @@ data/nfcore_rnaseq/
 ├── PRJNA761104
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -9477,7 +9470,6 @@ data/nfcore_rnaseq/
 ├── PRJNA802014
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -11754,7 +11746,6 @@ data/nfcore_rnaseq/
 ├── PRJNA891209
 │   ├── genome
 │   │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-│   │   ├── gencode.v50.primary_assembly.annotation.gtf
 │   │   └── genome.transcripts.fa
 │   ├── multiqc
 │   │   └── star_salmon
@@ -12099,7 +12090,6 @@ data/nfcore_rnaseq/
 └── PRJNA952259
     ├── genome
     │   ├── gencode.v50.primary_assembly.annotation.filtered.gtf
-    │   ├── gencode.v50.primary_assembly.annotation.gtf
     │   └── genome.transcripts.fa
     ├── multiqc
     │   └── star_salmon
@@ -12517,4 +12507,4 @@ data/nfcore_rnaseq/
         ├── SRR25824047.markdup.sorted.bam
         └── SRR25824047.markdup.sorted.bam.bai
 
-3928 directories, 8588 files
+3928 directories, 8578 files
