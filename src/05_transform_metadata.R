@@ -10,7 +10,7 @@
 #
 ## Harmonization rules applied (one rule set for every species):
 # * Column names lowercased; values trimmed. NCBI placeholders ("missing",
-#   "not collected", "not provided", "not available") become NP;
+#   "not collected", "not provided", "not available") become Not provided;
 #   "not applicable" becomes NA.
 # * Genotype: first non-empty of genotype / genotype.variation /
 #   control.or.cystic, copied as written by the submitter. underlying_variant
@@ -27,7 +27,7 @@
 #   background.strain / cell.line / cell.line.background, so a human cell
 #   line is recorded where a mouse strain would be. strain is the same
 #   value with spelling normalised; generic material words (Organoid, Tissue)
-#   are not strains, so strain is NP for them (strain_raw keeps
+#   are not strains, so strain is Not provided for them (strain_raw keeps
 #   the raw value and sample_type uses it).
 # * sample_type: in_vivo_tissue, cell_line, organoid, ipsc_derived or
 #   primary_cells, derived from source_name, cell line, cell.type, strain and
@@ -40,8 +40,8 @@
 #   and stored as age_range_lower / age_range_upper (single ages have
 #   lower == upper). Culture time (e.g. "10 days" of differentiation) is
 #   treated as age. Passage notation (P4) is recognised but not a duration:
-#   age_raw keeps it and the ranges are NP. Any other age string is
-#   UNMAPPED in the report (ranges NP).
+#   age_raw keeps it and the ranges are Not provided. Any other age string is
+#   UNMAPPED in the report (ranges Not provided).
 # * Culture descriptions in the treatment column (culture or differentiation
 #   wording plus a duration, no dose, no known compound or vehicle) are not
 #   treatments: treatment becomes NA and the duration becomes the age.
@@ -49,7 +49,7 @@
 #   experimental (listed compounds, non-zero doses), untreated. No
 #   treatment column = NA. Anything else = UNMAPPED.
 # * Sex consolidated from sex.y / sex; sex.x (always blank) dropped.
-# * NP = depositor gave no value; NA = not applicable;
+# * Not provided = depositor gave no value; NA = not applicable;
 #   UNMAPPED = a value was present but no rule matched it.
 #
 ## Output: <bioproject>_transformed.tsv (36 columns; columns 1-35 are
@@ -66,7 +66,7 @@
 #      and add rows to the lookup tables below.
 #
 ## Changes from the previous version (all intended):
-# * The dplyr dependency was removed. NP (not provided) is unchanged.
+# * NP is now "Not provided"; the dplyr dependency was removed.
 # * Lookups are case- and whitespace-insensitive.
 # * UNMAPPED no longer stops the script; it is reported and exit code 2.
 # * sample_type is now checked for UNMAPPED (it was not before).
@@ -104,10 +104,10 @@ message("Starting metadata transformation for ", bioproject_id)
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-NOT_PROVIDED   <- "NP"
-NOT_APPLICABLE <- "NA"
-UNMAPPED       <- "UNMAPPED"
-EXIT_FLAGGED   <- 2L
+not_provided   <- "Not provided"
+not_applicable <- "NA"
+unmapped       <- "UNMAPPED"
+exit_flagged   <- 2L
 
 # ---------------------------------------------------------------------------
 # Lookup tables
@@ -187,7 +187,10 @@ strain_norm_map <- c(
 
 # A value in a strain/cell-line field that names the kind of material
 # rather than a strain or cell line (submitters sometimes put it there).
-material_word_rx <- "^(?:organoids?|tissues?|tubuloids?|spheroids?|primary cells?|cells?|cultures?)$"
+material_word_rx <- paste0(
+  "^(?:organoids?|tissues?|tubuloids?|spheroids?|",
+  "primary cells?|cells?|cultures?)$"
+)
 
 # Exact source_name values for sample_type (case-insensitive). Everything
 # else goes through the ordered rules in .derive_sample_type().
@@ -269,7 +272,7 @@ free_cystic_rx      <- paste0(
 }
 
 #' Trim values and convert NCBI placeholder words.
-#' Blank and placeholder values become NA (written later as NP);
+#' Blank and placeholder values become NA (written later as Not provided);
 #' "not applicable" becomes the string NA.
 .clean_values <- function(x) {
   x   <- tryCatch(trimws(x), error = function(e) x)
@@ -277,7 +280,7 @@ free_cystic_rx      <- paste0(
   to_missing <- !is.na(low) & low %in% placeholder_not_provided
   to_na      <- !is.na(low) & low %in% placeholder_not_applicable
   x[to_missing] <- NA_character_
-  x[to_na]      <- NOT_APPLICABLE
+  x[to_na]      <- not_applicable
   x[!is.na(x) & x == ""] <- NA_character_
   x
 }
@@ -491,7 +494,7 @@ free_cystic_rx      <- paste0(
 #'
 #' Order: exact table, wild-type rule, standalone gene symbols. A genotype
 #' that matches nothing gets NA (no listed gene). A missing genotype gets
-#' NP.
+#' Not provided.
 #'
 #' @param genotype   Character vector of raw genotype strings.
 #' @param exact_map  Named character vector of exact strings to values.
@@ -543,9 +546,9 @@ free_cystic_rx      <- paste0(
 
   # 4. nothing matched: no listed gene; no genotype at all: not provided
   none <- present & is.na(value)
-  value[none]     <- NOT_APPLICABLE
+  value[none]     <- not_applicable
   basis[none]     <- "none"
-  value[!present] <- NOT_PROVIDED
+  value[!present] <- not_provided
   basis[!present] <- "missing"
 
   list(value = value, basis = basis)
@@ -576,8 +579,8 @@ free_cystic_rx      <- paste0(
   out     <- rep(NA_character_, n)
   present <- !is.na(t)
 
-  out[!present]              <- NOT_APPLICABLE
-  out[present & t == "NA"]   <- NOT_APPLICABLE
+  out[!present]              <- not_applicable
+  out[present & t == "NA"]   <- not_applicable
 
   # exact strings (case-insensitive)
   idx <- match(tolower(t), tolower(names(exact_map)))
@@ -609,7 +612,7 @@ free_cystic_rx      <- paste0(
   hit <- is.na(out) & .grepl_i(any_dose_rx, t)
   out[hit] <- "experimental"
 
-  out[is.na(out)] <- UNMAPPED
+  out[is.na(out)] <- unmapped
   out
 }
 
@@ -622,7 +625,7 @@ free_cystic_rx      <- paste0(
 #' 5. a cell line is named, or the text says cell line / immortalized
 #' 6. "primary" wording (primary cells / cultures)
 #' 7. "kidney" in source_name (in_vivo_tissue)
-#' Otherwise UNMAPPED, or NP when no descriptive field has a value.
+#' Otherwise UNMAPPED, or Not provided when no descriptive field has a value.
 #'
 #' @return Character vector of sample_type values.
 .derive_sample_type <- function(source_name, cell_line, cell_type,
@@ -655,8 +658,8 @@ free_cystic_rx      <- paste0(
 
   nothing <- is.na(source_name) & is.na(cell_line) & is.na(cell_type) &
     is.na(strain_raw)
-  result[is.na(result) & nothing]  <- NOT_PROVIDED
-  result[is.na(result) & !nothing] <- UNMAPPED
+  result[is.na(result) & nothing]  <- not_provided
+  result[is.na(result) & !nothing] <- unmapped
   result
 }
 
@@ -665,7 +668,7 @@ free_cystic_rx      <- paste0(
 #' Dedicated fields (phenotype, diagnosis, control.or.cystic) are read
 #' first and must match the vocabulary exactly, otherwise UNMAPPED. Rows with
 #' no dedicated value are scanned for state words in tissue, source_name and
-#' cell.type (negations first). No signal = NP.
+#' cell.type (negations first). No signal = Not provided.
 #'
 #' @return List with $state, $source (where the value came from) and
 #'   $raw (the dedicated raw value, NA when none).
@@ -687,7 +690,7 @@ free_cystic_rx      <- paste0(
   state[non]  <- "non-cystic"
   state[cyst] <- "cystic"
   bad <- has_ded & is.na(state)
-  state[bad] <- UNMAPPED
+  state[bad] <- unmapped
   source[has_ded] <- ded$source[has_ded]
 
   # free text: tissue, source_name, cell.type (first field with a signal)
@@ -703,7 +706,7 @@ free_cystic_rx      <- paste0(
     source[cyst] <- col
   }
 
-  state[is.na(state)] <- NOT_PROVIDED
+  state[is.na(state)] <- not_provided
   list(state = state, source = source, raw = ded$value)
 }
 
@@ -845,9 +848,9 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     stringsAsFactors = FALSE
   )
 
-  # Replace any remaining NA in pass-through columns with NP
+  # Replace any remaining NA in pass-through columns with Not provided
   for (col in colnames(out)) {
-    out[[col]][is.na(out[[col]])] <- NOT_PROVIDED
+    out[[col]][is.na(out[[col]])] <- not_provided
   }
 
   runs         <- out[["run"]]
@@ -872,7 +875,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   )
   is_material <- !is.na(raw_strain) &
     grepl(material_word_rx, raw_strain, ignore.case = TRUE, perl = TRUE)
-  out[["strain_raw"]] <- ifelse(is.na(raw_strain), NOT_PROVIDED, raw_strain)
+  out[["strain_raw"]] <- ifelse(is.na(raw_strain), not_provided, raw_strain)
 
   # Apply canonical spelling normalization; unknown strains copy as-is
   strain_norm <- raw_strain
@@ -881,10 +884,12 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
       strain_norm_map[[variant]]
   }
   strain_norm[is_material] <- NA_character_
-  out[["strain"]] <- ifelse(is.na(strain_norm), NOT_PROVIDED, strain_norm)
+  out[["strain"]] <- ifelse(is.na(strain_norm), not_provided, strain_norm)
 
   # Cell line alone (material words such as "Organoid" are not cell lines)
-  raw_cell_line <- .coalesce_columns(raw, c("cell.line", "cell.line.background"))
+  raw_cell_line <- .coalesce_columns(
+    raw, c("cell.line", "cell.line.background")
+  )
   raw_cell_line[!is.na(raw_cell_line) &
                   grepl(material_word_rx, raw_cell_line,
                         ignore.case = TRUE, perl = TRUE)] <- NA_character_
@@ -911,7 +916,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   .add_report(.flag_rows(
     bioproject_id, "UNMAPPED", "sample_type",
     "source_name, cell.line, cell.type, strain, tissue",
-    st_desc, st, which(st == UNMAPPED), runs
+    st_desc, st, which(st == unmapped), runs
   ))
 
   # -- genotype and underlying_variant ---------------------------------------
@@ -922,7 +927,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     raw,
     c("genotype", "genotype.variation", "control.or.cystic")
   )
-  out[["genotype"]] <- ifelse(is.na(raw_genotype), NOT_PROVIDED, raw_genotype)
+  out[["genotype"]] <- ifelse(is.na(raw_genotype), not_provided, raw_genotype)
 
   uv <- .assign_underlying_variant(
     raw_genotype, underlying_variant_exact, causal_genes
@@ -940,7 +945,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   .add_report(.flag_rows(
     bioproject_id, "UNMAPPED", "disease_state",
     "phenotype / diagnosis / control.or.cystic",
-    ds$raw, ds$state, which(ds$state == UNMAPPED), runs
+    ds$raw, ds$state, which(ds$state == unmapped), runs
   ))
 
   # -- treatment and culture descriptions ------------------------------------
@@ -962,7 +967,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     )
     .add_report(.flag_rows(
       bioproject_id, "INFO", "treatment", "treatment",
-      treatment_original, rep(NOT_APPLICABLE, length(runs)),
+      treatment_original, rep(not_applicable, length(runs)),
       which(is_culture), runs
     ))
   }
@@ -993,15 +998,15 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   .add_report(.flag_rows(
     bioproject_id, "UNMAPPED", "age_range_lower/age_range_upper",
     "age / time", raw_age,
-    rep(NOT_PROVIDED, length(runs)), unparsed_age, runs
+    rep(not_provided, length(runs)), unparsed_age, runs
   ))
 
-  out[["age_raw"]] <- ifelse(is.na(raw_age_out), NOT_PROVIDED, raw_age_out)
+  out[["age_raw"]] <- ifelse(is.na(raw_age_out), not_provided, raw_age_out)
   out[["age_range_lower"]] <- ifelse(
-    is.na(age_lower), NOT_PROVIDED, as.character(age_lower)
+    is.na(age_lower), not_provided, as.character(age_lower)
   )
   out[["age_range_upper"]] <- ifelse(
-    is.na(age_upper), NOT_PROVIDED, as.character(age_upper)
+    is.na(age_upper), not_provided, as.character(age_upper)
   )
 
   # -- tissue ----------------------------------------------------------------
@@ -1010,7 +1015,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     grepl("kidney", raw_tissue, ignore.case = TRUE)
   tissue_out <- raw_tissue
   tissue_out[is_kidney] <- "kidney"
-  out[["tissue"]] <- ifelse(is.na(tissue_out), NOT_PROVIDED, tissue_out)
+  out[["tissue"]] <- ifelse(is.na(tissue_out), not_provided, tissue_out)
   .add_report(.flag_rows(
     bioproject_id, "INFO", "tissue", "tissue",
     raw_tissue, out[["tissue"]],
@@ -1032,18 +1037,20 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     }
   }
   raw_sex <- .coalesce_columns(raw, c("sex.y", "sex"))
-  out[["sex"]] <- ifelse(is.na(raw_sex), NOT_PROVIDED, tolower(trimws(raw_sex)))
+  out[["sex"]] <- ifelse(is.na(raw_sex), not_provided, tolower(trimws(raw_sex)))
 
   # -- treatment and treatment_group -----------------------------------------
   # NA here means no treatment was part of the study design (not applicable)
-  out[["treatment"]] <- ifelse(is.na(raw_treatment), NOT_APPLICABLE, raw_treatment)
+  out[["treatment"]] <- ifelse(
+    is.na(raw_treatment), not_applicable, raw_treatment
+  )
   tg <- .assign_treatment_group(
     raw_treatment, treatment_group_map, vehicle_words, experimental_compounds
   )
   out[["treatment_group"]] <- tg
   .add_report(.flag_rows(
     bioproject_id, "UNMAPPED", "treatment_group", "treatment",
-    raw_treatment, tg, which(tg == UNMAPPED), runs
+    raw_treatment, tg, which(tg == unmapped), runs
   ))
 
   # -- Review tables for the log ---------------------------------------------
@@ -1085,7 +1092,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   out <- out[, final_cols, drop = FALSE]
 
   # A true NA would be written as text and mislabelled; every missing value
-  # must already be NP or the string NA.
+  # must already be Not provided or the string NA.
   na_cols <- colnames(out)[vapply(out, anyNA, logical(1))]
   if (length(na_cols) > 0L) {
     stop(
@@ -1109,7 +1116,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     sep       = "\t",
     quote     = FALSE,
     row.names = FALSE,
-    na        = NOT_PROVIDED
+    na        = not_provided
   )
 
   message("Written: ", output_path)
@@ -1129,7 +1136,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   if (!is.null(report)) {
     write.table(
       report, file = report_path, sep = "\t", quote = FALSE,
-      row.names = FALSE, na = NOT_PROVIDED
+      row.names = FALSE, na = not_provided
     )
     n_unmapped <- sum(report$status == "UNMAPPED")
     n_info     <- sum(report$status == "INFO")
@@ -1175,7 +1182,7 @@ if (result$n_unmapped > 0L) {
   message(
     "\n", result$n_unmapped, " UNMAPPED value(s) in ", bioproject_id,
     ". Output was written. See the transform report and extend the lookup ",
-    "tables. Exiting with status ", EXIT_FLAGGED, "."
+    "tables. Exiting with status ", exit_flagged, "."
   )
-  quit(save = "no", status = EXIT_FLAGGED)
+  quit(save = "no", status = exit_flagged)
 }
