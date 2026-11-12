@@ -1,0 +1,2 @@
+bioproject	status	column	source_column	raw_value	output_value	n_rows	rows	runs
+PRJNA761104	INFO	underlying_variant	genotype / genotype.variation / control.or.cystic	CDYL overexpression	NA	2	3;4	SRR15731070;SRR15731071

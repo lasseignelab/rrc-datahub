@@ -1,0 +1,3 @@
+bioproject	status	column	source_column	raw_value	output_value	n_rows	rows	runs
+PRJNA428970	INFO	underlying_variant	genotype / genotype.variation / control.or.cystic	NA	NA	5	9;10;11;12;13	SRR6449850;SRR6449851;SRR6449852;SRR6449853;SRR6449854
+PRJNA428970	UNMAPPED	age_range_lower/age_range_upper	age / time	NA	Not provided	5	9;10;11;12;13	SRR6449850;SRR6449851;SRR6449852;SRR6449853;SRR6449854
