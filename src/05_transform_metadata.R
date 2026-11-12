@@ -1,7 +1,7 @@
 ### Sample metadata transformation
 # Author: Kieran Casper, with AI assistance from Claude (Anthropic)
 # Date: April 23, 2026
-# Revised: October 27, 2026 (human datasets, disease_state, exit codes)
+# Revised: November 10, 2026 (human datasets, disease_state, exit codes)
 ## Goal: Transform raw BioProject sample metadata TSVs into harmonized,
 ##       analysis-ready TSVs with normalized column names, controlled
 ##       vocabulary fields, and derived biological annotations.
@@ -11,13 +11,13 @@
 ## Harmonization rules applied (one rule set for every species):
 # * Column names lowercased; values trimmed. NCBI placeholders ("missing",
 #   "not collected", "not provided", "not available") become Not provided;
-#   "not applicable" becomes NA.
+#   a literal "NA" or "not applicable" becomes "Not applicable".
 # * Genotype: first non-empty of genotype / genotype.variation /
 #   control.or.cystic, copied as written by the submitter. underlying_variant
 #   is the harmonized causal gene (canonical spelling, e.g. Pkd1, Bicc1),
 #   found by (1) the exact-string table (case-insensitive), (2) a
 #   wild-type rule, (3) standalone gene symbols from causal_genes. A genotype
-#   that matches nothing gets NA (no listed gene) and is listed in the
+#   that matches nothing gets "Not applicable" (no listed gene) and is listed in the
 #   report as INFO.
 # * disease_state (column 36): cystic / non-cystic. Read from phenotype,
 #   diagnosis or control.or.cystic first (unrecognised value = UNMAPPED),
@@ -44,12 +44,14 @@
 #   UNMAPPED in the report (ranges Not provided).
 # * Culture descriptions in the treatment column (culture or differentiation
 #   wording plus a duration, no dose, no known compound or vehicle) are not
-#   treatments: treatment becomes NA and the duration becomes the age.
+#   treatments: treatment becomes Not applicable and the duration becomes the age.
 # * treatment_group: vehicle_control (vehicle words, zero doses),
 #   experimental (listed compounds, non-zero doses), untreated. No
-#   treatment column = NA. Anything else = UNMAPPED.
+#   treatment value = Not provided. Anything else = UNMAPPED.
 # * Sex consolidated from sex.y / sex; sex.x (always blank) dropped.
-# * Not provided = depositor gave no value; NA = not applicable;
+# * Not provided = depositor gave no value (includes R NA / blank);
+#   Not applicable = literal "NA" / "not applicable" from the depositor, or
+#   no listed gene / culture description (see above);
 #   UNMAPPED = a value was present but no rule matched it.
 #
 ## Output: <bioproject>_transformed.tsv (36 columns; columns 1-35 are
@@ -67,6 +69,9 @@
 #
 ## Changes from the previous version (all intended):
 # * NP is now "Not provided"; the dplyr dependency was removed.
+# * Not provided vs Not applicable handling is the same as the original
+#   version: literal "NA" and "not applicable" are written as the string
+#   "Not applicable", and everything missing as "Not provided".
 # * Lookups are case- and whitespace-insensitive.
 # * UNMAPPED no longer stops the script; it is reported and exit code 2.
 # * sample_type is now checked for UNMAPPED (it was not before).
@@ -105,7 +110,7 @@ message("Starting metadata transformation for ", bioproject_id)
 # Constants
 # ---------------------------------------------------------------------------
 not_provided   <- "Not provided"
-not_applicable <- "NA"
+not_applicable <- "Not applicable"
 unmapped       <- "UNMAPPED"
 exit_flagged   <- 2L
 
@@ -119,7 +124,7 @@ exit_flagged   <- 2L
 placeholder_not_provided   <- c(
   "missing", "not collected", "not provided", "not available"
 )
-placeholder_not_applicable <- c("not applicable")
+placeholder_not_applicable <- c("not applicable", "na")
 
 # Causal genes recognised as standalone symbols inside a genotype string,
 # in the canonical spelling written to underlying_variant. Add a symbol here
@@ -131,8 +136,8 @@ causal_genes <- c("Pkd1", "Pkd2", "Pkhd1", "Bicc1")
 # Cre are wild-type, and a Cre driver (Pkhd1Cre, KSP/Cre) is not the causal
 # gene.
 # wild-type : sample has no PKD-related mutation
-# NA        : genotype concept not applicable (control.or.cystic projects,
-#             and control samples in engineered cell lines)
+# Not provided   : control.or.cystic projects carry no allele identity
+# Not applicable : literal NCBI "NA" / "not applicable" genotype
 underlying_variant_exact <- c(
   # PRJNA285844
   "wild-type"                              = "wild-type",
@@ -173,8 +178,9 @@ underlying_variant_exact <- c(
   # PRJNA857739
   "Pkd1RC/RC-Casp1KO"                    = "Pkd1",
   "Pkd1RC/RC"                             = "Pkd1",
-  "cystic"                                = "NA",
-  "control"                               = "NA"
+  "cystic"                                = not_provided,
+  "control"                               = not_provided,
+  "Not applicable"                        = not_applicable
 )
 
 # Map strain strings to canonical normalized values.
@@ -273,7 +279,7 @@ free_cystic_rx      <- paste0(
 
 #' Trim values and convert NCBI placeholder words.
 #' Blank and placeholder values become NA (written later as Not provided);
-#' "not applicable" becomes the string NA.
+#' a literal "NA" or "not applicable" becomes the string "Not applicable".
 .clean_values <- function(x) {
   x   <- tryCatch(trimws(x), error = function(e) x)
   low <- .safe_tolower(x)
@@ -493,7 +499,7 @@ free_cystic_rx      <- paste0(
 #' Assign underlying_variant (causal gene) from raw genotype strings.
 #'
 #' Order: exact table, wild-type rule, standalone gene symbols. A genotype
-#' that matches nothing gets NA (no listed gene). A missing genotype gets
+#' that matches nothing gets "Not applicable" (no listed gene). A missing genotype gets
 #' Not provided.
 #'
 #' @param genotype   Character vector of raw genotype strings.
@@ -579,8 +585,8 @@ free_cystic_rx      <- paste0(
   out     <- rep(NA_character_, n)
   present <- !is.na(t)
 
-  out[!present]              <- not_applicable
-  out[present & t == "NA"]   <- not_applicable
+  out[!present]                      <- not_provided
+  out[present & t == not_applicable] <- not_applicable
 
   # exact strings (case-insensitive)
   idx <- match(tolower(t), tolower(names(exact_map)))
@@ -790,7 +796,7 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
     sep        = "\t",
     header     = TRUE,
     colClasses = "character",
-    na.strings = c("", "NA"),
+    na.strings = c(""),
     quote      = ""
   )
   message("  Rows: ", nrow(raw), " | Columns: ", ncol(raw))
@@ -949,8 +955,8 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   ))
 
   # -- treatment and culture descriptions ------------------------------------
-  # A culture description is not a treatment: treatment becomes NA (not
-  # applicable) and its duration is used as the age below.
+  # A culture description is not a treatment: treatment becomes Not applicable
+  # and its duration is used as the age below.
   raw_treatment <- .coalesce_columns(raw, c("treatment"))
   is_culture <- .is_culture_description(
     raw_treatment, experimental_compounds, vehicle_words
@@ -994,7 +1000,11 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   age_upper   <- fixed$age_upper
   raw_age_out <- fixed$age_raw
 
-  unparsed_age <- which(parsed$status == "unparsed" & is.na(age_lower))
+  age_is_na <- !is.na(raw_age_out) & raw_age_out == not_applicable
+  unparsed_age <- which(
+    parsed$status == "unparsed" & is.na(age_lower) &
+      !(!is.na(raw_age) & raw_age == not_applicable)
+  )
   .add_report(.flag_rows(
     bioproject_id, "UNMAPPED", "age_range_lower/age_range_upper",
     "age / time", raw_age,
@@ -1003,10 +1013,12 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
 
   out[["age_raw"]] <- ifelse(is.na(raw_age_out), not_provided, raw_age_out)
   out[["age_range_lower"]] <- ifelse(
-    is.na(age_lower), not_provided, as.character(age_lower)
+    age_is_na, not_applicable,
+    ifelse(is.na(age_lower), not_provided, as.character(age_lower))
   )
   out[["age_range_upper"]] <- ifelse(
-    is.na(age_upper), not_provided, as.character(age_upper)
+    age_is_na, not_applicable,
+    ifelse(is.na(age_upper), not_provided, as.character(age_upper))
   )
 
   # -- tissue ----------------------------------------------------------------
@@ -1040,13 +1052,16 @@ transform_metadata <- function(bioproject_id, input_path, output_dir) {
   out[["sex"]] <- ifelse(is.na(raw_sex), not_provided, tolower(trimws(raw_sex)))
 
   # -- treatment and treatment_group -----------------------------------------
-  # NA here means no treatment was part of the study design (not applicable)
+  # Empty = depositor gave no treatment value (Not provided). Culture
+  # descriptions are the exception: they are Not applicable.
   out[["treatment"]] <- ifelse(
-    is.na(raw_treatment), not_applicable, raw_treatment
+    is_culture, not_applicable,
+    ifelse(is.na(raw_treatment), not_provided, raw_treatment)
   )
   tg <- .assign_treatment_group(
     raw_treatment, treatment_group_map, vehicle_words, experimental_compounds
   )
+  tg[is_culture] <- not_applicable
   out[["treatment_group"]] <- tg
   .add_report(.flag_rows(
     bioproject_id, "UNMAPPED", "treatment_group", "treatment",
