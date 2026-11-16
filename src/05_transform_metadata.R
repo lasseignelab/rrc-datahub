@@ -17,7 +17,7 @@
 #   is the harmonized causal gene (canonical spelling, e.g. Pkd1, Bicc1),
 #   found by (1) the exact-string table (case-insensitive), (2) a
 #   wild-type rule, (3) standalone gene symbols from causal_genes.
-#   A genotype that matches nothing gets "Not applicable" (no listed gene) 
+#   A genotype that matches nothing gets "Not applicable" (no listed gene)
 #   and is listed in the report as INFO.
 # * disease_state (column 36): cystic / non-cystic. Read from phenotype,
 #   diagnosis or control.or.cystic first (unrecognised value = UNMAPPED),
@@ -498,7 +498,7 @@ free_cystic_rx      <- paste0(
 
 #' Assign underlying_variant (causal gene) from raw genotype strings.
 #'
-#' Order: exact table, wild-type rule, standalone gene symbols. 
+#' Order: exact table, wild-type rule, standalone gene symbols.
 #' A genotype that matches nothing gets "Not applicable" (no listed gene).
 #' A missing genotype gets Not provided.
 #'
