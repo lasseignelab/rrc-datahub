@@ -822,6 +822,27 @@ d7d145f54e758cc9cb94ea67c6076516  data/raw-data/PRJNA952259/SRR25824046_1.fastq.
 de2a4048ea57381b4c880481166c98e1  data/raw-data/PRJNA952259/SRR25824047_1.fastq.gz
 1c19dfac44b14c77a80839b7ab1934d0  data/raw-data/PRJNA952259/SRR25824047_2.fastq.gz
 metadata TSV MD5 sums:
-Error: incorrect number of parameters
-Usage: cap_verify_md5 [options] URL
-See CAPTURE help for cap_verify_md5
+fd6817abf2de460df14aaa1b2478cae4  data/raw-data/PRJNA1091688/PRJNA1091688_metadata.tsv
+353091fe69ba3a1673a630694c53a185  data/raw-data/PRJNA1207576/PRJNA1207576_metadata.tsv
+8932b70fe3693b2620891987cee4401e  data/raw-data/PRJNA1225177/PRJNA1225177_metadata.tsv
+22b9b43dd52b87c3b6587e40a9ad728e  data/raw-data/PRJNA1259002/PRJNA1259002_metadata.tsv
+c83ff269c0889c21a35f78afe44b98b2  data/raw-data/PRJNA285844/PRJNA285844_metadata.tsv
+ef3ca87ebb307b1a9f18ea092a9528bd  data/raw-data/PRJNA342113/PRJNA342113_metadata.tsv
+ba6f272abb99978e43953730ec62d772  data/raw-data/PRJNA353115/PRJNA353115_metadata.tsv
+ea161fbae5c0d33b01fa0057175f0a82  data/raw-data/PRJNA428970/PRJNA428970_metadata.tsv
+074db48dfebfa217aad56d5b6336631f  data/raw-data/PRJNA543107/PRJNA543107_metadata.tsv
+dc3c64c686ef6c6b04668bc7ddec9d6e  data/raw-data/PRJNA556224/PRJNA556224_metadata.tsv
+52ec428cab8a6fa7e6475cdabe92a595  data/raw-data/PRJNA556225/PRJNA556225_metadata.tsv
+32f68998e321eac7d00883f58c29fe8b  data/raw-data/PRJNA556227/PRJNA556227_metadata.tsv
+cb131fd670d25344378895a59bd0111c  data/raw-data/PRJNA573926/PRJNA573926_metadata.tsv
+06b5505a4fe7341d97103b15e09e3200  data/raw-data/PRJNA594607/PRJNA594607_metadata.tsv
+a73e5c48f6c8213368443e095482e8dd  data/raw-data/PRJNA629819/PRJNA629819_metadata.tsv
+2b7057d05f350747a371283e82766cec  data/raw-data/PRJNA637874/PRJNA637874_metadata.tsv
+22ba60a7b8ab80874976be40c1f2aad8  data/raw-data/PRJNA745972/PRJNA745972_metadata.tsv
+2022b2e2e401b99bad71ecd1697e0053  data/raw-data/PRJNA761104/PRJNA761104_metadata.tsv
+59ad1c7dc3ffcef3e4a6c8c1278381e7  data/raw-data/PRJNA802014/PRJNA802014_metadata.tsv
+cd7cc5abbecfa93a74619eae924e908b  data/raw-data/PRJNA805542/PRJNA805542_metadata.tsv
+e955e8fc77b577c073fa9708900aa893  data/raw-data/PRJNA805547/PRJNA805547_metadata.tsv
+a06bb956b2a9bf62f6e5bcc75872330a  data/raw-data/PRJNA857739/PRJNA857739_metadata.tsv
+76d74b5c70e440f0008d107d8b1bffa6  data/raw-data/PRJNA891209/PRJNA891209_metadata.tsv
+b84cdc3349ee368f0a992a2523aa8801  data/raw-data/PRJNA952259/PRJNA952259_metadata.tsv
