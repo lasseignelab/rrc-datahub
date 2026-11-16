@@ -10,6 +10,8 @@ data/*
 
 work
 src/03_fastq_dir_to_samplesheet.py
+src/.nextflow.log*
+src/.params*.json
 
 # macOS resource fork files
 ._*
