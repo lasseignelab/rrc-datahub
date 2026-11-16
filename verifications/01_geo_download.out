@@ -1,3 +1,4 @@
+fastq MD5 sums:
 3a9b7dfb96ccc1cd05b2517528b569a6  data/raw-data/PRJNA1091688/SRR28446987_1.fastq.gz
 5b1a4015640071aa1c3491164d1f4cf8  data/raw-data/PRJNA1091688/SRR28446987_2.fastq.gz
 81724b4487432756e19d0bcf19b976f5  data/raw-data/PRJNA1091688/SRR28446988_1.fastq.gz
@@ -820,3 +821,7 @@ d7d145f54e758cc9cb94ea67c6076516  data/raw-data/PRJNA952259/SRR25824046_1.fastq.
 028418354e0da92616340d1cbef8afa9  data/raw-data/PRJNA952259/SRR25824046_2.fastq.gz
 de2a4048ea57381b4c880481166c98e1  data/raw-data/PRJNA952259/SRR25824047_1.fastq.gz
 1c19dfac44b14c77a80839b7ab1934d0  data/raw-data/PRJNA952259/SRR25824047_2.fastq.gz
+metadata TSV MD5 sums:
+Error: incorrect number of parameters
+Usage: cap_verify_md5 [options] URL
+See CAPTURE help for cap_verify_md5
