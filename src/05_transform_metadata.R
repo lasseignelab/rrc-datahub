@@ -16,9 +16,9 @@
 #   control.or.cystic, copied as written by the submitter. underlying_variant
 #   is the harmonized causal gene (canonical spelling, e.g. Pkd1, Bicc1),
 #   found by (1) the exact-string table (case-insensitive), (2) a
-#   wild-type rule, (3) standalone gene symbols from causal_genes. A genotype
-#   that matches nothing gets "Not applicable" (no listed gene) and is listed in the
-#   report as INFO.
+#   wild-type rule, (3) standalone gene symbols from causal_genes.
+#   A genotype that matches nothing gets "Not applicable" (no listed gene) 
+#   and is listed in the report as INFO.
 # * disease_state (column 36): cystic / non-cystic. Read from phenotype,
 #   diagnosis or control.or.cystic first (unrecognised value = UNMAPPED),
 #   otherwise from state words in tissue, source_name or cell.type.
@@ -44,7 +44,7 @@
 #   UNMAPPED in the report (ranges Not provided).
 # * Culture descriptions in the treatment column (culture or differentiation
 #   wording plus a duration, no dose, no known compound or vehicle) are not
-#   treatments: treatment becomes Not applicable and the duration becomes the age.
+#   treatments: treatment becomes Not applicable and the duration becomes age.
 # * treatment_group: vehicle_control (vehicle words, zero doses),
 #   experimental (listed compounds, non-zero doses), untreated. No
 #   treatment value = Not provided. Anything else = UNMAPPED.
@@ -498,9 +498,9 @@ free_cystic_rx      <- paste0(
 
 #' Assign underlying_variant (causal gene) from raw genotype strings.
 #'
-#' Order: exact table, wild-type rule, standalone gene symbols. A genotype
-#' that matches nothing gets "Not applicable" (no listed gene). A missing genotype gets
-#' Not provided.
+#' Order: exact table, wild-type rule, standalone gene symbols. 
+#' A genotype that matches nothing gets "Not applicable" (no listed gene).
+#' A missing genotype gets Not provided.
 #'
 #' @param genotype   Character vector of raw genotype strings.
 #' @param exact_map  Named character vector of exact strings to values.
