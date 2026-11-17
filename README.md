@@ -58,7 +58,7 @@ releases will expand to additional species and sequencing types.
 ## Data Directory Structure
 
     data/
-    ├── RefGenomeFiles/              # Reference genome files, varies by species
+    ├── RefGenomeFiles/              # Reference genome files, one directory per species
     ├── nfcore_rnaseq/           # Alignment outputs, one subdirectory per dataset
     │   └── <BioProject ID>/     # nf-core/rnaseq output files for that dataset
     └── raw-data/                # Raw downloaded inputs, one subdirectory per dataset
