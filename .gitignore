@@ -10,6 +10,8 @@ data/*
 
 work
 src/03_fastq_dir_to_samplesheet.py
+src/.nextflow.log*
+src/.params*.json
 
 # macOS resource fork files
 ._*
@@ -242,3 +244,4 @@ cython_debug/
 #.idea/
 !results/transformed-metadata/
 !results/transformed-metadata/**
+results/transformed-metadata/*/*_transform_report.txt
