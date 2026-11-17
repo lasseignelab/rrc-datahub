@@ -244,3 +244,4 @@ cython_debug/
 #.idea/
 !results/transformed-metadata/
 !results/transformed-metadata/**
+results/transformed-metadata/*/*_transform_report.txt
