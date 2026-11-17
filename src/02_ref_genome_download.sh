@@ -21,7 +21,7 @@ cap_data_download \
 # GRCh38 v50 release
 cap_data_download \
   --unzip \
-  --md5sum="4e6bbda4b74c9033d0f1209581c8b97d" \
+  --md5sum="289b91e5e95e8b0450d223246f10a12e" \
   --subdirectory "GRCh38_v50" \
   "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_50/gencode.v50.primary_assembly.annotation.gtf.gz"
   
