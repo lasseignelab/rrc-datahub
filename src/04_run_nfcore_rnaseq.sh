@@ -21,7 +21,7 @@ scientific_name=$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++){h=$i;gsub(/\r/,"",h);if(h
 case "$scientific_name" in
     "Mus musculus") gtf="${CAP_DATA_PATH}/GRCm39_M37/gencode.vM37.primary_assembly.annotation.gtf"; fasta="${CAP_DATA_PATH}/GRCm39_M37/GRCm39.primary_assembly.genome.fa" ;;
     "Homo sapiens") gtf="${CAP_DATA_PATH}/GRCh38_v50/gencode.v50.primary_assembly.annotation.gtf"; fasta="${CAP_DATA_PATH}/GRCh38_v50/GRCh38.primary_assembly.genome.fa" ;;
-    *) echo "ERROR: unrecognized scientificname '${scientific_name}' for dataset ${dataset}" >&2; exit 1 ;;
+    *) echo "ERROR: unrecognized scientific name '${scientific_name}' for dataset ${dataset}" >&2; exit 1 ;;
 esac
 profile="${NEXTFLOW_PROFILE:-singularity}"
 
