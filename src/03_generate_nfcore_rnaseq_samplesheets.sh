@@ -11,7 +11,8 @@
 echo "Downloading helper script for creating samplesheet ..."
 file="$CAP_PROJECT_PATH/src/03_fastq_dir_to_samplesheet.py"
 url="https://raw.githubusercontent.com/nf-core/rnaseq/refs/heads/master/bin/fastq_dir_to_samplesheet.py"
-[ -f "$file" ] || wget -O "$file" "$url"
+url="https://raw.githubusercontent.com/nf-core/rnaseq/refs/tags/${NFCORE_RNASEQ_VERSION}/bin/fastq_dir_to_samplesheet.py"
+[ -s "$file" ] || wget -O "$file" "$url" || { rm -f "$file"; echo "ERROR: helper download failed from ${url}" >&2; exit 1; }
 
 dataset=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
 echo "Creating samplesheet for ${dataset} ..."
