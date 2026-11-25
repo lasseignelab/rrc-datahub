@@ -5,7 +5,7 @@
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=50:00:00
 #SBATCH --partition=medium
-#SBATCH --array=0-13%3
+#SBATCH --array=0-23%3
 echo "Creating output directory ..."
 DATASET=$(cap_array_value "$CAP_PROJECT_PATH/doc/geo_datasets.csv")
 OUTDIR="${CAP_DATA_PATH}/raw-data/${DATASET}"
